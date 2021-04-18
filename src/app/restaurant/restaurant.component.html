@@ -1,40 +1,8 @@
-<p>restaurant works!</p>
+<h2 class="text-center">Restaurant Manager</h2>
+<nav class="text-center">
+    <a routerLink="/restaurants/creator" class="btn">Create Restaurant</a>
+    <a routerLink="/restaurants/listing" class="btn">Restuarant Listings</a>
+</nav>
 <div class="container">
-    <div class="card">
-        <div class="card-head">
-            <h2 class="text-center">Restaurant Listings Management</h2>
-        </div>
-        <div class="card-body">
-            <div>
-                <button></button> <!--Create New Restaurant Component-->
-            </div>
-            <table class="table">
-                <thead>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>Name</td>
-                        <td>Cuisine</td>
-                        <td>Location</td>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr> <!--Loop through get method-->
-                        <td></td> <!--Delete Button-->
-                        <td></td> <!--Modify Button-->
-                        <td></td> <!--View Button-->
-                        <td></td> <!--Restaurant Name-->
-                        <td></td> <!--Restaurant Cuisine-->
-                        <td></td> <!--Condensed Location (City, State)-->
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <div class="card-footer">
-            <p class="text-center">
-                <small>Stack Lunch, 2021. Created by InTheBytes.</small>
-            </p>
-        </div>
-    </div>
+    <router-outlet></router-outlet>
 </div>

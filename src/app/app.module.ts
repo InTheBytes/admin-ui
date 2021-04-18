@@ -9,6 +9,7 @@ import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreatorComponent } from './restaurant/creator/creator.component';
 import { ListingComponent } from './restaurant/listing/listing.component';
+import { RestaurantService } from './shared/services/restaurant.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,7 @@ import { ListingComponent } from './restaurant/listing/listing.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [RestaurantService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

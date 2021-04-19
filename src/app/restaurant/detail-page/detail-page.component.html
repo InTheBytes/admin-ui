@@ -1,0 +1,11 @@
+<div class="card text-center">
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary">Modify</button>
+    </div>
+    <h3>{{ restaurant.name }}</h3>
+    <p><em>{{ restaurant.cuisine }}</em></p>
+    <p>
+        {{ restaurant.location.unit }} {{ restaurant.location.street }} <br>
+        {{ restaurant.location.city }}, {{ restaurant.location.state}} {{ restaurant.location.zipCode }}
+    </p>
+</div>

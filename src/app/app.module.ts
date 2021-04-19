@@ -1,16 +1,36 @@
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
+import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
+import { RestaurantComponent } from './restaurant/restaurant.component';
+import { HomeComponent } from './home/home.component';
+import { AppRoutingModule } from './app-routing.module';
+import { CreatorComponent } from './restaurant/creator/creator.component';
+import { ListingComponent } from './restaurant/listing/listing.component';
+import { RestaurantService } from './shared/services/restaurant.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    RestaurantComponent,
+    HomeComponent,
+    CreatorComponent,
+    ListingComponent,
+    DetailPageComponent,
   ],
   imports: [
-    BrowserModule
+    AppRoutingModule,
+    BrowserModule,
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ReactiveFormsModule
   ],
-  providers: [],
+  providers: [RestaurantService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

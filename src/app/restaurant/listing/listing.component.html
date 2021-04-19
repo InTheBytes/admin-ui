@@ -1,8 +1,18 @@
 
 
-<div class="container" id="restaurant-manager">
+<div class="card" id="restaurant-manager">
     <table class="table">
-        <thead> Restaurants
+        <thead>
+            <div class="d-flex justify-content-right">
+                <form [formGroup]="searchRestaurantForm">
+                    <input type="text" 
+                        class="form-control" 
+                        formControlName="searchString" 
+                        (input)="searchRestaurants()"
+                    >
+                </form>
+            </div>
+            <div class="d-flex justify-content-center"><h3>Restaurants</h3></div>
             <tr>
                 <th scope="col"></th>
                 <th scope="col"></th>
@@ -18,7 +28,7 @@
                     <a routerLink="" class="btn btn-info">Delete</a>
                 </td>
                 <td>
-                    <a routerLink="" class="btn btn-info">View</a>
+                    <a [routerLink]="'/restaurants/' + restaurant.restaurantId" class="btn btn-info">View</a>
                 </td>
                 <td>
                     {{(i + (page-1)*pageSize) + 1}}

@@ -1,6 +1,19 @@
-
-<form>
-    <div>
-        
-    </div>
-</form>
+<div class="d-flex">
+    <form [formGroup]="restaurantForm">
+        <input type="text" class="form-control form-control-lg" formControlName="name" placeholder="Restaurant Name">
+        <input type="text" class="form-control" formControlName="cuisine" placeholder="Cuisine Type">
+        <label class="form-label text-center"><h4>Address</h4></label>
+        <div class="row g-2">
+            <div class="col-auto">
+                <input type="text" class="form-control" formControlName="locationUnit" placeHolder="Unit">
+            </div>
+            <div class="col-auto">
+                <input type="text" class="form-control" formControlName="locationStreet" placeHolder="Street">
+            </div>
+        </div>
+        <input type="text" class="form-control" formControlName="locationCity" placeHolder="City">
+        <input type="text" class="form-control" formControlName="locationState" placeHolder="State">
+        <input type="text" class="form-control" formControlName="locationZip" placeHolder="5-digit Zip">
+        <button type="submit" class="btn btn-primary" (click)="saveRestaurant()">Create</button>
+    </form>
+</div>

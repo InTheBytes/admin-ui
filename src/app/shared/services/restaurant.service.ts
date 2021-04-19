@@ -23,8 +23,9 @@ export class RestaurantService {
     return this.http.get<Restaurant[]>(`${this.base}/name/${name}`)
   }
 
-  createRestaurant(payload: Restaurant) {
-    return this.http.post(this.base, payload)
+  createRestaurant(payload: Restaurant): Observable<Restaurant> {
+    const headers = {'content-type': 'application/json'}
+    return this.http.post<Restaurant>(this.base, JSON.stringify(payload), {'headers': headers})
   }
 
   updateRestaurant(payload: Restaurant) {

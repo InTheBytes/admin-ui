@@ -7,8 +7,8 @@ export class Restaurant {
 
 export class Location {
     locationId: number
-    unit: string
     street: string
+    unit: string
     city: string
     state: string
     zipCode: number

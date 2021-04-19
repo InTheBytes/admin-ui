@@ -1,8 +1,8 @@
-import { stringify } from '@angular/compiler/src/util';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Restaurant } from 'src/app/shared/model/restaurant';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
+import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-listing',
@@ -16,17 +16,26 @@ export class ListingComponent implements OnInit {
   restaurantsPaged: Restaurant[] = [];
   pageSize: number;
   page: number;
+
   searchRestaurantForm: FormGroup;
   searchString: string;
 
+  deleteRestaurantForm: FormGroup;
+  deleteName: string;
+  deleteId: number;
+
+
+  private modalRef: NgbModalRef;
+
   constructor(
     private restaurantService: RestaurantService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private modalService: NgbModal
     ) { }
 
   ngOnInit(): void {
     this.initializeRestaurants()
-    this.initializeSearch()
+    this.initializeForms()
     this.page = 1
   }
 
@@ -46,9 +55,13 @@ export class ListingComponent implements OnInit {
     }catch (err) { }
   }
 
-  initializeSearch() {
+  initializeForms() {
     this.searchRestaurantForm = new FormGroup({
       searchString: new FormControl(this.searchString, [Validators.maxLength(35)])
+    })
+    this.deleteRestaurantForm = new FormGroup({
+      deleteId: new FormControl(this.deleteId, [Validators.required]),
+      deleteName: new FormControl(this.deleteName, [Validators.required])
     })
   }
 
@@ -59,5 +72,17 @@ export class ListingComponent implements OnInit {
         .toLowerCase()
         .search(this.searchRestaurantForm.value.searchString.toLowerCase()) != -1)
     })
+  }
+
+  open(content, obj: Restaurant) {
+    this.modalRef = this.modalService.open(content);
+    this.modalRef.result.then(
+      (result) => { },
+      (reason) => { }
+    )
+  }
+
+  deleteRestaurant(restaurant: Restaurant) {
+    this.restaurantService.deleteRestaurant(restaurant.restaurantId);
   }
 }

@@ -10,6 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { CreatorComponent } from './restaurant/creator/creator.component';
 import { ListingComponent } from './restaurant/listing/listing.component';
 import { RestaurantService } from './shared/services/restaurant.service';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { RestaurantService } from './shared/services/restaurant.service';
     AppRoutingModule,
     BrowserModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    NgbModule
   ],
   providers: [RestaurantService],
   bootstrap: [AppComponent]

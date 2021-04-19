@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { RestaurantService } from '../shared/services/restaurant.service';
 
 @Component({
   selector: 'app-restaurant',
@@ -8,7 +7,7 @@ import { RestaurantService } from '../shared/services/restaurant.service';
 })
 export class RestaurantComponent implements OnInit {
 
-  constructor(private restaurantService: RestaurantService) { }
+  constructor() { }
 
   ngOnInit(): void {
   }

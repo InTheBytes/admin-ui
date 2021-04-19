@@ -1,35 +1,50 @@
-<p>listing works!</p>
+
 
 <div class="container" id="restaurant-manager">
     <table class="table">
-        <thead>
-            <title>Restaurants</title>
+        <thead> Restaurants
             <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th>Name</th>
-                <th>Cuisine</th>
-                <th>Location</th>
+                <th scope="col"></th>
+                <th scope="col"></th>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Cuisine</th>
+                <th scope="col">Location</th>
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <!--Loop through get method-->
-                <td></td>
-                <!--Delete Button-->
-                <td></td>
-                <!--Modify Button-->
-                <td></td>
-                <!--View Button-->
-                <td></td>
-                <!--Restaurant Name-->
-                <td></td>
-                <!--Restaurant Cuisine-->
-                <td></td>
-                <!--Condensed Location (City, State)-->
+            <tr *ngFor="let restaurant of restaurants | slice: (page-1)*pageSize : (page-1)*pageSize+pageSize; let i = index">
+                <td>
+                    <a routerLink="" class="btn btn-info">Delete</a>
+                </td>
+                <td>
+                    <a routerLink="" class="btn btn-info">View</a>
+                </td>
+                <td>
+                    {{(i + (page-1)*pageSize) + 1}}
+                </td>
+                <td>
+                    {{restaurant.name}}
+                </td>
+                <td>
+                    {{restaurant.cuisine}}
+                </td>
+                <td>
+                    {{restaurant.location.city}}, {{restaurant.location.state}}
+                </td>
             </tr>
         </tbody>
     </table>
-
+    <div class="d-flex justify-content-center">
+            <ngb-pagination
+                [collectionSize] = "restaurants.length"
+                [(page)] = "page"
+                [pageSize] = "pageSize"
+                [maxSize] = "5"
+                [boundaryLinks] = "true"
+                [directionLinks] = "true"
+                [rotate] = "true"
+                >
+            </ngb-pagination>
+    </div>
 </div>

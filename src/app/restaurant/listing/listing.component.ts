@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Restaurant } from 'src/app/shared/model/restaurant';
+import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
 @Component({
   selector: 'app-listing',
@@ -7,9 +9,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ListingComponent implements OnInit {
 
-  constructor() { }
+  restaurants: Restaurant[] = [];
+  restaurantsPaged: Restaurant[] = [];
+  pageSize: number = 10;
+  page: number;
+
+
+  constructor(private restaurantService: RestaurantService) { }
 
   ngOnInit(): void {
+    this.initializeRestaurants()
+    this.page = 1
+  }
+
+  initializeRestaurants() {
+    try {
+      this.restaurantService
+        .getAllRestaurants()
+        .subscribe((resp) =>{
+          this.restaurants = resp
+        })
+    }catch (err) { }
   }
 
 }

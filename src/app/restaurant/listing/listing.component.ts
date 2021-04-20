@@ -77,7 +77,7 @@ export class ListingComponent implements OnInit {
     })
   }
 
-  open(content: TemplateRef<any>, obj: Restaurant) {
+  open(content: TemplateRef<any>, obj: Restaurant, index: number) {
     this.deleteRestaurantForm = this.fb.group({
       deleteId: obj.restaurantId,
       deleteName: obj.name,
@@ -90,7 +90,8 @@ export class ListingComponent implements OnInit {
       (result) => {
         if (this.deleteRestaurantForm.value.deleteConfirm === this.deleteName) {
           this.deleteRestaurant(obj.restaurantId)
-          this.initializeRestaurants
+          this.restaurantsMaster.splice(index, 1)
+          this.searchRestaurants
         }
       },
       (reason) => { }

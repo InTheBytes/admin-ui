@@ -38,7 +38,7 @@
                         <a [routerLink]="'/restaurants/' + restaurant.restaurantId" class="btn btn-secondary">View</a>
                     </td>
                     <td>
-                        <button class="btn btn-danger" (click)="open(deleteRestaurantModal, restaurant)">
+                        <button class="btn btn-danger" (click)="open(deleteRestaurantModal, restaurant, (i + (page-1)*pageSize))">
                             Delete
                         </button>
                     </td>

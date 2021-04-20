@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Restaurant } from 'src/app/shared/model/restaurant';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
-import { NgbModal, NgbModalRef} from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-listing',
@@ -23,9 +23,11 @@ export class ListingComponent implements OnInit {
   deleteRestaurantForm: FormGroup;
   deleteName: string;
   deleteId: number;
+  deleteConfirm: string;
 
 
   private modalRef: NgbModalRef;
+  closeResult: string;
 
   constructor(
     private restaurantService: RestaurantService,
@@ -61,7 +63,8 @@ export class ListingComponent implements OnInit {
     })
     this.deleteRestaurantForm = new FormGroup({
       deleteId: new FormControl(this.deleteId, [Validators.required]),
-      deleteName: new FormControl(this.deleteName, [Validators.required])
+      deleteName: new FormControl(this.deleteName, [Validators.required]),
+      deleteConfirm: new FormControl(this.deleteConfirm, [Validators.required])
     })
   }
 
@@ -74,15 +77,27 @@ export class ListingComponent implements OnInit {
     })
   }
 
-  open(content, obj: Restaurant) {
-    this.modalRef = this.modalService.open(content);
+  open(content: TemplateRef<any>, obj: Restaurant) {
+    this.deleteRestaurantForm = this.fb.group({
+      deleteId: obj.restaurantId,
+      deleteName: obj.name,
+      deleteConfirm: ''
+    })
+    this.deleteName = obj.name;
+
+    this.modalRef = this.modalService.open(content)
     this.modalRef.result.then(
-      (result) => { },
+      (result) => {
+        if (this.deleteRestaurantForm.value.deleteConfirm === this.deleteName) {
+          this.deleteRestaurant(obj.restaurantId)
+        }
+      },
       (reason) => { }
-    )
+    );
   }
 
-  deleteRestaurant(restaurant: Restaurant) {
-    this.restaurantService.deleteRestaurant(restaurant.restaurantId);
+  deleteRestaurant(id: number) {
+    this.restaurantService.deleteRestaurant(id).subscribe((resp) => {})
+    location.reload()
   }
 }

@@ -90,6 +90,7 @@ export class ListingComponent implements OnInit {
       (result) => {
         if (this.deleteRestaurantForm.value.deleteConfirm === this.deleteName) {
           this.deleteRestaurant(obj.restaurantId)
+          this.initializeRestaurants
         }
       },
       (reason) => { }
@@ -98,6 +99,5 @@ export class ListingComponent implements OnInit {
 
   deleteRestaurant(id: number) {
     this.restaurantService.deleteRestaurant(id).subscribe((resp) => {})
-    location.reload()
   }
 }

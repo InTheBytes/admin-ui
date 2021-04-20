@@ -11,6 +11,7 @@ import { NgbModal, NgbModalRef, ModalDismissReasons} from '@ng-bootstrap/ng-boot
 })
 export class ListingComponent implements OnInit {
 
+  loaded: Boolean;
   restaurants: Restaurant[] = [];
   restaurantsMaster: Restaurant[] = [];
   restaurantsPaged: Restaurant[] = [];
@@ -36,6 +37,7 @@ export class ListingComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
+    this.loaded = false;
     this.initializeRestaurants()
     this.initializeForms()
     this.page = 1
@@ -53,6 +55,7 @@ export class ListingComponent implements OnInit {
           } else {
             this.pageSize = 10;
           }
+          this.loaded = true;
         })
     }catch (err) { }
   }

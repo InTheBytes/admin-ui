@@ -1,77 +1,87 @@
-<div class="d-flex justify-content-center">
-    <div class="card" id="restaurant-manager">
-        <table class="table">
-            <thead>
-                <div class="d-flex">
-                    <strong>Search:</strong>
-                    <form [formGroup]="searchRestaurantForm">
-                        <input type="text" class="form-control" formControlName="searchString"
-                            (input)="searchRestaurants()">
-                    </form>
-                </div>
-                <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Cuisine</th>
-                    <th scope="col">Location</th>
-                    <th scope="col"></th>
-                    <th scope="col"></th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    *ngFor="let restaurant of restaurants | slice: (page-1)*pageSize : (page-1)*pageSize+pageSize; let i = index">
+<ng-template #loadingDialogue>
+    <h4>Loading...</h4>
+</ng-template>
 
-                    <td>
-                        {{(i + (page-1)*pageSize) + 1}}
-                    </td>
-                    <td>
-                        {{restaurant.name}}
-                    </td>
-                    <td>
-                        {{restaurant.cuisine}}
-                    </td>
-                    <td>
-                        {{restaurant.location.city}}, {{restaurant.location.state}}
-                    </td>
-                    <td>
-                        <a [routerLink]="'/restaurants/' + restaurant.restaurantId" class="btn btn-secondary">View</a>
-                    </td>
-                    <td>
-                        <button class="btn btn-danger" (click)="open(deleteRestaurantModal, restaurant, (i + (page-1)*pageSize))">
-                            Delete
-                        </button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <div class="d-flex justify-content-center">
-            <ngb-pagination [collectionSize]="restaurants.length" [(page)]="page" [pageSize]="pageSize" [maxSize]="5"
-                [boundaryLinks]="true" [directionLinks]="true" [rotate]="true">
-            </ngb-pagination>
+<div class="d-flex justify-content-center">
+    <div *ngIf="loaded; else loadingDialogue">
+        <div class="card" id="restaurant-manager">
+
+            <table class="table">
+                <thead>
+                    <div class="d-flex">
+                        <strong>Search:</strong>
+                        <form [formGroup]="searchRestaurantForm">
+                            <input type="text" class="form-control" formControlName="searchString"
+                                (input)="searchRestaurants()">
+                        </form>
+                    </div>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Cuisine</th>
+                        <th scope="col">Location</th>
+                        <th scope="col"></th>
+                        <th scope="col"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        *ngFor="let restaurant of restaurants | slice: (page-1)*pageSize : (page-1)*pageSize+pageSize; let i = index">
+
+                        <td>
+                            {{(i + (page-1)*pageSize) + 1}}
+                        </td>
+                        <td>
+                            {{restaurant.name}}
+                        </td>
+                        <td>
+                            {{restaurant.cuisine}}
+                        </td>
+                        <td>
+                            {{restaurant.location.city}}, {{restaurant.location.state}}
+                        </td>
+                        <td>
+                            <a [routerLink]="'/restaurants/' + restaurant.restaurantId"
+                                class="btn btn-secondary">View</a>
+                        </td>
+                        <td>
+                            <button class="btn btn-danger"
+                                (click)="open(deleteRestaurantModal, restaurant, (i + (page-1)*pageSize))">
+                                Delete
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex justify-content-center">
+                <ngb-pagination [collectionSize]="restaurants.length" [(page)]="page" [pageSize]="pageSize"
+                    [maxSize]="5" [boundaryLinks]="true" [directionLinks]="true" [rotate]="true">
+                </ngb-pagination>
+            </div>
+
         </div>
     </div>
 </div>
 <ng-template #deleteRestaurantModal>
     <form [formGroup]="deleteRestaurantForm">
 
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteModalLabel">Delete {{ deleteName }}</h5>
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteModalLabel">Delete {{ deleteName }}</h5>
 
-                <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss(' ')">
-                </button>
-            </div>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss(' ')">
+            </button>
+        </div>
 
-            <div class="modal-body">
-                <p>To confirm and delete, please enter the restaurant's name and click "Delete"</p>
-                <input id="nameBox" type="text" class="form-control" formControlName="deleteConfirm">
-            </div>
+        <div class="modal-body">
+            <p>To confirm and delete, please enter the restaurant's name and click "Delete"</p>
+            <input id="nameBox" type="text" class="form-control" formControlName="deleteConfirm">
+        </div>
 
+        <div class="modal-footer">
             <div class="modal-footer">
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>
-                    <button type="button" class="btn btn-danger" (click)="modalRef.close(deleteConfirm)">Delete</button>
-                </div>
+                <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.close(deleteConfirm)">Delete</button>
             </div>
+        </div>
     </form>
 </ng-template>

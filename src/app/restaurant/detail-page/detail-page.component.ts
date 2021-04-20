@@ -33,7 +33,7 @@ export class DetailPageComponent implements OnInit {
     const empty = {
       restaurantId: -1, name: "", cuisine: "",
       location: {
-        locationId: 0, unit: "", street: "", city: "", state: "", zipCode: 0
+        locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
       }
     }
     this.restaurant = empty;

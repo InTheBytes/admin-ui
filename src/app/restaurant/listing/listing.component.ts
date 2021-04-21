@@ -48,8 +48,7 @@ export class ListingComponent implements OnInit {
   constructor(
     private restaurantService: RestaurantService,
     private fb: FormBuilder,
-    private modalService: NgbModal,
-    private detector: ChangeDetectorRef
+    private modalService: NgbModal
   ) {}
 
   ngOnInit(): void {

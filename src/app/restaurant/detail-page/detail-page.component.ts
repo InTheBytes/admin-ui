@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Restaurant } from 'src/app/shared/model/restaurant';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
@@ -14,7 +13,6 @@ export class DetailPageComponent implements OnInit {
   restaurant: Restaurant;
 
   constructor(
-    private fb: FormBuilder,
     private restaurantService: RestaurantService,
     private actRoute: ActivatedRoute
     ) { }

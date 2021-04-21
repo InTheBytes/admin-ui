@@ -1,5 +1,5 @@
 <ng-template #loadingDialogue>
-    <h4>Loading...</h4>
+    <h4>{{message}}</h4>
 </ng-template>
 
 <div class="d-flex justify-content-center">
@@ -46,7 +46,7 @@
                         </td>
                         <td>
                             <button class="btn btn-danger"
-                                (click)="open(deleteRestaurantModal, restaurant, (i + (page-1)*pageSize))">
+                                (click)="open(deleteRestaurantModal, deleteFailedModal, restaurant, (i + (page-1)*pageSize))">
                                 Delete
                             </button>
                         </td>
@@ -84,4 +84,24 @@
             </div>
         </div>
     </form>
+</ng-template>
+
+<ng-template #deleteFailedModal>
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteFailedLabel">Failed to delete {{ deleteName }}</h5>
+
+            <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss(' ')">
+            </button>
+        </div>
+
+        <div class="modal-body">
+            <p>Failed to delete the restaurant. {{ failMessage }}</p>
+        </div>
+
+        <div class="modal-footer">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Okay</button>
+            </div>
+        </div>
 </ng-template>

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse} from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Restaurant } from '../model/restaurant';
 import { Observable } from 'rxjs';
 
@@ -13,14 +13,11 @@ export class RestaurantService {
 
   getAllRestaurants(): Observable<Restaurant[]> {
     return this.http.get<Restaurant[]>(this.base)
+    
   }
 
   getRestaurant(id: number): Observable<Restaurant> {
     return this.http.get<Restaurant>(`${this.base}/${id}`)
-  }
-
-  getRestaurantsByName(name: string): Observable<Restaurant[]> {
-    return this.http.get<Restaurant[]>(`${this.base}/name/${name}`)
   }
 
   createRestaurant(payload: Restaurant): Observable<Restaurant> {

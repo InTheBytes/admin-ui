@@ -61,7 +61,18 @@ describe('RestaurantService', () => {
     const req = httpTestControl.expectOne(baseUrl)
     expect(req.request.method).toEqual('GET')
     req.flush([result1, result2])
-  })
+  });
+  
+  it('should return an error for getAll', () => {
+    service.getAllRestaurants().subscribe(
+      (resp) => fail('did not return an error'),
+      (err) => {
+        expect(err.status).toEqual(404)
+        expect(err.error).toEqual('Test 404')
+      })
+    const req = httpTestControl.expectOne(baseUrl)
+    req.flush("Test 404", {status: 404, statusText: 'Not Found'})
+  });
 
   it('should return a restaurant', () => {
     service.getRestaurant(26).subscribe((resp) => {
@@ -70,7 +81,18 @@ describe('RestaurantService', () => {
     const req = httpTestControl.expectOne(`${baseUrl}/26`);
     expect(req.request.method).toEqual('GET')
     req.flush(result1)
-  })
+  });
+
+  it('should return an error for get', () => {
+    service.getRestaurant(0).subscribe(
+      (resp) => fail('did not return an error'),
+      (err) => {
+        expect(err.status).toEqual(404)
+        expect(err.error).toEqual('Test 404')
+      })
+    const req = httpTestControl.expectOne(`${baseUrl}/0`)
+    req.flush("Test 404", {status: 404, statusText: 'Not Found'})
+  });
 
   it('should create and return a restaurant', () => {
     service.createRestaurant(result1).subscribe((resp) => {
@@ -80,20 +102,54 @@ describe('RestaurantService', () => {
     expect(req.request.method).toEqual('POST')
     const headers = {'location': '26'}
     req.flush(result1)
-  })
+  });
+
+  it('should return an conflict error for creating a restaurant', () => {
+    service.createRestaurant(result1).subscribe(
+      (resp) => fail('did not return an error'),
+      (err) => {
+        expect(err.status).toEqual(409)
+        expect(err.error).toEqual('Test 409')
+      })
+    const req = httpTestControl.expectOne(baseUrl)
+    req.flush("Test 409", {status: 409, statusText: 'Conflict'})
+  });
 
   it('should update a restaurant', () => {
     service.updateRestaurant(result1).subscribe((resp) => {})
     const req = httpTestControl.expectOne(`${baseUrl}/26`)
     expect(req.request.method).toEqual('PUT')
     req.flush(result1)
-  })
+  });
+
+  it('should return an error for updating a restaurant', () => {
+    service.updateRestaurant(result1).subscribe(
+      (resp) => fail('did not return an error'),
+      (err) => {
+        expect(err.status).toEqual(404)
+        expect(err.error).toEqual('Test 404')
+      })
+    const req = httpTestControl.expectOne(`${baseUrl}/26`)
+    req.flush("Test 404", {status: 404, statusText: 'Not Found'})
+  });
 
   it('should delete a restaurant', () => {
-    service.updateRestaurant(result1).subscribe((resp) => {})
+    service.deleteRestaurant(26).subscribe((resp) => {})
     const req = httpTestControl.expectOne(`${baseUrl}/26`)
-    expect(req.request.method).toEqual('PUT')
+    expect(req.request.method).toEqual('DELETE')
     req.flush('')
+  });
+
+  it('should return en error deleting a restaurant', () => {
+    service.deleteRestaurant(26).subscribe(
+      (resp) => {},
+      (error) => {
+        expect(error.status).toEqual(404)
+        expect(error.error).toEqual('Test 404')
+      })
+      const req = httpTestControl.expectOne(`${baseUrl}/26`)
+    expect(req.request.method).toEqual('DELETE')
+    req.flush('Test 404', {status: 404, statusText: 'Not Found'})
   })
 
 });

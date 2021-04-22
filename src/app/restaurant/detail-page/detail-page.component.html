@@ -1,5 +1,5 @@
 
-<div class="card text-center">
+<div class="card text-center" *ngIf='success; else failTemplate'>
     <div class="d-flex justify-content-end">
         <button class="btn btn-primary">Modify</button>
     </div>
@@ -10,3 +10,9 @@
         {{ restaurant.location.city }}, {{ restaurant.location.state}} {{ restaurant.location.zipCode }}
     </p>
 </div>
+
+<ng-template #failTemplate>
+    <div class='text-center'>
+        <p><strong>{{ message }}</strong></p>
+    </div>
+</ng-template>

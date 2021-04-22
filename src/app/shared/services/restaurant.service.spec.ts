@@ -79,13 +79,21 @@ describe('RestaurantService', () => {
     const req = httpTestControl.expectOne(baseUrl)
     expect(req.request.method).toEqual('POST')
     const headers = {'location': '26'}
-    req.flush(result1, )
+    req.flush(result1)
   })
 
   it('should update a restaurant', () => {
-    service.updateRestaurant(result1)
+    service.updateRestaurant(result1).subscribe((resp) => {})
     const req = httpTestControl.expectOne(`${baseUrl}/26`)
     expect(req.request.method).toEqual('PUT')
+    req.flush(result1)
+  })
+
+  it('should delete a restaurant', () => {
+    service.updateRestaurant(result1).subscribe((resp) => {})
+    const req = httpTestControl.expectOne(`${baseUrl}/26`)
+    expect(req.request.method).toEqual('PUT')
+    req.flush('')
   })
 
 });

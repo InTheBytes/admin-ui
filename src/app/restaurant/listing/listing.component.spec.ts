@@ -11,6 +11,7 @@ import { ListingComponent } from './listing.component';
 
 describe('ListingComponent', () => {
   let component: ListingComponent;
+  let componentDOM : ListingComponent;
   let fixture: ComponentFixture<ListingComponent>;
   let serviceStub = jasmine.createSpyObj('RestaurantService', ['getAllRestaurants', 'deleteRestaurant'])
 
@@ -37,7 +38,7 @@ describe('ListingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [  ],
+      declarations: [ ListingComponent ],
       imports: [ HttpClientTestingModule ],
       providers: [ 
         ListingComponent,
@@ -49,6 +50,8 @@ describe('ListingComponent', () => {
     .compileComponents();
     serviceStub = TestBed.inject(RestaurantService)
     component = TestBed.inject(ListingComponent)
+    fixture = TestBed.createComponent(ListingComponent)
+    componentDOM = fixture.componentInstance
   });
 
   it('should create', () => {
@@ -117,10 +120,62 @@ describe('ListingComponent', () => {
   })
 
   it("should exclude restaurants that don't match the search", () => {
-    serviceStub.getAllRestaurants.and.returnValue(testObservable)
-    component.ngOnInit()
+    component.restaurantsMaster = [testRestaurant]
+    component.initializeForms()
     component.searchRestaurantForm.value.searchString = "q"
     component.searchRestaurants()
     expect(component.restaurants).not.toContain(testRestaurant);
+  })
+
+  it("should delete a restaurant", () => {
+
+  })
+
+  it("should update list on restaurant deletion", () => {
+
+  })
+
+  it("should pop-up to catch confirmation error on deletion", () => {
+
+  })
+
+  it("should pop-up to catch 404 Error on restaurant deletion", () => {
+
+  })
+
+  it("should pop-up to catch 500 Error on restaurant deletion", () => {
+
+  })
+
+  it("should pop-up to catch unexpected error on restaurant deletion", () => {
+
+  })
+
+  it("should start with loading tag", () => {
+    
+  })
+
+  it("should display message with failed loading", () => {
+
+  })
+
+  it("should display table with successful loading", () => {
+
+  })
+
+  it("should populate table with restaurants", () => {
+
+  })
+
+  it("should open deletion modal with delete button", () => {
+
+  })
+
+  it("should open error modal with failed deletion", () => {
+
+  })
+
+  it("should route to details component with view button", () => {
+
   })
 });

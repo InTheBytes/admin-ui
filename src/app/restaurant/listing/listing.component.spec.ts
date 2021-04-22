@@ -1,7 +1,7 @@
 import { HttpClient, HttpClientModule, HttpErrorResponse } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { NgModule } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, ComponentFixtureAutoDetect, TestBed } from '@angular/core/testing';
 import { FormBuilder } from '@angular/forms';
 import { Observable, throwError, of } from 'rxjs';
 import { Restaurant } from 'src/app/shared/model/restaurant';
@@ -11,7 +11,6 @@ import { ListingComponent } from './listing.component';
 
 describe('ListingComponent', () => {
   let component: ListingComponent;
-  let componentDOM : ListingComponent;
   let fixture: ComponentFixture<ListingComponent>;
   let serviceStub = jasmine.createSpyObj('RestaurantService', ['getAllRestaurants', 'deleteRestaurant'])
 
@@ -41,7 +40,6 @@ describe('ListingComponent', () => {
       declarations: [ ListingComponent ],
       imports: [ HttpClientTestingModule ],
       providers: [ 
-        ListingComponent,
         { provide: RestaurantService, useValue: serviceStub },
         FormBuilder,
         NgModule
@@ -49,13 +47,13 @@ describe('ListingComponent', () => {
     })
     .compileComponents();
     serviceStub = TestBed.inject(RestaurantService)
-    component = TestBed.inject(ListingComponent)
     fixture = TestBed.createComponent(ListingComponent)
-    componentDOM = fixture.componentInstance
+    component = fixture.componentInstance
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
+    expect(component).toBeDefined()
   });
 
   it('should initialize values', () => {
@@ -78,30 +76,12 @@ describe('ListingComponent', () => {
     expect(component.loaded).toEqual(true)
   })
 
-  it('should account for 404 error initializing restaurants', () => {
+  it('should catch and distinguish errors initializing restaurants', () => {
     serviceStub.getAllRestaurants.and.returnValue(throwError({error: {status: 404}}))
     component.initializeRestaurants()
     expect(component.restaurantsMaster).toBeUndefined()
     expect(component.restaurants).toBeUndefined()
     expect(component.message).toContain("any restaurants")
-    expect(component.loaded).toBeUndefined()
-  })
-
-  it('should account for 500 error initializing restaurants', () => {
-    serviceStub.getAllRestaurants.and.returnValue(throwError({error: {status: 500}}))
-    component.initializeRestaurants()
-    expect(component.restaurantsMaster).toBeUndefined()
-    expect(component.restaurants).toBeUndefined()
-    expect(component.message).toContain("server")
-    expect(component.loaded).toBeUndefined()
-  })
-
-  it('should account for unexpected errors initializing restaurants', () => {
-    serviceStub.getAllRestaurants.and.returnValue(throwError({error: {status: 409}}))
-    component.initializeRestaurants()
-    expect(component.restaurantsMaster).toBeUndefined()
-    expect(component.restaurants).toBeUndefined()
-    expect(component.message).toContain("unexpected")
     expect(component.loaded).toBeUndefined()
   })
 
@@ -128,42 +108,55 @@ describe('ListingComponent', () => {
   })
 
   it("should delete a restaurant", () => {
-
+    serviceStub.deleteRestaurant.and.returnValue(new Observable())
+    component.deleteRestaurant(26, null, 0)
+    expect(serviceStub.deleteRestaurant).toHaveBeenCalledWith(26)
   })
 
   it("should update list on restaurant deletion", () => {
+    serviceStub.deleteRestaurant.and.returnValue(of({}))
+    component.restaurantsMaster = [testRestaurant]
+    let searchRestaurants = spyOn(component, 'searchRestaurants')
 
+    component.deleteRestaurant(26, null, 0)
+    expect(component.restaurantsMaster).toHaveSize(0)
+    expect(searchRestaurants).toHaveBeenCalled()
   })
 
-  it("should pop-up to catch confirmation error on deletion", () => {
-
-  })
-
-  it("should pop-up to catch 404 Error on restaurant deletion", () => {
-
-  })
-
-  it("should pop-up to catch 500 Error on restaurant deletion", () => {
-
-  })
-
-  it("should pop-up to catch unexpected error on restaurant deletion", () => {
-
-  })
-
-  it("should start with loading tag", () => {
-    
+  it("should start with loading message", () => {
+    spyOn(component, 'initializeRestaurants')
+    spyOn(component, 'initializeForms')
+    fixture.detectChanges()
+    const h4 = fixture.nativeElement.querySelector('h4');
+    expect(h4.textContent).toEqual("Loading...")
   })
 
   it("should display message with failed loading", () => {
-
+    serviceStub.getAllRestaurants.and.returnValue(throwError({error: {status: 404}}))
+    fixture.detectChanges()
+    const h4 = fixture.nativeElement.querySelector('h4');
+    expect(h4.textContent).toContain("any restaurants")
   })
 
   it("should display table with successful loading", () => {
-
+    serviceStub.getAllRestaurants.and.returnValue(testObservable)
+    fixture.detectChanges()
+    const table = fixture.nativeElement.querySelector('table');
+    expect(table).toBeDefined()
   })
 
   it("should populate table with restaurants", () => {
+    serviceStub.getAllRestaurants.and.returnValue(testObservable)
+    fixture.detectChanges()
+    const rows = fixture.nativeElement.querySelectorAll('tr');
+    expect(rows[1].cells[1].innerHTML).toContain('Test')
+  })
+
+  it("should pop-up to catch bad confirmation on deletion", () => {
+
+  })
+
+  it("should pop-up to catch and distinguish errors on restaurant deletion", () => {
 
   })
 

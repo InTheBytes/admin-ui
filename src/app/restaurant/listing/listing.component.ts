@@ -136,7 +136,8 @@ export class ListingComponent implements OnInit {
     this.restaurantService.deleteRestaurant(id).subscribe(
       (resp) => {
         this.restaurantsMaster.splice(index, 1);
-        this.searchRestaurants;},
+        this.searchRestaurants();
+      },
       (err) => {
         switch (err.status) {
           case 404:

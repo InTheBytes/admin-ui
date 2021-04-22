@@ -15,7 +15,6 @@ import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 import {
   NgbModal,
   NgbModalRef,
-  ModalDismissReasons,
 } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -27,9 +26,8 @@ export class ListingComponent implements OnInit {
   loaded: Boolean;
   message: string;
 
-  restaurants: Restaurant[] = [];
-  restaurantsMaster: Restaurant[] = [];
-  restaurantsPaged: Restaurant[] = [];
+  restaurants: Restaurant[];
+  restaurantsMaster: Restaurant[];
   pageSize: number;
   page: number;
 
@@ -107,8 +105,7 @@ export class ListingComponent implements OnInit {
       return (
         x.name
           .toLowerCase()
-          .search(this.searchRestaurantForm.value.searchString.toLowerCase()) !=
-        -1
+          .search(this.searchRestaurantForm.value.searchString.toLowerCase()) != -1
       );
     });
   }

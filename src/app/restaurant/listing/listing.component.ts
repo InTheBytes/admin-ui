@@ -39,7 +39,7 @@ export class ListingComponent implements OnInit {
   deleteId: number;
   deleteConfirm: string;
 
-  private modalRef: NgbModalRef;
+  modalRef: NgbModalRef;
   closeResult: string;
   failMessage: string;
 

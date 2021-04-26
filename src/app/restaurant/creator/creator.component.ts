@@ -22,7 +22,7 @@ export class CreatorComponent implements OnInit {
   locationZip: number
   restaurant: Restaurant
 
-  private modalRef: NgbModalRef
+  modalRef: NgbModalRef
   failMessage: string
 
   constructor(

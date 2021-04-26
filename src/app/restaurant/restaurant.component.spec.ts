@@ -1,4 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { By } from '@angular/platform-browser';
+import { RouterLinkWithHref } from '@angular/router';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { RestaurantComponent } from './restaurant.component';
 
@@ -8,7 +11,11 @@ describe('RestaurantComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RestaurantComponent ]
+      declarations: [ RestaurantComponent ],
+      imports: [RouterTestingModule],
+      providers: [
+        RouterLinkWithHref
+      ]
     })
     .compileComponents();
   });
@@ -24,14 +31,13 @@ describe('RestaurantComponent', () => {
   });
 
   it('should render routerLinks', () => {
-    
-  })
+    const links = fixture.nativeElement.querySelectorAll('a')
+    const creatorLink = links[0]
+    const listingLink = links[1]
 
-  it('should route to create restaurant with button', () => {
+    expect(links).toHaveSize(2)
 
-  })
-
-  it('should route to restaurant listings with button', () => {
-
+    expect(creatorLink['href']).toContain('/restaurants/creator')
+    expect(listingLink['href']).toContain('/restaurants/listing')
   })
 });

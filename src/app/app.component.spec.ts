@@ -1,6 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 import { RouterTestingModule } from '@angular/router/testing'
+import { RouterLinkWithHref } from '@angular/router';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -11,6 +12,9 @@ describe('AppComponent', () => {
       declarations: [
         AppComponent
       ],
+      providers: [
+        RouterLinkWithHref
+      ]
     }).compileComponents();
   });
 
@@ -34,11 +38,12 @@ describe('AppComponent', () => {
     expect(nav[1].textContent).toContain('Restaurants');
   });
 
-  it('should display home component routing', () => {
-
-  })
-
   it('should route to restaurant from nav', () => {
+    const fixture = TestBed.createComponent(AppComponent)
+    const links = fixture.nativeElement.querySelectorAll('a')
+    const restaurantLink = links[1]
+    expect(links).toHaveSize(2)
     
+    expect(restaurantLink.getAttribute('routerLink')).toContain('/restaurants')
   })
 });

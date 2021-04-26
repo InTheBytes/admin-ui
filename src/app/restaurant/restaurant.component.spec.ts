@@ -22,4 +22,16 @@ describe('RestaurantComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should render routerLinks', () => {
+    
+  })
+
+  it('should route to create restaurant with button', () => {
+
+  })
+
+  it('should route to restaurant listings with button', () => {
+
+  })
 });

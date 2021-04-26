@@ -14,7 +14,6 @@ import { RouterTestingModule } from '@angular/router/testing';
 describe('ListingComponent', () => {
   let component: ListingComponent;
   let fixture: ComponentFixture<ListingComponent>;
-  // let routerSpy = jasmine.createSpyObj('Router', [])
 
   const testRestaurant: Restaurant =
     {

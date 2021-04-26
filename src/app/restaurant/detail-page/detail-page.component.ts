@@ -21,7 +21,7 @@ export class DetailPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.message = ''
-    this.success = false;
+    this.success = false
     this.initRestaurant()
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))

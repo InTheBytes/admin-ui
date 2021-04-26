@@ -26,10 +26,19 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('angular-ui');
   });
 
-  it('should render title', () => {
+  it('should render navlinks', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.nav-link').textContent).toContain('Restaurants');
+    const nav = compiled.querySelectorAll('.nav-link')
+    expect(nav[1].textContent).toContain('Restaurants');
   });
+
+  it('should display home component routing', () => {
+
+  })
+
+  it('should route to restaurant from nav', () => {
+    
+  })
 });

@@ -55,22 +55,24 @@ describe('RestaurantService', () => {
         zipCode: 0
       }
     }
-    service.getAllRestaurants().subscribe((resp) => {
-      expect(resp).toEqual([result1, result2])
+    service.getAllRestaurants(10, 1).subscribe((resp) => {
+      expect(resp.body).toEqual([result1, result2])
+      expect(resp.headers.get('page')).toEqual('1')
+      expect(resp.headers.get('total-pages')).toEqual('1')
     })
-    const req = httpTestControl.expectOne(baseUrl)
+    const req = httpTestControl.expectOne(`${baseUrl}?page-size=10&page=1`)
     expect(req.request.method).toEqual('GET')
-    req.flush([result1, result2])
+    req.flush([result1, result2], {headers: { 'page': '1', 'total-pages': '1' }})
   });
   
   it('should return an error for getAll', () => {
-    service.getAllRestaurants().subscribe(
+    service.getAllRestaurants(10, 1).subscribe(
       (resp) => fail('did not return an error'),
       (err) => {
         expect(err.status).toEqual(404)
         expect(err.error).toEqual('Test 404')
       })
-    const req = httpTestControl.expectOne(baseUrl)
+    const req = httpTestControl.expectOne(`${baseUrl}?page-size=10&page=1`)
     req.flush("Test 404", {status: 404, statusText: 'Not Found'})
   });
 

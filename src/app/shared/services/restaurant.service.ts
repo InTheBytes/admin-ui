@@ -11,8 +11,9 @@ export class RestaurantService {
   private base = "http://localhost:8080/apis/restaurant"
   constructor(private http: HttpClient) { }
 
-  getAllRestaurants(): Observable<Restaurant[]> {
-    return this.http.get<Restaurant[]>(this.base)
+  getAllRestaurants(pageSize: number, page: number): Observable<Restaurant[]> {
+    let params = `page-size=${pageSize}&page=${page}`
+    return this.http.get<Restaurant[]>(`${this.base}?${params}`)
     
   }
 

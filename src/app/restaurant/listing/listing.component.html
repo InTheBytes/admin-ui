@@ -8,7 +8,7 @@
 
             <table class="table">
                 <thead>
-                    <div class="d-flex">
+                    <div *ngIf="searchEnabled" class="d-flex">
                         <strong>Search:</strong>
                         <form [formGroup]="searchRestaurantForm">
                             <input type="text" class="form-control" formControlName="searchString"
@@ -20,8 +20,8 @@
                         <th scope="col">Name</th>
                         <th scope="col">Cuisine</th>
                         <th scope="col">Location</th>
-                        <th scope="col"></th>
-                        <th scope="col"></th>
+                        <th *ngIf="hasDetailsLink" scope="col"></th>
+                        <th *ngIf="deleteEnabled" scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -55,7 +55,7 @@
             </table>
             <div class="d-flex justify-content-center">
                 <ngb-pagination [collectionSize]="restaurants.length" [(page)]="page" [pageSize]="pageSize"
-                    [maxSize]="5" [boundaryLinks]="true" [directionLinks]="true" [rotate]="true">
+                    [maxSize]="5" [boundaryLinks]="true" [directionLinks]="true" [rotate]="true" (pageChange)="onPageChange">
                 </ngb-pagination>
             </div>
 

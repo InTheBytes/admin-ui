@@ -1,0 +1,82 @@
+<div class="card">
+    <table class="table">
+        <thead>
+          <div *ngIf="searchEnabled">
+            <strong>Search:</strong>
+            <form [formGroup]="searchForm">
+                <input type="text" class="form-control" formControlName="searchString"
+                    (input)="search()">
+            </form>
+          </div>
+          <tr>
+            <th *ngIf="selectEnabled" scope="col"></th>
+            {{colHeader}}
+            <th *ngIf="hasDetailsLink" scope="col"></th>
+            <th *ngIf="deleteEnabled" scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item in page">
+                <td *ngIf="selectEnabled">
+                    <button class="btn btn-secondary" (click)="select(item)">
+                        Select
+                    </button>
+                </td>
+                {{table}}
+                <td>
+                    <td *ngIf="hasDetailsLink">
+                        <a [routerLink]="{{details}}"
+                            class="btn btn-secondary">View</a>
+                    </td>
+                </td>
+                <td *ngIf="deleteEnabled">
+                    <button class="btn btn-danger"
+                        (click)="open(deleteRestaurantModal, deleteFailedModal, item">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+        <div class="d-flex justify-content-end">
+            <ngb-pagination [collectionSize]="(totalPages*pageSize)" [(page)]="currentPage" [pageSize]="pageSize"
+                [maxSize]="5" [boundaryLinks]="true" [directionLinks]="true" [rotate]="true" (pageChange)="onPageChange">
+            </ngb-pagination>
+        </div>
+    </table>        
+</div>
+
+<ng-template #deleteModal>
+    <form [formGroup]="deleteForm">
+        <div class="modal-header">
+            <h5>{{deleteModalTitle}}</h5>
+            <button type="button" class="btn-close" (click)="modalRef.dismiss(' ')">
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>{{deletePrompt}}</p>
+            <input id="nameBox" type="text" class="form-control" formControlName="deleteConfirm">
+        </div>
+        <div class="modal-footer">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>
+                <button type="button" class="btn btn-danger" (click)="modalRef.close(deleteConfirm)">Delete</button>
+            </div>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #deleteFailedModal>
+        <div class="modal-header">
+            <h5 class="modal-title" id="deleteFailedLabel">Failed to delete {{ deleteName }}</h5>
+            <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss(' ')">
+            </button>
+        </div>
+        <div class="modal-body">
+            <p>Failed: {{ failMessage }}</p>
+        </div>
+        <div class="modal-footer">
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Okay</button>
+            </div>
+        </div>
+</ng-template>

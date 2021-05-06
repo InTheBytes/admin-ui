@@ -9,7 +9,7 @@ type deleteFunction = (id: number) => Observable<HttpResponse<Object>>
 type selectFunction = (item: Object) => void
 type errorHandler = (err: any) => void | string
 
-type mapping = {
+export type mapping = {
   property: string,
   column: string
 }
@@ -44,7 +44,7 @@ export class ListingComponent implements OnInit {
   customDeleteHandler: boolean
 
   totalPages: number
-  page: Object[]
+  page: any[]
   currentPage: number
 
   table: string
@@ -69,8 +69,24 @@ export class ListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkSettings()
-    this.renderData()
-    this.constructTable()
+    this.pager.initialize(this.configuration.get, this.pageSize).then(
+      (value) => {
+        console.log("value type: " + typeof value)
+        console.log(value)
+        this.page = value
+        this.totalPages = this.pager.totalPages
+        this.currentPage = this.pager.currentPage        
+        this.constructTable()
+      },
+      (err) => {
+        if (typeof this.configuration.getError !== 'undefined') {
+          this.configuration.getError(err)
+        } else {
+          this.colHeader = "An Unexpected error has occured"
+          this.constructTable()
+        }
+      }
+    )
   }
 
   private checkSettings(): void {
@@ -91,26 +107,41 @@ export class ListingComponent implements OnInit {
     this[boolName] = (typeof this.configuration[configName] !== 'undefined') ? true : false
   }
 
-  private renderData(): void {
-    try {
-      this.page = this.pager.initialize(this.configuration.get, this.pageSize)
-    } catch (err) {
-      if (this.customGetHandler) {
-        this.configuration.getError(err)
-      }
-    }
-    this.totalPages = this.pager.totalPages
-  }
+  // private renderData(): void {
+
+  //   try {
+  //     this.page = this.pager.initialize(this.configuration.get, this.pageSize)
+  //     // while (typeof this.page == 'undefined') {
+  //     // // console.log(this.page)
+  //     // }
+  //     console.log(this.page)
+  //   } catch (err) {
+  //     if (this.customGetHandler) {
+  //       this.configuration.getError(err)
+  //     }
+  //     else {
+  //       throw err
+  //     }
+  //   }
+  //   this.totalPages = this.pager.totalPages
+  //   console.log("Component total Pages: "+this.totalPages + " "+this.pager.totalPages)
+  // }
 
   constructTable(): void {
+    this.page.forEach((x) => {
+      console.log(typeof x)
+      console.log(x.name)
+    })
+    this.colHeader = ""
     this.configuration.columns.forEach((col) => {
       this.colHeader += `
         <th scope="col">${col.column}</th>
       `})
+    this.table = ""
     this.configuration.columns.forEach((x) => {
       this.table += `
         <td>
-          {{item.${x.property}}}
+          {{ item.${x.property} }}
         </td>
       `})
     this.details = `${this.configuration.detailRoute}/${this.configuration.idProperty}`
@@ -130,8 +161,18 @@ export class ListingComponent implements OnInit {
   }
 
   onPageChange(): void {
-    this.page = this.pager.changePage(this.currentPage)
-    this.pageSize = this.page.length
+    this.pager.changePage(this.currentPage).then(
+      (value) => {
+        this.page = value
+        this.pageSize = value.length
+      },
+      (err) => {
+        (typeof this.configuration.getError !== 'undefined') ? this.configuration.getError(err) : null;
+      }
+    )
+
+    // this.page = this.pager.changePage(this.currentPage)
+    // this.pageSize = this.page.length
   }
 
   search(): void {

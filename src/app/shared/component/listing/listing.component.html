@@ -10,28 +10,30 @@
           </div>
           <tr>
             <th *ngIf="selectEnabled" scope="col"></th>
-            {{colHeader}}
+            <div [innerHtml]="colHeader"></div>
+            <!-- {{colHeader}} -->
             <th *ngIf="hasDetailsLink" scope="col"></th>
             <th *ngIf="deleteEnabled" scope="col"></th>
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item in page">
+            <tr *ngFor="let item of page">
                 <td *ngIf="selectEnabled">
                     <button class="btn btn-secondary" (click)="select(item)">
                         Select
                     </button>
                 </td>
-                {{table}}
-                <td>
-                    <td *ngIf="hasDetailsLink">
-                        <a [routerLink]="{{details}}"
-                            class="btn btn-secondary">View</a>
-                    </td>
+                <div [innerHtml]="table"></div>
+                <!-- {{table}} -->
+                
+                <td *ngIf="hasDetailsLink">
+                    <a [routerLink]="details"
+                        class="btn btn-secondary">View</a>
                 </td>
+                
                 <td *ngIf="deleteEnabled">
                     <button class="btn btn-danger"
-                        (click)="open(deleteRestaurantModal, deleteFailedModal, item">
+                        (click)="open(deleteRestaurantModal, deleteFailedModal, item)">
                         Delete
                     </button>
                 </td>

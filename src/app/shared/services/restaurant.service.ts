@@ -9,32 +9,76 @@ import { Observable } from 'rxjs';
 export class RestaurantService {
 
   private base = "http://localhost:8080/apis/restaurant"
+
   constructor(private http: HttpClient) { }
 
-  getCall(params: string): Observable<HttpResponse<Restaurant[]>> {
-    return this.http.get<Restaurant[]>(`${this.base}?${params}`, {observe: 'response'})
-  }
-
-  getAllRestaurants(pageSize: number, page: number, query?: string): Observable<HttpResponse<Restaurant[]>> {
+  getAllRestaurants = async (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
     let params = `page-size=${pageSize}&page=${page}`
     params += (typeof query !== 'undefined') ? `&${query}` : ''
-    return this.getCall(params)
+    let result: HttpResponse<Restaurant[]>
+    return new Promise((resolve, reject) => {
+      this.http.get<Restaurant[]>(`${this.base}?${params}`, {observe: 'response'}).subscribe(
+      (resp) => {
+        resolve(resp)
+      },
+      (err) => {
+        reject(err)
+      }
+    )})
   }
 
-  getRestaurant(id: number): Observable<Restaurant> {
-    return this.http.get<Restaurant>(`${this.base}/${id}`)
+  getRestaurant(id: number): Promise<Restaurant> {
+    return new Promise((resolve, reject) => {
+      this.http.get<Restaurant>(`${this.base}/${id}`).subscribe(
+      (resp) => {
+        resolve(resp)
+      },
+      (err) => {
+        reject(err)
+      }
+    )})
   }
 
-  createRestaurant(payload: Restaurant): Observable<Restaurant> {
+  createRestaurant(payload: Restaurant): Promise<Restaurant> {
     const headers = {'content-type': 'application/json'}
-    return this.http.post<Restaurant>(this.base, JSON.stringify(payload), {'headers': headers})
+    return new Promise((resolve, reject) => {
+      this.http.post<Restaurant>(this.base, JSON.stringify(payload), {'headers': headers})
+        .subscribe(
+          (resp) => {
+            resolve(resp)
+          },
+          (err) => {
+            reject(err)
+          }
+        )
+    })
   }
 
   updateRestaurant(payload: Restaurant) {
-    return this.http.put(`${this.base}/${payload.restaurantId}`, payload)
+    return new Promise((resolve, reject) => {
+      this.http.put(`${this.base}/${payload.restaurantId}`, payload).subscribe(
+        (resp) => {
+          resolve(resp)
+        },
+        (err) => {
+          reject(err)
+        }
+      )
+    })
+    
+    
   }
 
-  deleteRestaurant(id: number): Observable<HttpResponse<any>> {
-    return this.http.delete(`${this.base}/${id}`, {observe: 'response'});
+  deleteRestaurant(id: number): Promise<HttpResponse<any>> {
+    return new Promise((resolve, reject) => {
+      this.http.delete(`${this.base}/${id}`, {observe: 'response'}).subscribe(
+        (resp) => {
+          resolve(resp)
+        },
+        (err) => {
+          reject(err)
+        }
+      )
+    })
   }
 }

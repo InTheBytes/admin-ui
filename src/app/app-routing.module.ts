@@ -4,7 +4,7 @@ import { HomeComponent } from './home/home.component';
 import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
 import { CreatorComponent } from './restaurant/creator/creator.component';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
-import { ListingComponent } from './restaurant/listing/listing.component';
+// import { ListingComponent } from './restaurant/listing/listing.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
  
 const routes: Routes = [

@@ -69,7 +69,7 @@ export class CreatorComponent implements OnInit {
       this.modalRef = this.modalService.open(failModal)
     } else {
       this.restaurant = this.makeRestaurant()
-      this.restaurantService.createRestaurant(this.restaurant).subscribe(data => {
+      this.restaurantService.createRestaurant(this.restaurant).then(data => {
         this.restaurant = data;
         this.router.navigate(['/restaurants/', this.restaurant.restaurantId])
       },

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
 import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
@@ -19,10 +19,11 @@ export class BrowseRestaurantComponent implements OnInit {
   ngOnInit(): void {
     this.pageSize = 10
     this.listConfig = {
-      idProperty: "",
-      nameProperty: "",
+      idProperty: "restaurantId",
+      nameProperty: "name",
       columns: [
-        {property: "", column: ""}
+        {property: "name", column: "Name"},
+        {property: "cuisine", column: "Cuisine"}
       ],
       get: this.restaurantService.getAllRestaurants
     }

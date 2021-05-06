@@ -25,7 +25,7 @@ export class DetailPageComponent implements OnInit {
     this.initRestaurant()
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
-      .subscribe((resp) => {         
+      .then((resp) => {         
         this.restaurant = resp;
         this.success = true;
       },

@@ -134,7 +134,7 @@ export class ListingComponent implements OnInit {
       `})
     this.constructRows()
     
-    this.details = `${this.configuration.detailRoute}/${this.configuration.idProperty}`
+    this.details = `/${this.configuration.detailRoute}/${this.configuration.idProperty}`
   }
   
   constructRows(): void {
@@ -148,7 +148,7 @@ export class ListingComponent implements OnInit {
             ${val}
           </td>
       `})
-      let details =  `${this.configuration.detailRoute}/${this.getProperty(object, this.configuration.idProperty)}`
+      let details =  `/${this.configuration.detailRoute}/${this.getProperty(object, this.configuration.idProperty)}`
       this.htmlPage.push({
         rows: row,
         item: object,

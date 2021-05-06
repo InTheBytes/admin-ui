@@ -29,7 +29,7 @@ export class BrowseRestaurantComponent implements OnInit {
       ],
       get: this.restaurantService.getAllRestaurants,
       delete: this.restaurantService.deleteRestaurant,
-      detailRoute: 'stacklunch/restaurants'
+      detailRoute: 'restaurants'
     }
   }
 

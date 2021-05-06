@@ -23,9 +23,13 @@ export class BrowseRestaurantComponent implements OnInit {
       nameProperty: "name",
       columns: [
         {property: "name", column: "Name"},
-        {property: "cuisine", column: "Cuisine"}
+        {property: "cuisine", column: "Cuisine"},
+        {property: "location.city", column: "City"},
+        {property: "location.state", column: "State"}
       ],
-      get: this.restaurantService.getAllRestaurants
+      get: this.restaurantService.getAllRestaurants,
+      delete: this.restaurantService.deleteRestaurant,
+      detailRoute: 'stacklunch/restaurants'
     }
   }
 

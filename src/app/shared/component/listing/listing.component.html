@@ -17,23 +17,23 @@
           </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let item of page">
+            <tr *ngFor="let item of htmlPage">
                 <td *ngIf="selectEnabled">
                     <button class="btn btn-secondary" (click)="select(item)">
                         Select
                     </button>
                 </td>
-                <div [innerHtml]="table"></div>
+                <div [innerHtml]="item.rows"></div>
                 <!-- {{table}} -->
                 
                 <td *ngIf="hasDetailsLink">
-                    <a [routerLink]="details"
+                    <a [routerLink]="item.link"
                         class="btn btn-secondary">View</a>
                 </td>
                 
                 <td *ngIf="deleteEnabled">
                     <button class="btn btn-danger"
-                        (click)="open(deleteRestaurantModal, deleteFailedModal, item)">
+                        (click)="open(deleteRestaurantModal, deleteFailedModal, item.item)">
                         Delete
                     </button>
                 </td>
@@ -41,7 +41,7 @@
         </tbody>
         <div class="d-flex justify-content-end">
             <ngb-pagination [collectionSize]="(totalPages*pageSize)" [(page)]="currentPage" [pageSize]="pageSize"
-                [maxSize]="5" [boundaryLinks]="true" [directionLinks]="true" [rotate]="true" (pageChange)="onPageChange">
+                [maxSize]="5" [boundaryLinks]="true" [directionLinks]="true" [rotate]="true" (pageChange)="onPageChange()">
             </ngb-pagination>
         </div>
     </table>        

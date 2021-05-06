@@ -5,7 +5,7 @@ import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
 import { getFunction, PaginationService } from '../../services/pagination.service';
 
-type deleteFunction = (id: number) => Observable<HttpResponse<Object>>
+type deleteFunction = (id: number) => Promise<HttpResponse<Object>>
 type selectFunction = (item: Object) => void
 type errorHandler = (err: any) => void | string
 
@@ -47,7 +47,8 @@ export class ListingComponent implements OnInit {
   page: any[]
   currentPage: number
 
-  table: string
+  // table: string
+  htmlPage: Object[]
   colHeader: string
   details: string
 
@@ -71,8 +72,6 @@ export class ListingComponent implements OnInit {
     this.checkSettings()
     this.pager.initialize(this.configuration.get, this.pageSize).then(
       (value) => {
-        console.log("value type: " + typeof value)
-        console.log(value)
         this.page = value
         this.totalPages = this.pager.totalPages
         this.currentPage = this.pager.currentPage        
@@ -128,23 +127,42 @@ export class ListingComponent implements OnInit {
   // }
 
   constructTable(): void {
-    this.page.forEach((x) => {
-      console.log(typeof x)
-      console.log(x.name)
-    })
     this.colHeader = ""
     this.configuration.columns.forEach((col) => {
       this.colHeader += `
         <th scope="col">${col.column}</th>
       `})
-    this.table = ""
-    this.configuration.columns.forEach((x) => {
-      this.table += `
-        <td>
-          {{ item.${x.property} }}
-        </td>
-      `})
+    this.constructRows()
+    
     this.details = `${this.configuration.detailRoute}/${this.configuration.idProperty}`
+  }
+  
+  constructRows(): void {
+    this.htmlPage = []
+    this.page.forEach((object) => {
+      let row = ""
+      this.configuration.columns.forEach((x) => {
+        let val = this.getProperty(object, x.property)
+        row += `
+          <td>
+            ${val}
+          </td>
+      `})
+      let details =  `${this.configuration.detailRoute}/${this.getProperty(object, this.configuration.idProperty)}`
+      this.htmlPage.push({
+        rows: row,
+        item: object,
+        link: details
+      })
+    })
+  }
+
+  getProperty(object: object, property: string) {
+    let holder = object
+    for (let p of property.split('.')) {
+      holder = holder[p]
+    }
+    return holder
   }
 
   initializeForms() {
@@ -165,6 +183,7 @@ export class ListingComponent implements OnInit {
       (value) => {
         this.page = value
         this.pageSize = value.length
+        this.constructRows()
       },
       (err) => {
         (typeof this.configuration.getError !== 'undefined') ? this.configuration.getError(err) : null;
@@ -207,7 +226,7 @@ export class ListingComponent implements OnInit {
   }
 
   delete(id: number, failModal: TemplateRef<any>, index: number) {
-    this.configuration.delete(id).subscribe(
+    this.configuration.delete(id).then(
       (resp) => {
         this.onPageChange()
       },

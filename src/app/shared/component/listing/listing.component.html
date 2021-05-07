@@ -11,7 +11,6 @@
           <tr>
             <th *ngIf="selectEnabled" scope="col"></th>
             <div [innerHtml]="colHeader"></div>
-            <!-- {{colHeader}} -->
             <th *ngIf="hasDetailsLink" scope="col"></th>
             <th *ngIf="deleteEnabled" scope="col"></th>
           </tr>
@@ -24,7 +23,6 @@
                     </button>
                 </td>
                 <div [innerHtml]="item.rows"></div>
-                <!-- {{table}} -->
                 
                 <td *ngIf="hasDetailsLink">
                     <a [routerLink]="item.link"

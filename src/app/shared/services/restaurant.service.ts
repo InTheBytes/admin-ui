@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Restaurant } from '../model/restaurant';
 import { Observable } from 'rxjs';
 
@@ -13,11 +13,10 @@ export class RestaurantService {
   constructor(private http: HttpClient) { }
 
   getAllRestaurants = async (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
-    
-    console.log(typeof this.http+" "+this.http)
     let params = `page-size=${pageSize}&page=${page}`
-    params += (typeof query !== 'undefined') ? `&${query}` : ''
-    let result: HttpResponse<Restaurant[]>
+    // POSSIBLE SEARCH IMPLEMENTATION (future)
+    // params += (typeof query !== 'undefined') ? `&${query}` : '' 
+
     return new Promise((resolve, reject) => {
       this.http.get<Restaurant[]>(`${this.base}?${params}`, {observe: 'response'}).subscribe(
       (resp) => {
@@ -29,7 +28,7 @@ export class RestaurantService {
     )})
   }
 
-  getRestaurant(id: number): Promise<Restaurant> {
+  getRestaurant = (id: number): Promise<Restaurant> => {
     return new Promise((resolve, reject) => {
       this.http.get<Restaurant>(`${this.base}/${id}`).subscribe(
       (resp) => {
@@ -41,7 +40,7 @@ export class RestaurantService {
     )})
   }
 
-  createRestaurant(payload: Restaurant): Promise<Restaurant> {
+  createRestaurant = (payload: Restaurant): Promise<Restaurant> => {
     const headers = {'content-type': 'application/json'}
     return new Promise((resolve, reject) => {
       this.http.post<Restaurant>(this.base, JSON.stringify(payload), {'headers': headers})
@@ -56,7 +55,7 @@ export class RestaurantService {
     })
   }
 
-  updateRestaurant(payload: Restaurant) {
+  updateRestaurant = (payload: Restaurant) => {
     return new Promise((resolve, reject) => {
       this.http.put(`${this.base}/${payload.restaurantId}`, payload).subscribe(
         (resp) => {
@@ -72,8 +71,6 @@ export class RestaurantService {
   }
 
   deleteRestaurant = (id: number): Promise<HttpResponse<any>> => {
-    
-    console.log(typeof this.http+" "+this.http)
     return new Promise((resolve, reject) => {
       this.http.delete<Restaurant>(`${this.base}/${id}`, {observe: 'response'}).subscribe(
         (resp) => {

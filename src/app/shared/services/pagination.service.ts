@@ -1,6 +1,5 @@
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 
 export type getFunction = (pageSize: number, page: number, query?: string) => Promise<HttpResponse<any[]>>
 
@@ -63,49 +62,9 @@ export class PaginationService {
         )
       }
     })
-    if (typeof query !== 'undefined') {
-      
-    //   try {
-    //     result = this.readPage(this.serviceCall(this.pageSize, this.currentPage, query))
-    //     console.log("Total Pages: "+this.totalPages)
-    //     return result
-    //   } catch {
-    //     console.log("Something went wrong")
-    //   }
-    // } else {
-    //   let result = this.readPage(this.serviceCall(this.pageSize, this.currentPage))
-    //   return this.readPage(this.serviceCall(this.pageSize, this.currentPage))
+
+    // POSSIBLE SEARCH IMPLEMENTATION (future)
+    // if (typeof query !== 'undefined') {
     // }
-  }
-
-  // readPage(response: Promise<HttpResponse<Object[]>>): any {
-  //   let result: HttpResponse<Object[]>
-  //   response.then(
-  //     (resp) => {
-  //       result = resp
-  //     }, 
-  //     (err) => {
-  //       throw err
-  //   })
-  //   return result
-
-    // response.subscribe(
-    //   (resp) => {
-    //     console.log(resp)
-    //     this.currentPage = Number(resp.headers.get('page'))
-    //     this.totalPages = Number(resp.headers.get('total-pages'))
-    //     console.log("Resp Page "+resp.headers.get("page"))
-    //     console.log("Resp Total "+resp.headers.get("total-pages"))
-    //     result = resp.body
-    //     console.log(result)
-    //     console.log(this.totalPages)
-    //     return result
-    //   },
-    //   (err) => {
-    //     throw err
-    //   }
-    // )
-    // console.log(result)
-    // return result
   }
 }

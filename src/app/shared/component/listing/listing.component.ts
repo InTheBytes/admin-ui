@@ -51,8 +51,9 @@ export class ListingComponent implements OnInit {
   colHeader: string
   details: string
 
-  searchForm: FormGroup
-  searchString: string
+  // POSSIBLE SEARCH IMPLEMENTATION (future)
+  // searchForm: FormGroup
+  // searchString: string
 
   modalRef: NgbModalRef
   deleteForm: FormGroup
@@ -93,7 +94,7 @@ export class ListingComponent implements OnInit {
   private checkSettings(): void {
     const map = [
       {flag: "selectEnabled", config: "select"},
-      {flag: "searchEnabled", config: "searchable"},
+      // {flag: "searchEnabled", config: "searchable"},
       {flag: "hasDetailsLink", config: "detailRoute"},
       {flag: "deleteEnabled", config: "delete"},
       {flag: "customGetHandler", config: "getError"},
@@ -148,11 +149,12 @@ export class ListingComponent implements OnInit {
   }
 
   initializeForms() {
-    this.searchForm = new FormGroup({
-      searchString: new FormControl(this.searchString, [
-        Validators.maxLength(35),
-      ]),
-    });
+    // POSSIBLE SEARCH IMPLEMENTATION (future)
+    // this.searchForm = new FormGroup({
+    //   searchString: new FormControl(this.searchString, [
+    //     Validators.maxLength(35),
+    //   ]),
+    // });
     this.deleteForm = new FormGroup({
       deleteId: new FormControl(this.deleteId, [Validators.required]),
       deleteName: new FormControl(this.deleteName, [Validators.required]),
@@ -173,25 +175,22 @@ export class ListingComponent implements OnInit {
     )
   }
 
-  search(): void {
-    // this.page = this.pager.search()
-  }
+  // POSSIBLE SEARCH IMPLEMENTATION (future)
+  // search(): void {
+  //   this.page = this.pager.search()
+  // }
 
   select(item: Object): void {
     this.configuration.select(item)
   }
 
   open(content: TemplateRef<any>, fail: TemplateRef<any>, obj: Object): void {
-    console.log(content)
-    console.log(obj)
-    // console.log(this.deletePrompt)
-    // console.log(this.deleteModalTitle)
-    console.log(this.failMessage)
     this.deleteForm = this.fb.group({
       deleteId: obj[this.configuration.idProperty],
       deleteName: obj[this.configuration.nameProperty],
       deleteConfirm: '',
     });
+
     this.deleteName = obj[this.configuration.nameProperty];
     this.deletePrompt = `Please enter "${this.deleteName}" (without quotes) to confirm`
     this.deleteModalTitle = `Delete ${this.deleteName}`

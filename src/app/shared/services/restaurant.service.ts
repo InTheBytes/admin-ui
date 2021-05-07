@@ -13,6 +13,8 @@ export class RestaurantService {
   constructor(private http: HttpClient) { }
 
   getAllRestaurants = async (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
+    
+    console.log(typeof this.http+" "+this.http)
     let params = `page-size=${pageSize}&page=${page}`
     params += (typeof query !== 'undefined') ? `&${query}` : ''
     let result: HttpResponse<Restaurant[]>
@@ -69,9 +71,11 @@ export class RestaurantService {
     
   }
 
-  deleteRestaurant(id: number): Promise<HttpResponse<any>> {
+  deleteRestaurant = (id: number): Promise<HttpResponse<any>> => {
+    
+    console.log(typeof this.http+" "+this.http)
     return new Promise((resolve, reject) => {
-      this.http.delete(`${this.base}/${id}`, {observe: 'response'}).subscribe(
+      this.http.delete<Restaurant>(`${this.base}/${id}`, {observe: 'response'}).subscribe(
         (resp) => {
           resolve(resp)
         },

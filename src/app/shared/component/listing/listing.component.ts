@@ -47,7 +47,6 @@ export class ListingComponent implements OnInit {
   page: any[]
   currentPage: number
 
-  // table: string
   htmlPage: Object[]
   colHeader: string
   details: string
@@ -61,6 +60,8 @@ export class ListingComponent implements OnInit {
   deleteId: any
   deleteConfirm: string
   failMessage: string
+  deletePrompt: string
+  deleteModalTitle: string
 
   constructor(
     private pager: PaginationService,
@@ -70,6 +71,7 @@ export class ListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.checkSettings()
+    this.initializeForms()
     this.pager.initialize(this.configuration.get, this.pageSize).then(
       (value) => {
         this.page = value
@@ -105,26 +107,6 @@ export class ListingComponent implements OnInit {
   private checkConfig(boolName: string, configName: string) {
     this[boolName] = (typeof this.configuration[configName] !== 'undefined') ? true : false
   }
-
-  // private renderData(): void {
-
-  //   try {
-  //     this.page = this.pager.initialize(this.configuration.get, this.pageSize)
-  //     // while (typeof this.page == 'undefined') {
-  //     // // console.log(this.page)
-  //     // }
-  //     console.log(this.page)
-  //   } catch (err) {
-  //     if (this.customGetHandler) {
-  //       this.configuration.getError(err)
-  //     }
-  //     else {
-  //       throw err
-  //     }
-  //   }
-  //   this.totalPages = this.pager.totalPages
-  //   console.log("Component total Pages: "+this.totalPages + " "+this.pager.totalPages)
-  // }
 
   constructTable(): void {
     this.colHeader = ""
@@ -189,9 +171,6 @@ export class ListingComponent implements OnInit {
         (typeof this.configuration.getError !== 'undefined') ? this.configuration.getError(err) : null;
       }
     )
-
-    // this.page = this.pager.changePage(this.currentPage)
-    // this.pageSize = this.page.length
   }
 
   search(): void {
@@ -202,20 +181,26 @@ export class ListingComponent implements OnInit {
     this.configuration.select(item)
   }
 
-  open(content: TemplateRef<any>, fail: TemplateRef<any>, obj: Object, index: number): void {
-
+  open(content: TemplateRef<any>, fail: TemplateRef<any>, obj: Object): void {
+    console.log(content)
+    console.log(obj)
+    // console.log(this.deletePrompt)
+    // console.log(this.deleteModalTitle)
+    console.log(this.failMessage)
     this.deleteForm = this.fb.group({
       deleteId: obj[this.configuration.idProperty],
       deleteName: obj[this.configuration.nameProperty],
       deleteConfirm: '',
     });
     this.deleteName = obj[this.configuration.nameProperty];
+    this.deletePrompt = `Please enter "${this.deleteName}" (without quotes) to confirm`
+    this.deleteModalTitle = `Delete ${this.deleteName}`
 
     this.modalRef = this.modalService.open(content);
     this.modalRef.result.then(
       (result) => {
         if (this.deleteForm.value.deleteConfirm === this.deleteName) {
-          this.delete(obj[this.configuration.idProperty], fail, index);
+          this.delete(obj[this.configuration.idProperty], fail);
         } else {
           this.failMessage = `The ${this.configuration.nameProperty.toLowerCase()} you entered did not match`
           this.modalRef = this.modalService.open(fail)
@@ -225,12 +210,13 @@ export class ListingComponent implements OnInit {
     );
   }
 
-  delete(id: number, failModal: TemplateRef<any>, index: number) {
+  delete(id: number, failModal: TemplateRef<any>) {
     this.configuration.delete(id).then(
       (resp) => {
         this.onPageChange()
       },
       (err) => {
+        console.log(err)
         if (this.customDeleteHandler) {
           let holder: any
           holder = this.configuration.deleteError(err)

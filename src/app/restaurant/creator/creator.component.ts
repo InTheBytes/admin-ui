@@ -1,6 +1,7 @@
-import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Restaurant } from 'src/app/shared/model/restaurant';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
@@ -19,12 +20,16 @@ export class CreatorComponent implements OnInit {
   locationCity: string
   locationState: string
   locationZip: number
-  restaurant: Restaurant;
+  restaurant: Restaurant
+
+  modalRef: NgbModalRef
+  failMessage: string
 
   constructor(
     private formBuilder: FormBuilder,
     private restaurantService: RestaurantService,
-    private router: Router
+    private router: Router,
+    private modalService: NgbModal
     ) { }
 
   ngOnInit(): void {
@@ -57,15 +62,45 @@ export class CreatorComponent implements OnInit {
     })
   }
 
-  saveRestaurant() {
-    this.restaurant = this.makeRestaurant()
-    this.restaurantService.createRestaurant(this.restaurant).subscribe(data => {
-      this.restaurant = data;
-      this.router.navigate(['/restaurants/', this.restaurant.restaurantId])
-    });
+  saveRestaurant(failModal: TemplateRef<any>) {
+    
+    if (this.makeRestaurant() === null) {
+      this.failMessage = "Please enter information for all of the fields"
+      this.modalRef = this.modalService.open(failModal)
+    } else {
+      this.restaurant = this.makeRestaurant()
+      this.restaurantService.createRestaurant(this.restaurant).then(data => {
+        this.restaurant = data;
+        this.router.navigate(['/restaurants/', this.restaurant.restaurantId])
+      },
+      (error) => {
+        switch (error.status) {
+          case 409:
+            this.failMessage =
+            "It looks like this restaurant already exists"
+            break;
+          case 500:
+            this.failMessage = 'Something went wrong with the server'
+            break;
+          default:
+            this.failMessage = 
+            "An unexpected error occured. Perhaps there's a problem with the connection"
+        }
+        this.modalRef = this.modalService.open(failModal)
+      });
+    }
   }
 
   makeRestaurant(): Restaurant {
+    if (this.restaurantForm.value.name == null || 
+      this.restaurantForm.value.cuisine == null || 
+      this.restaurantForm.value.locationUnit == null ||
+      this.restaurantForm.value.locationStreet == null || 
+      this.restaurantForm.value.locationCity == null || 
+      this.restaurantForm.value.locationState == null ||
+      this.restaurantForm.value.locationZip == null) {
+        return null
+      }
     return {
       restaurantId: 0,
       name: this.restaurantForm.value.name,

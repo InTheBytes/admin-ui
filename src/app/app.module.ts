@@ -8,10 +8,12 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreatorComponent } from './restaurant/creator/creator.component';
-import { ListingComponent } from './restaurant/listing/listing.component';
+// import { ListingComponent } from './restaurant/listing/listing.component';
 import { RestaurantService } from './shared/services/restaurant.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
+import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
+import { ListingComponent } from './shared/component/listing/listing.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { DetailPageComponent } from './restaurant/detail-page/detail-page.compon
     HomeComponent,
     CreatorComponent,
     ListingComponent,
+    BrowseRestaurantComponent,
     DetailPageComponent,
+    BrowseRestaurantComponent,
   ],
   imports: [
     AppRoutingModule,

@@ -14,6 +14,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
 import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
 import { ListingComponent } from './shared/component/listing/listing.component';
+import { UserComponent } from './user/user.component';
+import { BrowseUserComponent } from './browse-user/browse-user.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +27,8 @@ import { ListingComponent } from './shared/component/listing/listing.component';
     BrowseRestaurantComponent,
     DetailPageComponent,
     BrowseRestaurantComponent,
+    UserComponent,
+    BrowseUserComponent,
   ],
   imports: [
     AppRoutingModule,

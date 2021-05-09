@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 })
 export class RestaurantService {
 
-  private base = "http://localhost:8080/apis/restaurant"
+  private base = "http://localhost:8081/apis/restaurant"
 
   constructor(private http: HttpClient) { }
 

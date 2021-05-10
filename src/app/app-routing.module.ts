@@ -4,8 +4,10 @@ import { HomeComponent } from './home/home.component';
 import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
 import { CreatorComponent } from './restaurant/creator/creator.component';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
-// import { ListingComponent } from './restaurant/listing/listing.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
+import { BrowseUserComponent } from './user/browse-user/browse-user.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
+import { UserComponent } from './user/user.component';
  
 const routes: Routes = [
     {
@@ -35,6 +37,20 @@ const routes: Routes = [
                 component: DetailPageComponent
             }
           ]
+    },
+    {
+      path: 'users',
+      component: UserComponent,
+      children: [
+        {
+          path: '',
+          component: BrowseUserComponent
+        },
+        {
+          path: ':userId',
+          component: UserDetailsComponent
+        }
+      ]
     }
   ];
 

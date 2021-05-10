@@ -15,7 +15,8 @@ import { DetailPageComponent } from './restaurant/detail-page/detail-page.compon
 import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
 import { ListingComponent } from './shared/component/listing/listing.component';
 import { UserComponent } from './user/user.component';
-import { BrowseUserComponent } from './browse-user/browse-user.component';
+import { BrowseUserComponent } from './user/browse-user/browse-user.component';
+import { UserDetailsComponent } from './user/user-details/user-details.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { BrowseUserComponent } from './browse-user/browse-user.component';
     BrowseRestaurantComponent,
     UserComponent,
     BrowseUserComponent,
+    UserDetailsComponent,
   ],
   imports: [
     AppRoutingModule,

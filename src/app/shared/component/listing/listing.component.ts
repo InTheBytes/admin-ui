@@ -22,6 +22,7 @@ export type Listable = {
   searchable?: string[]
   detailRoute?: string
   delete?: deleteFunction
+  deleteLabel?: string
   deleteError?: errorHandler
   select?: selectFunction
 }
@@ -56,6 +57,7 @@ export class ListingComponent implements OnInit {
   // searchString: string
 
   modalRef: NgbModalRef
+  deleteLabel: string
   deleteForm: FormGroup
   deleteName: string
   deleteId: any
@@ -103,6 +105,8 @@ export class ListingComponent implements OnInit {
     map.forEach((x) => {
       this.checkConfig(x.flag, x.config)
     })
+    this.deleteLabel = (typeof this.configuration.deleteLabel !== 'undefined') ? 
+      this.configuration.deleteLabel : "Delete"
   }
 
   private checkConfig(boolName: string, configName: string) {

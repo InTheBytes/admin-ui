@@ -11,12 +11,25 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  baseUrl = "localhost:8080/user"
+  baseUrl = "http://localhost:8080/user"
 
   getUsers = async (pageSize: number, page: number): Promise<HttpResponse<User[]>> => {
     const params = `page-size=${pageSize}&page=${page}`
     return new Promise((resolve, reject) => {
       this.http.get<User[]>(`${this.baseUrl}?${params}`, {observe: 'response'}).subscribe(
+      (resp) => {
+        resolve(resp)
+      },
+      (err) => {
+        reject(err)
+      }
+    )})
+  }
+
+  getActiveUsers = async (pageSize: number, page: number): Promise<HttpResponse<User[]>> => {
+    const params = `page-size=${pageSize}&page=${page}`
+    return new Promise((resolve, reject) => {
+      this.http.get<User[]>(`${this.baseUrl}/active?${params}`, {observe: 'response'}).subscribe(
       (resp) => {
         resolve(resp)
       },

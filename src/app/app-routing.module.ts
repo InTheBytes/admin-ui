@@ -5,6 +5,7 @@ import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse
 import { CreatorComponent } from './restaurant/creator/creator.component';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
 import { RestaurantComponent } from './restaurant/restaurant.component';
+import { AllUsersComponent } from './user/all-users/all-users.component';
 import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserComponent } from './user/user.component';
@@ -45,6 +46,10 @@ const routes: Routes = [
         {
           path: '',
           component: BrowseUserComponent
+        },
+        {
+          path: 'all',
+          component: AllUsersComponent
         },
         {
           path: ':userId',

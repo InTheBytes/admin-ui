@@ -1,1 +1,33 @@
-<p>user-details works!</p>
+<nav class="text-center">
+    <a routerLink="/users" class="btn">Browse Users</a>
+</nav>
+
+<div *ngIf="activateFailed" class="text-center">
+    {{ message }}
+</div>
+
+<div class="card text-center" *ngIf='success; else failTemplate'>
+    <div *ngIf='inactive; else deactivateTemplate' class="d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="activate()">Activate</button>
+    </div>
+    <h3>{{ user.username }}</h3>
+    <p *ngIf='inactive'><em><strong>DEACTIVATED</strong></em></p>
+    <p><em>{{ user.role.name }}</em></p>
+    <p>
+        {{ user.firstName }} {{ user.lastName }} <br>
+        {{ user.email }} <br>
+        {{ user.phone }} <br>
+    </p>
+</div>
+
+<ng-template #failTemplate>
+    <div class='text-center'>
+        <p><strong>{{ message }}</strong></p>
+    </div>
+</ng-template>
+
+<ng-template #deactivateTemplate>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="deactivate()">Deactivate</button>
+    </div>
+</ng-template>

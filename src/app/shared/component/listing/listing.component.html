@@ -32,7 +32,7 @@
                 <td *ngIf="deleteEnabled">
                     <button class="btn btn-danger"
                         (click)="open(deleteModal, deleteFailedModal, item.item)">
-                        Delete
+                        {{ deleteLabel }}
                     </button>
                 </td>
             </tr>

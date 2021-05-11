@@ -112,7 +112,8 @@ export class CreatorComponent implements OnInit {
         city: this.restaurantForm.value.locationCity,
         state: this.restaurantForm.value.locationState,
         zipCode: this.restaurantForm.value.locationZip
-      } 
+      }, 
+      foods: null
     }
   }
 }

@@ -11,6 +11,11 @@
     </p>
 </div>
 
+<mat-slider min="1" max="100" step="1" value="1"></mat-slider>
+
+
+<app-listing [configuration]="listConfig" pageSize=10></app-listing>
+
 <ng-template #failTemplate>
     <div class='text-center'>
         <p><strong>{{ message }}</strong></p>

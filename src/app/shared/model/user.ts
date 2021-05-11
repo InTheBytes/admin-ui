@@ -7,6 +7,7 @@ export class User {
     firstName: string
     lastName: string
     isActive: boolean
+    password: string
 }
 
 export class Role {

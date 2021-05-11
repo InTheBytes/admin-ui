@@ -3,6 +3,7 @@ export class Restaurant {
     name: string
     cuisine: string
     location: Location
+    foods: Array<Food>
 }
 
 export class Location {
@@ -12,4 +13,11 @@ export class Location {
     city: string
     state: string
     zipCode: number
+}
+
+export class Food {
+    foodId: number
+    name: string
+    price: number
+    description: string
 }

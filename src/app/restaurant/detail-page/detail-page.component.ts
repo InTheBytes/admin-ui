@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { Restaurant } from 'src/app/shared/model/restaurant';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
@@ -13,6 +14,7 @@ export class DetailPageComponent implements OnInit {
   restaurant: Restaurant;
   message: string;
   success: boolean;
+  listConfig: Listable;
 
   constructor(
     private restaurantService: RestaurantService,
@@ -43,6 +45,7 @@ export class DetailPageComponent implements OnInit {
             "An unexpected error occured. Perhaps there's a problem with the connection"
         }
       })
+    this.initFoodMenu
     
   }
 
@@ -51,9 +54,25 @@ export class DetailPageComponent implements OnInit {
       restaurantId: -1, name: "", cuisine: "",
       location: {
         locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
-      }
+      },
+      foods: null
     }
     this.restaurant = empty;
+  }
+
+  initFoodMenu() {
+    this.listConfig = {
+      idProperty: "foodId",
+      nameProperty: "name",
+      columns: [
+        {property: "name", column: "Name"},
+        {property: "price", column: "Price"},
+        {property: "description", column: "Description"}
+      ],
+      get: this.restaurantService.getAllRestaurants,
+      delete: this.restaurantService.deleteRestaurant,
+      detailRoute: 'foods'
+    }
   }
 
 }

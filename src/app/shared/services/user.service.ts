@@ -78,4 +78,8 @@ export class UserService {
       )
     })
   } 
+
+  registerUser(user: User) {
+    return this.http.post(`${this.baseUrl}/register/${user.userId}`, user);
+}
 }

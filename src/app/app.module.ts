@@ -18,6 +18,10 @@ import { UserComponent } from './user/user.component';
 import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
+import { RegisterComponent } from './register/register.component';
+import { FormComponent } from './register/form/form.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatSliderModule } from '@angular/material/slider';
 
 @NgModule({
   declarations: [
@@ -33,6 +37,8 @@ import { AllUsersComponent } from './user/all-users/all-users.component';
     BrowseUserComponent,
     UserDetailsComponent,
     AllUsersComponent,
+    RegisterComponent,
+    FormComponent
   ],
   imports: [
     AppRoutingModule,
@@ -40,7 +46,9 @@ import { AllUsersComponent } from './user/all-users/all-users.component';
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MatSliderModule,
+    BrowserAnimationsModule
   ],
   providers: [RestaurantService],
   bootstrap: [AppComponent]

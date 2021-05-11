@@ -9,6 +9,8 @@ import { AllUsersComponent } from './user/all-users/all-users.component';
 import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { UserComponent } from './user/user.component';
+import {RegisterComponent} from './register/register.component';
+import { FormComponent } from './register/form/form.component';
  
 const routes: Routes = [
     {
@@ -54,6 +56,16 @@ const routes: Routes = [
         {
           path: ':userId',
           component: UserDetailsComponent
+        }
+      ]
+    },
+    {
+      path: 'register',
+      component: RegisterComponent,
+      children: [
+        {
+            path: '', 
+            component: FormComponent
         }
       ]
     }

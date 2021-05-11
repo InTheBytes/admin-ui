@@ -22,7 +22,7 @@ export class DetailPageComponent implements OnInit {
   ngOnInit(): void {
     this.message = ''
     this.success = false
-    this.initRestaurant()
+    // this.initRestaurant()
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
       .then((resp) => {         
@@ -46,14 +46,15 @@ export class DetailPageComponent implements OnInit {
     
   }
 
-  initRestaurant() {
-    const empty = {
-      restaurantId: -1, name: "", cuisine: "",
-      location: {
-        locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
-      }
-    }
-    this.restaurant = empty;
-  }
+  // initRestaurant() {
+  //   const empty = {
+  //     restaurantId: -1, name: "", cuisine: "",
+  //     location: {
+  //       locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
+  //     },
+  //     managers: []
+  //   }
+  //   this.restaurant = empty;
+  // }
 
 }

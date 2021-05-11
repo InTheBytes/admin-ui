@@ -16,3 +16,17 @@
         <p><strong>{{ message }}</strong></p>
     </div>
 </ng-template>
+
+<ng-template #managerModal>
+    <div class="modal-header">
+        <h5>Add Manager</h5>
+        <button type="button" class="btn-close" (click)="modalRef.dismiss(' ')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-add-manager [restaurant]='restaurant'></app-add-manager>
+    </div>
+    <div class="modal-footer">
+        
+    </div>
+</ng-template>

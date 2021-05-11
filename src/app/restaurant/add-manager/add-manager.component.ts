@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { Listable } from '../shared/component/listing/listing.component';
-import { User } from '../shared/model/user';
-import { RestaurantService } from '../shared/services/restaurant.service';
-import { UserService } from '../shared/services/user.service';
+import { Component, Input, OnInit } from '@angular/core';
+import { Listable } from '../../shared/component/listing/listing.component';
+import { Restaurant } from '../../shared/model/restaurant';
+import { User } from '../../shared/model/user';
+import { RestaurantService } from '../../shared/services/restaurant.service';
+import { UserService } from '../../shared/services/user.service';
 
 @Component({
   selector: 'app-add-manager',
@@ -10,6 +11,8 @@ import { UserService } from '../shared/services/user.service';
   styleUrls: ['./add-manager.component.css']
 })
 export class AddManagerComponent implements OnInit {
+
+  @Input() restaurant: Restaurant
 
   listConfig: Listable
   pageSize: number

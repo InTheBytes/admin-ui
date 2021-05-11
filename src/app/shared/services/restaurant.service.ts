@@ -2,6 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Restaurant } from '../model/restaurant';
 import { Observable } from 'rxjs';
+import { User } from '../model/user';
+import { resolve } from 'node:path';
+import { rejects } from 'node:assert';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +76,20 @@ export class RestaurantService {
   deleteRestaurant = (id: number): Promise<HttpResponse<any>> => {
     return new Promise((resolve, reject) => {
       this.http.delete<Restaurant>(`${this.base}/${id}`, {observe: 'response'}).subscribe(
+        (resp) => {
+          resolve(resp)
+        },
+        (err) => {
+          reject(err)
+        }
+      )
+    })
+  }
+
+  addManager = (id: number, payload: User): Promise<HttpResponse<Restaurant>> => {
+    const endpoint = ``
+    return new Promise((resolve, reject) => {
+      this.http.put<Restaurant>(`${this.base}s`, payload, {observe: 'response'}).subscribe(
         (resp) => {
           resolve(resp)
         },

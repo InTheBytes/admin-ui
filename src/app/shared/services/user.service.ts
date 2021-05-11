@@ -11,7 +11,7 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  baseUrl = "http://localhost:8080/user"
+  baseUrl = "http://18.220.68.1:8080/user"
 
   getUsers = async (pageSize: number, page: number): Promise<HttpResponse<User[]>> => {
     const params = `page-size=${pageSize}&page=${page}`

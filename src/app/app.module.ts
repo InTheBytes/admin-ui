@@ -21,7 +21,12 @@ import { AllUsersComponent } from './user/all-users/all-users.component';
 import { RegisterComponent } from './register/register.component';
 import { FormComponent } from './register/form/form.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatSliderModule } from '@angular/material/slider';
+import { MatTableModule } from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';;
+
 
 @NgModule({
   declarations: [
@@ -34,6 +39,7 @@ import { MatSliderModule } from '@angular/material/slider';
     DetailPageComponent,
     BrowseRestaurantComponent,
     UserComponent,
+    
     BrowseUserComponent,
     UserDetailsComponent,
     AllUsersComponent,
@@ -46,8 +52,12 @@ import { MatSliderModule } from '@angular/material/slider';
     FormsModule,
     HttpClientModule,
     NgbModule,
+    MatDialogModule,
     ReactiveFormsModule,
-    MatSliderModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatButtonModule,
     BrowserAnimationsModule
   ],
   providers: [RestaurantService],

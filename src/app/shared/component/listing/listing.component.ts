@@ -3,10 +3,11 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { User } from '../../model/user';
 import { getFunction, PaginationService } from '../../services/pagination.service';
 
 type deleteFunction = (id: number) => Promise<HttpResponse<Object>>
-type selectFunction = (item: Object) => void
+type selectFunction = (item: Object, objects?: Object[]) => void
 type errorHandler = (err: any) => void | string
 
 export type mapping = {
@@ -25,6 +26,7 @@ export type Listable = {
   deleteLabel?: string
   deleteError?: errorHandler
   select?: selectFunction
+  parent?: any
 }
 
 @Component({
@@ -184,8 +186,13 @@ export class ListingComponent implements OnInit {
   //   this.page = this.pager.search()
   // }
 
-  select(item: Object): void {
-    this.configuration.select(item)
+  select(item: User): void {
+    console.log("Item from listing: "+item.username)
+    if (typeof this.configuration.parent != 'undefined') {
+      this.configuration.select.call(this.configuration.parent, item)
+    } else {
+      this.configuration.select(item)
+    }
   }
 
   open(content: TemplateRef<any>, fail: TemplateRef<any>, obj: Object): void {

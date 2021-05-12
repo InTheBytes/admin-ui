@@ -14,24 +14,33 @@ import { UserService } from '../../shared/services/user.service';
 export class AddManagerComponent implements OnInit {
 
   @Input() restaurant: Restaurant
-  @Input() modalRef?: NgbModalRef
-  @Input() restaurantService: RestaurantService
+  @Input() modalRef: NgbModalRef
+  // @Input() restaurantService: RestaurantService
 
   listConfig: Listable
   pageSize: number
   onListing: Boolean
 
+  restaurantCopy: Restaurant
+  modalCopy: NgbModalRef
+  serviceCopy: RestaurantService
+
   // restaurantService: RestaurantService
 
   constructor(
     private userService: UserService,
-    // private restaurantService: RestaurantService,
+    private restaurantService: RestaurantService,
     // private injector: Injector
   ) { }
 
   ngOnInit(): void {
     // this.restaurantService = this.injector.get(RestaurantService)
-    console.log(this.restaurantService);
+    this.restaurantCopy = this.restaurant
+    this.modalCopy = this.modalRef
+    this.serviceCopy = this.restaurantService
+    console.log("Restaurant Service: "+this.restaurantService)
+    console.log("Modal: " + this.modalRef)
+    console.log("Restaurant: "+this.restaurant)
     this.pageSize = 5
     this.listConfig = {
       idProperty: 'userId',
@@ -41,17 +50,20 @@ export class AddManagerComponent implements OnInit {
         {column: 'Email', property: 'email'}
       ],
       get: this.userService.getUsers,
-      select: this.selectUser
+      select: this.selectUser,
+      parent: this
     }
   }
 
   selectUser(user: User) {
-    console.log(this.restaurantService);
-    console.log(this.restaurant);
-    console.log(user);
-    this.modalRef.close('');
+    console.log("Restaurant Service: " + this.restaurantService);
+    console.log("Restaurant: "+this.restaurant)
+    console.log("Modal: "+this.modalRef)
+    console.log("User: "+user);
+    console.log("User ID: "+user.userId );
+    console.log("UserName: "+user.username)
     this.restaurantService.addManager(this.restaurant.restaurantId, user)
-    
+    this.modalRef.close('')
   }
 
 }

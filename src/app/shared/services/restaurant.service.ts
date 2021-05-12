@@ -83,8 +83,15 @@ export class RestaurantService {
     })
   }
 
-  addManager = (id: number, payload: User): Promise<HttpResponse<Restaurant>> => {
-    const endpoint = `s/${id}/managers`
+  addManager = (id: number, user: User): Promise<HttpResponse<Restaurant>> => {
+    const payload = {
+      userId: user.userId,
+      username: user.username,
+      role: user.role,
+      isActive: user.isActive
+    }
+    console.log(payload)
+    const endpoint = `s/${Number(id)}/managers`
     return new Promise((resolve, reject) => {
       this.http.put<Restaurant>(`${this.base}${endpoint}`, payload, {observe: 'response'}).subscribe(
         (resp) => {

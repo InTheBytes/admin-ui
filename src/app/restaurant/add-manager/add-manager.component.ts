@@ -38,9 +38,6 @@ export class AddManagerComponent implements OnInit {
     this.restaurantCopy = this.restaurant
     this.modalCopy = this.modalRef
     this.serviceCopy = this.restaurantService
-    console.log("Restaurant Service: "+this.restaurantService)
-    console.log("Modal: " + this.modalRef)
-    console.log("Restaurant: "+this.restaurant)
     this.pageSize = 5
     this.listConfig = {
       idProperty: 'userId',
@@ -56,14 +53,8 @@ export class AddManagerComponent implements OnInit {
   }
 
   selectUser(user: User) {
-    console.log("Restaurant Service: " + this.restaurantService);
-    console.log("Restaurant: "+this.restaurant)
-    console.log("Modal: "+this.modalRef)
-    console.log("User: "+user);
-    console.log("User ID: "+user.userId );
-    console.log("UserName: "+user.username)
     this.restaurantService.addManager(this.restaurant.restaurantId, user)
-    this.modalRef.close('')
+    this.modalRef.close(this.restaurant)
   }
 
 }

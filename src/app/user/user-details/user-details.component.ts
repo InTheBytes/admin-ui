@@ -36,7 +36,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   activate() {
-    console.log("made it to activate")
     this.user.isActive = true
     this.service.updateUser(this.user).then(
       (resp) => {
@@ -51,7 +50,6 @@ export class UserDetailsComponent implements OnInit {
   }
 
   deactivate() {
-    console.log("made it to deactivate")
     this.service.deleteUser(Number(this.actRoute.snapshot.paramMap.get("userId"))).then(
       (resp) => {
         this.user = resp.body

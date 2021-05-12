@@ -187,7 +187,6 @@ export class ListingComponent implements OnInit {
   // }
 
   select(item: User): void {
-    console.log("Item from listing: "+item.username)
     if (typeof this.configuration.parent != 'undefined') {
       this.configuration.select.call(this.configuration.parent, item)
     } else {
@@ -226,7 +225,6 @@ export class ListingComponent implements OnInit {
         this.onPageChange()
       },
       (err) => {
-        console.log(err)
         if (this.customDeleteHandler) {
           let holder: any
           holder = this.configuration.deleteError(err)

@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Injector, Input, OnInit } from '@angular/core';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Listable } from '../../shared/component/listing/listing.component';
 import { Restaurant } from '../../shared/model/restaurant';
 import { User } from '../../shared/model/user';
@@ -13,35 +14,44 @@ import { UserService } from '../../shared/services/user.service';
 export class AddManagerComponent implements OnInit {
 
   @Input() restaurant: Restaurant
+  @Input() modalRef?: NgbModalRef
+  @Input() restaurantService: RestaurantService
 
   listConfig: Listable
   pageSize: number
   onListing: Boolean
 
+  // restaurantService: RestaurantService
+
   constructor(
     private userService: UserService,
-    private restaurantService: RestaurantService
+    // private restaurantService: RestaurantService,
+    // private injector: Injector
   ) { }
 
   ngOnInit(): void {
+    // this.restaurantService = this.injector.get(RestaurantService)
+    console.log(this.restaurantService);
     this.pageSize = 5
     this.listConfig = {
       idProperty: 'userId',
       nameProperty: 'username',
       columns: [
         {column: 'Username', property: 'username'},
-        {column: 'Role', property: 'role.name'},
-        {column: 'Email', property: 'email'},
-        {column: 'First Name', property: 'firstName'},
-        {column: 'Last Name', property: 'lastName'}
+        {column: 'Email', property: 'email'}
       ],
-      get: this.userService.getActiveUsers,
+      get: this.userService.getUsers,
       select: this.selectUser
     }
   }
 
   selectUser(user: User) {
-
+    console.log(this.restaurantService);
+    console.log(this.restaurant);
+    console.log(user);
+    this.modalRef.close('');
+    this.restaurantService.addManager(this.restaurant.restaurantId, user)
+    
   }
 
 }

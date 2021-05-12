@@ -1,7 +1,7 @@
 
 <div class="card text-center" *ngIf='success; else failTemplate'>
     <div class="d-flex justify-content-end">
-        <button class="btn btn-primary">Modify</button>
+        <button class="btn btn-primary" (click)="open(managerModal)">Add Manager</button>
     </div>
     <h3>{{ restaurant.name }}</h3>
     <p><em>{{ restaurant.cuisine }}</em></p>
@@ -24,9 +24,9 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-add-manager [restaurant]='restaurant'></app-add-manager>
+        <app-add-manager [restaurant]='restaurant' [modalRef]='modalRef' [service]='restaurantService'></app-add-manager>
     </div>
     <div class="modal-footer">
-        
+        <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>
     </div>
 </ng-template>

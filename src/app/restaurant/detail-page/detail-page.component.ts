@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Restaurant } from 'src/app/shared/model/restaurant';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
@@ -10,19 +11,20 @@ import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 })
 export class DetailPageComponent implements OnInit {
 
-  restaurant: Restaurant;
-  message: string;
-  success: boolean;
+  restaurant: Restaurant
+  message: string
+  success: boolean
+  modalRef: NgbModalRef
 
   constructor(
     private restaurantService: RestaurantService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private modalService: NgbModal
     ) { }
 
   ngOnInit(): void {
     this.message = ''
     this.success = false
-    // this.initRestaurant()
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
       .then((resp) => {         
@@ -46,15 +48,18 @@ export class DetailPageComponent implements OnInit {
     
   }
 
-  // initRestaurant() {
-  //   const empty = {
-  //     restaurantId: -1, name: "", cuisine: "",
-  //     location: {
-  //       locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
-  //     },
-  //     managers: []
-  //   }
-  //   this.restaurant = empty;
-  // }
-
+  open(content: TemplateRef<any>) {
+    this.modalRef = this.modalService.open(content)
+    this.modalRef.result.then(
+      (result) => {
+        this.restaurantService.getRestaurant(this.restaurant.restaurantId).then(
+          (resp) => {
+            this.restaurant = resp
+          },
+          (err) => { }
+        )
+      },
+      (reason) => { }
+    )
+  }
 }

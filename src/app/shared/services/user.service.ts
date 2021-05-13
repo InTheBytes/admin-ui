@@ -103,12 +103,9 @@ export class UserService {
     return new Promise((resolve, reject) => {
       this.http.post<User>(path, convert(user), {'headers':headers, 'responseType':'json'}).subscribe(
         (resp) => {
-          console.log(user)
           resolve(resp)
         },
         (err) => {
-          console.log(path)
-          console.log(user)
           reject(err)
         }
       )

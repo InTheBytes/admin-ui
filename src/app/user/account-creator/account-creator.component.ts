@@ -13,15 +13,19 @@ export class AccountCreatorComponent implements OnInit {
 
   @Input() modalRef?: NgbModalRef
   @Input() role?: string
+  @Input() user?: User
 
   accountForm: FormGroup
+
   roles: Role[] = [
     {roleId: 1, name: 'admin'},
     {roleId: 3, name: 'customer'},
     {roleId: 4, name: 'driver'}
   ]
+
   needSubmit: Boolean
   needRole: Boolean
+  isEdit: Boolean
 
   constructor(
     private fb: FormBuilder,
@@ -31,29 +35,43 @@ export class AccountCreatorComponent implements OnInit {
   ngOnInit(): void {
     this.needSubmit = (typeof this.modalRef === 'undefined')
     this.needRole = (typeof this.role === 'undefined') 
+    this.isEdit = (typeof this.user !== 'undefined')
 
-    this.accountForm = this.fb.group({
-      username: new FormControl(),
-      email: new FormControl(),
-      firstName: new FormControl(),
-      lastName: new FormControl()
-    })
-
-    if (this.needRole) {
-      this.accountForm.addControl('role', new FormControl())
-    }
+    this.accountForm = (this.isEdit) ? this.editForm() : this.blankForm()
 
     if (!this.needSubmit) {
       this.modalRef.result.then(
         (result) => {
-          this.createAccount()
+          this.submit()
         },
         (reason) => {}
       )
     }
   }
 
-  createAccount() {
+  blankForm(): FormGroup {
+    const form = this.fb.group({
+      username: new FormControl(),
+      email: new FormControl(),
+      firstName: new FormControl(),
+      lastName: new FormControl()
+    })
+    if (this.needRole) {
+      form.addControl('role', new FormControl())
+    }
+    return form
+  }
+
+  editForm(): FormGroup {
+    return this.fb.group({
+      username: new FormControl(this.user.username),
+      email: new FormControl(this.user.email),
+      firstName: new FormControl(this.user.firstName),
+      lastName: new FormControl(this.user.lastName)
+    })
+  }
+
+  submit() {
     const getRole = (): Role => {
       for (let role of this.roles) {
         if (this.accountForm.value.role === role.name) {

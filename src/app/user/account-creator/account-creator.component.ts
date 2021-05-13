@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Role, User } from 'src/app/shared/model/user';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -15,7 +16,9 @@ export class AccountCreatorComponent implements OnInit {
   @Input() role?: string
   @Input() user?: User
 
+  @ViewChild('submitFailure') failTemplate: TemplateRef<any>
   accountForm: FormGroup
+  failModalRef: NgbModalRef
 
   roles: Role[] = [
     {roleId: 1, name: 'admin'},
@@ -26,10 +29,13 @@ export class AccountCreatorComponent implements OnInit {
   needSubmit: Boolean
   needRole: Boolean
   isEdit: Boolean
+  message: string
 
   constructor(
     private fb: FormBuilder,
-    private service: UserService
+    private service: UserService,
+    private modalService: NgbModal,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -42,7 +48,7 @@ export class AccountCreatorComponent implements OnInit {
     if (!this.needSubmit) {
       this.modalRef.result.then(
         (result) => {
-          this.submit()
+          this.submit(this.failTemplate)
         },
         (reason) => {}
       )
@@ -71,7 +77,7 @@ export class AccountCreatorComponent implements OnInit {
     })
   }
 
-  submit() {
+  submit(failModal: TemplateRef<any>) {
     const getRole = (): Role => {
       for (let role of this.roles) {
         if (this.accountForm.value.role === role.name) {
@@ -89,6 +95,45 @@ export class AccountCreatorComponent implements OnInit {
       phone: 11111111111,
       isActive: false
     }
-    this.service.registerUser(account)
+    this.service.registerUser(account).then(
+      (resp) => {
+        if (!this.isEdit) {
+          this.router.navigate([this.router.navigate(['/users/', resp.userId])])
+        }
+      },
+      (err) => {
+        console.log(err)
+        switch (err.status) {
+          case 404:
+            this.message = "This user no longer seems to exist"
+            break;
+          case 409:
+            this.message = "A user with this username or email already exists"
+            break;
+          case 500:
+            this.message = 'Something went wrong with the server'
+            break;
+          default:
+            this.message = "An unexpected error occured. Perhaps there's a problem with the connection"
+        }
+        this.failModalRef = this.modalService.open(this.failTemplate)
+      }
+    )
+  }
+
+  sendRequest(user: User): Promise<User> {
+    if (this.isEdit) {
+      return new Promise((resolve, reject) => {
+        this.service.updateUser(user).then(
+          (resp) => {
+            resolve(resp.body)
+          },
+          (err) => {
+            reject(err)
+          })
+        })
+    } else {
+      return this.service.registerUser(user)
+    }
   }
 }

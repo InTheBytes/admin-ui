@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { User } from 'src/app/shared/model/user';
+import { NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Role, User } from 'src/app/shared/model/user';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -11,11 +11,15 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class AccountCreatorComponent implements OnInit {
 
-  @Input() modalRef?: NgbModal
+  @Input() modalRef?: NgbModalRef
   @Input() role?: string
 
   accountForm: FormGroup
-  roles: String[] = ['customer', 'driver', 'admin']
+  roles: Role[] = [
+    {roleId: 1, name: 'admin'},
+    {roleId: 3, name: 'customer'},
+    {roleId: 4, name: 'driver'}
+  ]
   needSubmit: Boolean
   needRole: Boolean
 
@@ -38,22 +42,35 @@ export class AccountCreatorComponent implements OnInit {
     if (this.needRole) {
       this.accountForm.addControl('role', new FormControl())
     }
-  }
 
-  createAccount() {
-    const account: User = {
-      userId: null,
-      username: this.accountForm.value.username,
-      role: {
-        roleId: null,
-        name: (this.needRole) ? this.accountForm.value.role : this.role
-      },
-      email: this.accountForm.value.email,
-      firstName: this.accountForm.value.firstName,
-      lastName: this.accountForm.value.lastName,
-      phone: null,
-      isActive: false
+    if (!this.needSubmit) {
+      this.modalRef.result.then(
+        (result) => {
+          this.createAccount()
+        },
+        (reason) => {}
+      )
     }
   }
 
+  createAccount() {
+    const getRole = (): Role => {
+      for (let role of this.roles) {
+        if (this.accountForm.value.role === role.name) {
+          return role
+        }
+      }
+    }
+    const account: User = {
+      username: this.accountForm.value.username,
+      role: getRole(),
+      email: this.accountForm.value.email,
+      password: " ",
+      firstName: this.accountForm.value.firstName,
+      lastName: this.accountForm.value.lastName,
+      phone: 11111111111,
+      isActive: false
+    }
+    this.service.registerUser(account)
+  }
 }

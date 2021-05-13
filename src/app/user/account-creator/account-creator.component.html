@@ -6,7 +6,7 @@
 
     <label for="role">Select User Role</label>
     <select class="custom-select" id="role" formControlName="role">
-      <option *ngFor="let role of roles">{{role}}</option>
+      <option *ngFor="let role of roles">{{role.name}}</option>
    </select>
   
     <input type="email" class="form-control mb-4" formControlName="email" placeholder="E-mail">

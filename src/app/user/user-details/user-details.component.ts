@@ -26,6 +26,7 @@ export class UserDetailsComponent implements OnInit {
     this.service.getUser(Number(this.actRoute.snapshot.paramMap.get("userId"))).then(
       (resp) => {
         this.user = resp.body
+        console.log(this.user)
         this.inactive = !this.user.isActive
         this.success = true
       },

@@ -8,7 +8,6 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreatorComponent } from './restaurant/creator/creator.component';
-// import { ListingComponent } from './restaurant/listing/listing.component';
 import { RestaurantService } from './shared/services/restaurant.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
@@ -19,6 +18,8 @@ import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
 import { AddManagerComponent } from './restaurant/add-manager/add-manager.component';
+import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { AddManagerComponent } from './restaurant/add-manager/add-manager.compon
     UserDetailsComponent,
     AllUsersComponent,
     AddManagerComponent,
+    AccountCreatorComponent,
   ],
   imports: [
     AppRoutingModule,
@@ -42,7 +44,8 @@ import { AddManagerComponent } from './restaurant/add-manager/add-manager.compon
     FormsModule,
     HttpClientModule,
     NgbModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NoopAnimationsModule
   ],
   providers: [RestaurantService],
   bootstrap: [AppComponent]

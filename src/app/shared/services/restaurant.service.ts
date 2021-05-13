@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Predicate } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Restaurant } from '../model/restaurant';
 import { User } from '../model/user';
@@ -12,7 +12,7 @@ export class RestaurantService {
 
   constructor(private http: HttpClient) { }
 
-  getAllRestaurants = async (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
+  getAllRestaurants = (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
     let params = `page-size=${pageSize}&page=${page}`
     // POSSIBLE SEARCH IMPLEMENTATION (future)
     // params += (typeof query !== 'undefined') ? `&${query}` : '' 

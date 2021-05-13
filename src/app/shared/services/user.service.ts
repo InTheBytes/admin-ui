@@ -1,6 +1,7 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Predicate } from '@angular/core';
 import { User } from '../model/user';
+import { getFunction } from './pagination.service';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +13,23 @@ export class UserService {
   ) { }
 
   baseUrl = "http://localhost:8080/user"
+
+  filterGetUsers = (filterFunct: Predicate<User>): getFunction => {
+    return (pageSize: number, page: number):Promise<HttpResponse<User[]>> => {
+      return new Promise((resolve, reject) => {
+        this.getUsers(pageSize, page).then(
+          (resp) => {
+            const filteredBody = resp.body.filter(filterFunct)
+            const newResp = resp.clone({body: filteredBody})
+            resolve(newResp)
+          },
+          (err) => {
+            reject(err)
+          }
+        )
+      })
+    }
+  }
 
   getUsers = async (pageSize: number, page: number): Promise<HttpResponse<User[]>> => {
     const params = `page-size=${pageSize}&page=${page}`

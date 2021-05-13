@@ -46,7 +46,7 @@ export class AddManagerComponent implements OnInit {
         {column: 'Username', property: 'username'},
         {column: 'Email', property: 'email'}
       ],
-      get: this.userService.getUsers,
+      get: this.userService.filterGetUsers((x: User) => { return x.role.name !== 'restaurant' }),
       select: this.selectUser,
       parent: this
     }

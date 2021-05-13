@@ -122,8 +122,6 @@ export class ListingComponent implements OnInit {
         <th scope="col">${col.column}</th>
       `})
     this.constructRows()
-    
-    this.details = `/${this.configuration.detailRoute}/${this.configuration.idProperty}`
   }
   
   constructRows(): void {
@@ -133,7 +131,7 @@ export class ListingComponent implements OnInit {
       this.configuration.columns.forEach((x) => {
         let val = this.getProperty(object, x.property)
         row += `
-          <td>
+          <td scope="row">
             ${val}
           </td>
       `})

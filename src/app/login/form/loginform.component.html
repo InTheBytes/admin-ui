@@ -1,0 +1,17 @@
+<div class="card">
+    <div class="d-flex justify-content-center">
+        <form [formGroup]="loginForm">
+            <div class="row g-2">
+                <div class="col-auto">
+                    <label for="username">USERNAME</label>
+                    <input type="text" class="form-control" formControlName="username">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" class="form-control" formControlName="password">
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" (click)="saveUser(creationFailedModal)">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>

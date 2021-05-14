@@ -19,7 +19,9 @@ import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
 import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
 import { FormComponent } from './register/form/form.component';
+import { LoginFormComponent } from './login/form/loginform.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatTableModule } from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
@@ -44,7 +46,9 @@ import {MatDialogModule} from '@angular/material/dialog';;
     UserDetailsComponent,
     AllUsersComponent,
     RegisterComponent,
-    FormComponent
+    LoginComponent,
+    FormComponent,
+    LoginFormComponent
   ],
   imports: [
     AppRoutingModule,

@@ -1,10 +1,7 @@
 import { Component, OnInit, TemplateRef } from '@angular/core';
-import { FormBuilder, FormGroup, FormControl, Validators, ReactiveFormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { FormGroup, FormControl, Validators} from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Restaurant } from 'src/app/shared/model/restaurant';
 import { User } from 'src/app/shared/model/user';
-import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 import { UserService } from 'src/app/shared/services/user.service';
 
 @Component({
@@ -27,9 +24,7 @@ export class FormComponent implements OnInit {
   failMessage: string
 
   constructor(
-    private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router,
     private modalService: NgbModal
     ) { }
 
@@ -64,6 +59,8 @@ export class FormComponent implements OnInit {
   }
 
   saveUser(failModal: TemplateRef<any>) {
+
+    console.log("saving user")
     
     if (this.makeUser() === null) {
       this.failMessage = "Please enter information for all of the fields"
@@ -75,7 +72,7 @@ export class FormComponent implements OnInit {
         switch (error.status) {
           case 409:
             this.failMessage =
-            "It looks like this restaurant already exists"
+            "It looks like this user already exists"
             break;
           case 500:
             this.failMessage = 'Something went wrong with the server'
@@ -99,7 +96,7 @@ export class FormComponent implements OnInit {
         return null
       }
     return {
-      userId: 0,
+      userId: null,
       username: this.registerForm.value.username,
       email: this.registerForm.value.email,
       firstName: this.registerForm.value.firstname,

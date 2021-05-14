@@ -79,7 +79,19 @@ export class UserService {
     })
   } 
 
-  registerUser(user: User) {
-    return this.http.post(`${this.baseUrl}/register/${user.userId}`, user);
-}
+  registerUser = async (payload: User): Promise<HttpResponse<User>> => {
+    return new Promise((resolve, reject) => {
+      this.http.post<User>(`${this.baseUrl}/${payload.userId}`, payload, {observe: 'response'})
+        .subscribe(
+          (resp) => {
+            resolve(resp)
+          },
+          (err) => {
+            reject(err)
+          }
+        )
+    })
+  }
+
+  loginUser(user: User){}
 }

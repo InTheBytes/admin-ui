@@ -47,12 +47,14 @@
       <div class="example-flex-container">
        
         <div class="example-button-container">
-          <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon">
+          <button mat-fab color="accent" aria-label="Example icon button with a bookmark icon"
+          (click)="newClick()">
             <mat-icon>add</mat-icon>
           </button>
         </div>
         <div class="example-button-container">
-          <button mat-fab color="warn" aria-label="Example icon button with a home icon">
+          <button mat-fab color="warn" aria-label="Example icon button with a home icon"
+          (click)="editClick()">
             <mat-icon>edit</mat-icon>
           </button>
         </div>
@@ -64,10 +66,57 @@
         </div>
       </div>
     </div>
+    <div class="d-flex justify-content-center">
+      <button class="btn btn-primary" (click)="saveChangesClick()">Save Changes</button>
+  </div>
   </section>
 
 <ng-template #failTemplate>
     <div class='text-center'>
         <p><strong>{{ message }}</strong></p>
     </div>
+</ng-template>
+
+<ng-template #newFoodModal>
+  <h1 mat-dialog-title>Add a new item</h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Food name</mat-label>
+      <input matInput [(ngModel)]="foodName">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input matInput [(ngModel)]="foodPrice">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <input matInput [(ngModel)]="foodDescription">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="cancelClick()">Cancel</button>
+    <button mat-button (click)="addClick()" cdkFocusInitial>Add</button>
+  </div>
+</ng-template>
+
+<ng-template #editFoodModal>
+  <h1 mat-dialog-title>Edit item</h1>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <mat-label>Food name</mat-label>
+      <input matInput [(ngModel)]="foodName">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Price</mat-label>
+      <input matInput [(ngModel)]="foodPrice">
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Description</mat-label>
+      <input matInput [(ngModel)]="foodDescription">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button (click)="cancelClick()">Cancel</button>
+    <button mat-button (click)="confirmEditClick()" cdkFocusInitial>Confirm</button>
+  </div>
 </ng-template>

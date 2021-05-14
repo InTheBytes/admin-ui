@@ -1,6 +1,6 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -31,13 +31,19 @@ export class DetailPageComponent implements OnInit {
   success: boolean;
   listConfig: Listable;
   pageSize: number;
-  columnsToDisplay = ['name', 'price','actions'];
+  columnsToDisplay = ['name', 'price'];
   expandedElement: Food | null;
   activeRow: Food;
+  foodName: string;
+  foodPrice: number;
+  foodDescription: string;
+  foodInput: Food;
 
   @ViewChild(MatTable, {static:false}) table: MatTable<any>;
   dataSource :any;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild('newFoodModal') newFoodModal: TemplateRef<any>;
+  @ViewChild('editFoodModal') editFoodModal: TemplateRef<any>;
 
 
 
@@ -99,9 +105,11 @@ export class DetailPageComponent implements OnInit {
   }
 
   rowClick(e){
-    this.activeRow = e;
-    console.log("row click:");
-    console.log(e);
+    if (this.activeRow === e){
+      this.activeRow = null;
+    } else {
+      this.activeRow = e;
+    }
   }
 
   deleteClick(){
@@ -109,17 +117,76 @@ export class DetailPageComponent implements OnInit {
     this.restaurant.foods.forEach((value,index)=>{
       if(value==this.activeRow) this.restaurant.foods.splice(index,1);
     });
-    this.dataSource = new MatTableDataSource (this.restaurant.foods);
   }
 
   newClick(){
-    /*
-    let dialogRef = this.dialog.open(DialogOverviewExample, {
-      height: '400px',
-      width: '600px',
+    this.foodInput = {
+      foodId: 0,
+      name: "",
+      price: 0,
+      description: ""
+    }
+    const newDialogRef = this.dialog.open(this.newFoodModal, {
+      width: '250px',
+      data: this.foodInput
     });
-    */
+
+    newDialogRef.afterClosed().subscribe(result => {
+      this.foodInput.name = this.foodName;
+      this.foodInput.price = this.foodPrice;
+      this.foodInput.description = this.foodDescription;
+      this.foodName = "";
+      this.foodPrice = null;
+      this.foodDescription = "";
+    });
+  }
+
+  addClick(){
+    this.dialog.closeAll();
+    this.restaurant.foods.push(this.foodInput);
+  }
+
+  cancelClick(){
+    this.dialog.closeAll();
+  }
+
+  editClick(){
+    this.foodName = this.activeRow.name;
+    this.foodPrice = this.activeRow.price;
+    this.foodDescription = this.activeRow.description;
+
+    this.foodInput = {
+      foodId: 0,
+      name: "",
+      price: 0,
+      description: ""
+    }
+    const editDialogRef = this.dialog.open(this.editFoodModal, {
+      width: '250px',
+      data: this.foodInput
+    });
+
+    editDialogRef.afterClosed().subscribe(result => {
+      this.foodInput.name = this.foodName;
+      this.foodInput.price = this.foodPrice;
+      this.foodInput.description = this.foodDescription;
+      this.foodName = "";
+      this.foodPrice = null;
+      this.foodDescription = "";
+    });
+  }
+
+  confirmEditClick(){
+    this.restaurant.foods.forEach((value,index)=>{
+      if(value==this.activeRow) this.restaurant.foods.splice(index,1);
+    });
+    this.dialog.closeAll();
+    this.restaurant.foods.push(this.foodInput);
+
+  }
+
+  saveChangesClick(){
+    this.restaurantService.updateRestaurant(this.restaurant);
   }
 
 }
-

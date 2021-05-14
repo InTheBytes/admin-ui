@@ -151,29 +151,31 @@ export class DetailPageComponent implements OnInit {
   }
 
   editClick(){
-    this.foodName = this.activeRow.name;
-    this.foodPrice = this.activeRow.price;
-    this.foodDescription = this.activeRow.description;
+    if (this.activeRow != null) {
+      this.foodName = this.activeRow.name;
+      this.foodPrice = this.activeRow.price;
+      this.foodDescription = this.activeRow.description;
 
-    this.foodInput = {
-      foodId: 0,
-      name: "",
-      price: 0,
-      description: ""
+      this.foodInput = {
+        foodId: 0,
+        name: "",
+        price: 0,
+        description: ""
+      }
+      const editDialogRef = this.dialog.open(this.editFoodModal, {
+        width: '250px',
+        data: this.foodInput
+      });
+
+      editDialogRef.afterClosed().subscribe(result => {
+        this.foodInput.name = this.foodName;
+        this.foodInput.price = this.foodPrice;
+        this.foodInput.description = this.foodDescription;
+        this.foodName = "";
+        this.foodPrice = null;
+        this.foodDescription = "";
+      });
     }
-    const editDialogRef = this.dialog.open(this.editFoodModal, {
-      width: '250px',
-      data: this.foodInput
-    });
-
-    editDialogRef.afterClosed().subscribe(result => {
-      this.foodInput.name = this.foodName;
-      this.foodInput.price = this.foodPrice;
-      this.foodInput.description = this.foodDescription;
-      this.foodName = "";
-      this.foodPrice = null;
-      this.foodDescription = "";
-    });
   }
 
   confirmEditClick(){

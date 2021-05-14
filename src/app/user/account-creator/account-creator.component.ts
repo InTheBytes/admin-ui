@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -15,6 +15,7 @@ export class AccountCreatorComponent implements OnInit {
   @Input() modalRef?: NgbModalRef
   @Input() role?: string
   @Input() user?: User
+  @Output() userChanged = new EventEmitter<User>()
 
   @ViewChild('submitFailure') failTemplate: TemplateRef<any>
   accountForm: FormGroup
@@ -79,8 +80,12 @@ export class AccountCreatorComponent implements OnInit {
 
   submit(failModal: TemplateRef<any>) {
     const getRole = (): Role => {
+      if (this.isEdit) {
+        return this.user.role
+      }
       for (let role of this.roles) {
         if (this.accountForm.value.role === role.name) {
+          console.log("Role selected: "+role.name)
           return role
         }
       }
@@ -92,14 +97,17 @@ export class AccountCreatorComponent implements OnInit {
       password: " ",
       firstName: this.accountForm.value.firstName,
       lastName: this.accountForm.value.lastName,
-      phone: 11111111111,
-      isActive: false
+      phone: (this.isEdit) ? this.user.phone : 11111111111,
+      isActive: (this.isEdit) ? this.user.isActive : false
     }
-    this.service.registerUser(account).then(
+    if (this.isEdit) {
+      account.userId = this.user.userId
+    }
+    this.sendRequest(account).then(
       (resp) => {
-        if (!this.isEdit) {
-          this.router.navigate([this.router.navigate(['/users/', resp.userId])])
-        }
+        console.log("Request Sent: ")
+        this.userChanged.emit(resp)
+        console.log(resp)
       },
       (err) => {
         console.log(err)

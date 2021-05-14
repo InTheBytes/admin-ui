@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { User } from 'src/app/shared/model/user';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -10,23 +11,33 @@ import { UserService } from 'src/app/shared/services/user.service';
 })
 export class UserDetailsComponent implements OnInit {
 
+  @ViewChild('editUserTemplate') editUserTemplate: TemplateRef<any>
+
+  editModal: NgbModalRef
+
   user: User
   success: boolean;
   message: string;
   inactive: boolean;
   activateFailed: boolean;
+  editOpened: boolean;
 
   constructor(
     private actRoute: ActivatedRoute,
-    private service: UserService
+    private service: UserService,
+    private modalService: NgbModal
   ) { }
 
   ngOnInit(): void {
+    this.editOpened = false
     this.message = ''
+    this.getUserData()
+  }
+
+  getUserData() {
     this.service.getUser(Number(this.actRoute.snapshot.paramMap.get("userId"))).then(
       (resp) => {
         this.user = resp.body
-        console.log(this.user)
         this.inactive = !this.user.isActive
         this.success = true
       },
@@ -61,6 +72,16 @@ export class UserDetailsComponent implements OnInit {
         this.activateFailed = true
       }
     )
+  }
+
+  edit() {
+    this.editModal = this.modalService.open(this.editUserTemplate)
+    this.editOpened = true
+  }
+
+  updateUser(user: User) {
+    console.log("made it to update!")
+    this.user = user
   }
 
 }

@@ -11,6 +11,32 @@
     </p>
 </div>
 
+<table>
+    <thead>
+        <title>{{ restaurant.name }} Accounts</title>
+        <tr>
+            <th scope="col">Deactivate</th>
+            <th scope="col">Username</th>
+            <th scope="col">E-Mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>
+                <button type="button" class="btn-close" (click)="removeManager(user)"></button>
+            </td>
+            <td>
+                {{ user.username }}
+            </td>
+            <td>
+                {{ user.email }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf='removalSuccess; else failTemplate'></div>
+
 <ng-template #failTemplate>
     <div class='text-center'>
         <p><strong>{{ message }}</strong></p>
@@ -24,9 +50,10 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-add-manager [restaurant]="restaurant" [modalRef]="modalRef" [service]="restaurantService"></app-add-manager>
+        <app-account-creator [modalRef]='modalRef' [role]="role" (userChanged)="addManager($event)"></app-account-creator>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="modalRef.close(' ')">Submit</button>
     </div>
 </ng-template>

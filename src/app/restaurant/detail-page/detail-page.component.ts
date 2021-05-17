@@ -1,9 +1,8 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Restaurant } from 'src/app/shared/model/restaurant';
-import { User } from 'src/app/shared/model/user';
+import { Role, User } from 'src/app/shared/model/user';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
 @Component({
@@ -19,6 +18,11 @@ export class DetailPageComponent implements OnInit {
   success: boolean
   modalRef: NgbModalRef
   removalSuccess: boolean
+
+  role: Role = {
+    roleId: 2,
+    name: 'restaurant'
+  }
 
   constructor(
     private restaurantService: RestaurantService,

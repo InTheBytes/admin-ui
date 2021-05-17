@@ -13,7 +13,7 @@ import { UserService } from 'src/app/shared/services/user.service';
 export class AccountCreatorComponent implements OnInit {
 
   @Input() modalRef?: NgbModalRef
-  @Input() role?: string
+  @Input() role?: Role
   @Input() user?: User
   @Output() userChanged = new EventEmitter<User>()
 
@@ -23,8 +23,8 @@ export class AccountCreatorComponent implements OnInit {
 
   roles: Role[] = [
     {roleId: 1, name: 'admin'},
-    {roleId: 3, name: 'customer'},
-    {roleId: 4, name: 'driver'}
+    {roleId: 4, name: 'customer'},
+    {roleId: 3, name: 'driver'}
   ]
 
   needSubmit: Boolean
@@ -80,6 +80,9 @@ export class AccountCreatorComponent implements OnInit {
 
   submit(failModal: TemplateRef<any>) {
     const getRole = (): Role => {
+      if (!this.needRole) {
+        return this.role
+      }
       if (this.isEdit) {
         return this.user.role
       }

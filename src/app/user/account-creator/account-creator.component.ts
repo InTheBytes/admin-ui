@@ -100,7 +100,7 @@ export class AccountCreatorComponent implements OnInit {
       username: this.accountForm.value.username,
       role: getRole(),
       email: this.accountForm.value.email,
-      password: " ",
+      password: (this.isEdit) ? this.user.password : " ",
       firstName: this.accountForm.value.firstName,
       lastName: this.accountForm.value.lastName,
       phone: this.accountForm.value.phone,

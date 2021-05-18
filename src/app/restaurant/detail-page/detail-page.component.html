@@ -50,7 +50,7 @@
         </button>
     </div>
     <div class="modal-body">
-        <app-account-creator [modalRef]='modalRef' [role]="role" (userChanged)="addManager($event)"></app-account-creator>
+        <app-account-creator [modalRef]='modalRef' [role]="role" (userChanged)=addManager($event)></app-account-creator>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>

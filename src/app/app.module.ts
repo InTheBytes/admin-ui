@@ -17,7 +17,6 @@ import { UserComponent } from './user/user.component';
 import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
-import { AddManagerComponent } from './restaurant/add-manager/add-manager.component';
 import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
@@ -36,7 +35,6 @@ import { CommonModule } from '@angular/common';
     BrowseUserComponent,
     UserDetailsComponent,
     AllUsersComponent,
-    AddManagerComponent,
     AccountCreatorComponent,
   ],
   imports: [

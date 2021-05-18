@@ -90,7 +90,7 @@ export class RestaurantService {
       role: user.role,
       isActive: user.isActive
     }
-    const endpoint = `s/${Number(id)}/managers`
+    const endpoint = `s/${Number(id)}/managers/${Number(user.userId)}`
     return new Promise((resolve, reject) => {
       this.http.put<Restaurant>(`${this.base}${endpoint}`, payload, {observe: 'response'}).subscribe(
         (resp) => {

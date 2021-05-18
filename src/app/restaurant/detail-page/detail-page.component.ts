@@ -81,16 +81,21 @@ export class DetailPageComponent implements OnInit {
     }, 45000)
   }
 
-  addManager(user: User) {
-    this.restaurantService.addManager(this.restaurant.restaurantId, user).then(
+  addManager(userPromise: Promise<User>) {
+    userPromise.then(
       (resp) => {
-        this.restaurant = resp.body
-        this.users = resp.body.managers
-        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+        this.restaurantService.addManager(this.restaurant.restaurantId, resp).then(
+          (resp) => {
+            this.restaurant = resp.body
+            this.users = resp.body.managers
+            this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+          },
+          (err) => {
+            this.tempError("Failed to add manager")
+          }
+        )
       },
-      (err) => {
-        this.tempError("Failed to add manager")
-      }
+      (err) => {}
     )
   }
 

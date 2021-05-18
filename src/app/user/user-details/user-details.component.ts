@@ -55,7 +55,7 @@ export class UserDetailsComponent implements OnInit {
         this.inactive = !this.user.isActive
       },
       (err) => {
-        this.message = `Error: ${err}`
+        this.message = `Error: ${err.status}`
         this.activateFailed = true
       }
     )
@@ -68,7 +68,7 @@ export class UserDetailsComponent implements OnInit {
         this.inactive = !this.user.isActive
       },
       (err) => {
-        this.message = `Error: ${err}`
+        this.message = `Error: ${err.status}`
         this.activateFailed = true
       }
     )
@@ -79,8 +79,13 @@ export class UserDetailsComponent implements OnInit {
     this.editOpened = true
   }
 
-  updateUser = (user: User) => {
-    this.user = user
+  updateUser = (userPromise: Promise<User>) => {
+    userPromise.then(
+    (resp) => {
+      this.user = resp
+    },
+    (err) => { }
+    )
   }
 
 }

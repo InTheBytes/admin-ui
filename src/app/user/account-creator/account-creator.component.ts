@@ -61,7 +61,8 @@ export class AccountCreatorComponent implements OnInit {
       username: new FormControl(),
       email: new FormControl(),
       firstName: new FormControl(),
-      lastName: new FormControl()
+      lastName: new FormControl(),
+      phone: new FormControl()
     })
     if (this.needRole) {
       form.addControl('role', new FormControl())
@@ -74,7 +75,8 @@ export class AccountCreatorComponent implements OnInit {
       username: new FormControl(this.user.username),
       email: new FormControl(this.user.email),
       firstName: new FormControl(this.user.firstName),
-      lastName: new FormControl(this.user.lastName)
+      lastName: new FormControl(this.user.lastName),
+      phone: new FormControl(this.user.phone)
     })
   }
 
@@ -100,7 +102,7 @@ export class AccountCreatorComponent implements OnInit {
       password: " ",
       firstName: this.accountForm.value.firstName,
       lastName: this.accountForm.value.lastName,
-      phone: (this.isEdit) ? this.user.phone : 11111111111,
+      phone: this.accountForm.value.phone,
       isActive: (this.isEdit) ? this.user.isActive : false
     }
     if (this.isEdit) {

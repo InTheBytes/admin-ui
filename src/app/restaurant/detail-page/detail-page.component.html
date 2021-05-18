@@ -11,7 +11,7 @@
     </p>
 </div>
 
-<table>
+<table *ngIf='hasManagers'>
     <thead>
         <title>{{ restaurant.name }} Accounts</title>
         <tr>
@@ -35,7 +35,7 @@
     </tbody>
 </table>
 
-<div *ngIf='removalSuccess; else failTemplate'></div>
+<div *ngIf='adjustmentSuccess; else failTemplate'></div>
 
 <ng-template #failTemplate>
     <div class='text-center'>

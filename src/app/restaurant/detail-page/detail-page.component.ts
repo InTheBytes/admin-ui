@@ -17,7 +17,8 @@ export class DetailPageComponent implements OnInit {
   message: string
   success: boolean
   modalRef: NgbModalRef
-  removalSuccess: boolean
+  adjustmentSuccess: boolean
+  hasManagers: boolean
 
   role: Role = {
     roleId: 2,
@@ -33,14 +34,16 @@ export class DetailPageComponent implements OnInit {
   ngOnInit(): void {
     this.message = ''
     this.success = false
-    this.removalSuccess = true
+    this.adjustmentSuccess = true
+    this.hasManagers = false
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
       .then((resp) => {         
         console.log("got restaurant " + resp)
         this.restaurant = resp;
         this.users = resp.managers
-        this.success = true;
+        this.success = true
+        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
       },
       (err) => {
         switch (err.status) {
@@ -63,13 +66,32 @@ export class DetailPageComponent implements OnInit {
       (resp) => {
         this.restaurant = resp.body
         this.users = resp.body.managers
+        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
       },
       (err) => {
-        this.message = "Error: Failed to remove manager"
-        this.removalSuccess = false
-        setTimeout(() => {
-          this.removalSuccess = true
-        }, 45000)
+        this.tempError("Failed to remove manager")
+      }
+    )
+  }
+
+  tempError(message: string) {
+    this.message = `Error: ${message}`
+    this.adjustmentSuccess = false
+    setTimeout(() => {
+      this.adjustmentSuccess = true
+    }, 45000)
+  }
+
+  addManager(user: User) {
+    this.restaurantService.addManager(this.restaurant.restaurantId, user).then(
+      (resp) => {
+        console.log("made it to adding manager")
+        this.restaurant = resp.body
+        this.users = resp.body.managers
+        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+      },
+      (err) => {
+        this.tempError("Failed to add manager")
       }
     )
   }

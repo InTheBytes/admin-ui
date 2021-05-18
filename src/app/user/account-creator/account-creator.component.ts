@@ -15,7 +15,7 @@ export class AccountCreatorComponent implements OnInit {
   @Input() modalRef?: NgbModalRef
   @Input() role?: Role
   @Input() user?: User
-  @Output() userChanged = new EventEmitter<User>()
+  @Output() userChanged: EventEmitter<User> = new EventEmitter()
 
   @ViewChild('submitFailure') failTemplate: TemplateRef<any>
   accountForm: FormGroup
@@ -49,6 +49,8 @@ export class AccountCreatorComponent implements OnInit {
     if (!this.needSubmit) {
       this.modalRef.result.then(
         (result) => {
+          let user = this.makeUser()
+          this.userChanged.emit(user)
           this.submit(this.failTemplate)
         },
         (reason) => {}
@@ -80,7 +82,7 @@ export class AccountCreatorComponent implements OnInit {
     })
   }
 
-  submit(failModal: TemplateRef<any>) {
+  makeUser(): User {
     const getRole = (): Role => {
       if (!this.needRole) {
         return this.role
@@ -90,7 +92,6 @@ export class AccountCreatorComponent implements OnInit {
       }
       for (let role of this.roles) {
         if (this.accountForm.value.role === role.name) {
-          console.log("Role selected: "+role.name)
           return role
         }
       }
@@ -105,17 +106,19 @@ export class AccountCreatorComponent implements OnInit {
       phone: this.accountForm.value.phone,
       isActive: (this.isEdit) ? this.user.isActive : false
     }
+    return account
+  }
+
+  submit(failModal: TemplateRef<any>) {
+    const account = this.makeUser()
     if (this.isEdit) {
       account.userId = this.user.userId
     }
     this.sendRequest(account).then(
       (resp) => {
-        console.log("Request Sent: ")
         this.userChanged.emit(resp)
-        console.log(resp)
       },
       (err) => {
-        console.log(err)
         switch (err.status) {
           case 404:
             this.message = "This user no longer seems to exist"

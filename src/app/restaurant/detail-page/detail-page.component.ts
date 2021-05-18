@@ -39,7 +39,6 @@ export class DetailPageComponent implements OnInit {
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
       .then((resp) => {         
-        console.log("got restaurant " + resp)
         this.restaurant = resp;
         this.users = resp.managers
         this.success = true
@@ -85,7 +84,6 @@ export class DetailPageComponent implements OnInit {
   addManager(user: User) {
     this.restaurantService.addManager(this.restaurant.restaurantId, user).then(
       (resp) => {
-        console.log("made it to adding manager")
         this.restaurant = resp.body
         this.users = resp.body.managers
         this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)

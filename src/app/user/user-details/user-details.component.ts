@@ -79,8 +79,7 @@ export class UserDetailsComponent implements OnInit {
     this.editOpened = true
   }
 
-  updateUser(user: User) {
-    console.log("made it to update!")
+  updateUser = (user: User) => {
     this.user = user
   }
 

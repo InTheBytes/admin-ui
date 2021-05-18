@@ -44,13 +44,13 @@
         </button>
     </div>
 
-    <div class="modal-body" *ngIf='editOpened'>
-        <app-account-creator [modalRef]='editModal' [user]='user' [role]='user.role' (userChanged)="updateUser($event)"></app-account-creator>
+    <div class="modal-body">
+        <app-account-creator (userChanged)="updateUser($event)" [modalRef]='editModal' [user]='user' [role]='user.role'></app-account-creator>
     </div>
     
     <div class="modal-footer">
         <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" (click)="editModal.dismiss(' ')">Okay</button>
+            <button type="button" class="btn btn-secondary" (click)="editModal.dismiss(' ')">Cancel</button>
             <button type="button" class="btn btn-primary" (click)="editModal.close(' ')" >Submit</button>
         </div>
     </div>

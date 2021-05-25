@@ -7,6 +7,9 @@
 </div>
 
 <div class="card text-center" *ngIf='success; else failTemplate'>
+    <div class="d-flex justify-content-end">
+        <button class="btn btn-primary" (click)="edit()">Modify</button>
+    </div>
     <div *ngIf='inactive; else deactivateTemplate' class="d-flex justify-content-end">
         <button class="btn btn-primary" (click)="activate()">Activate</button>
     </div>
@@ -30,4 +33,26 @@
     <div class="d-flex justify-content-end">
         <button class="btn btn-primary" (click)="deactivate()">Deactivate</button>
     </div>
+</ng-template>
+
+<ng-template #editUserTemplate>
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="deleteFailedLabel">Edit User Details</h5>
+
+        <button type="button" class="btn-close" aria-label="Close" (click)="editModal.dismiss(' ')">
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <app-account-creator (userChanged)="updateUser($event)" [modalRef]='editModal' [user]='user' [role]='user.role'></app-account-creator>
+    </div>
+    
+    <div class="modal-footer">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="editModal.dismiss(' ')">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="editModal.close(' ')" >Submit</button>
+        </div>
+    </div>
+
 </ng-template>

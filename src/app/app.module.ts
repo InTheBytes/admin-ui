@@ -8,7 +8,6 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreatorComponent } from './restaurant/creator/creator.component';
-// import { ListingComponent } from './restaurant/listing/listing.component';
 import { RestaurantService } from './shared/services/restaurant.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
@@ -27,8 +26,10 @@ import { MatTableModule } from '@angular/material/table';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import {MatDialogModule} from '@angular/material/dialog';;
-
+import {MatDialogModule} from '@angular/material/dialog';
+import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import {MatDialogModule} from '@angular/material/dialog';;
     RegisterComponent,
     LoginComponent,
     FormComponent,
-    LoginFormComponent
+    LoginFormComponent,
+    AccountCreatorComponent
   ],
   imports: [
     AppRoutingModule,
@@ -62,7 +64,10 @@ import {MatDialogModule} from '@angular/material/dialog';;
     MatPaginatorModule,
     MatIconModule,
     MatButtonModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    NoopAnimationsModule,
+    CommonModule
   ],
   providers: [RestaurantService],
   bootstrap: [AppComponent]

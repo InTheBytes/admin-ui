@@ -1,3 +1,4 @@
+
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -6,6 +7,8 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { Food, Restaurant } from 'src/app/shared/model/restaurant';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { Role, User } from 'src/app/shared/model/user';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
 
@@ -46,22 +49,35 @@ export class DetailPageComponent implements OnInit {
   @ViewChild('editFoodModal') editFoodModal: TemplateRef<any>;
 
 
+  users: User[]
+  modalRef: NgbModalRef
+  adjustmentSuccess: boolean
+  hasManagers: boolean
+
+  role: Role = {
+    roleId: 2,
+    name: 'restaurant'
+  }
 
   constructor(
     private restaurantService: RestaurantService,
     private actRoute: ActivatedRoute,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private modalService: NgbModal
     ) { }
 
   ngOnInit(): void {
     this.message = ''
     this.success = false
-    this.initRestaurant()
+    this.adjustmentSuccess = true
+    this.hasManagers = false
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
       .then((resp) => {         
         this.restaurant = resp;
-        this.success = true;
+        this.users = resp.managers
+        this.success = true
+        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
       },
       (err) => {
         switch (err.status) {
@@ -95,7 +111,7 @@ export class DetailPageComponent implements OnInit {
  
   initRestaurant() {
     const empty = {
-      restaurantId: -1, name: "", cuisine: "",
+      restaurantId: -1, name: "", cuisine: "", managers: [],
       location: {
         locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
       },
@@ -191,4 +207,57 @@ export class DetailPageComponent implements OnInit {
     this.restaurantService.updateRestaurant(this.restaurant);
   }
 
+  removeManager(user: User) {
+    this.restaurantService.removeManager(this.restaurant.restaurantId, user).then(
+      (resp) => {
+        this.restaurant = resp.body
+        this.users = resp.body.managers
+        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+      },
+      (err) => {
+        this.tempError("Failed to remove manager")
+      }
+    )
+  }
+
+  tempError(message: string) {
+    this.message = `Error: ${message}`
+    this.adjustmentSuccess = false
+    setTimeout(() => {
+      this.adjustmentSuccess = true
+    }, 45000)
+  }
+
+  addManager(userPromise: Promise<User>) {
+    userPromise.then(
+      (resp) => {
+        this.restaurantService.addManager(this.restaurant.restaurantId, resp).then(
+          (resp) => {
+            this.restaurant = resp.body
+            this.users = resp.body.managers
+            this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+          },
+          (err) => {
+            this.tempError("Failed to add manager")
+          }
+        )
+      },
+      (err) => {}
+    )
+  }
+
+  addManagerClick(content: TemplateRef<any>) {
+    this.modalRef = this.modalService.open(content)
+    this.modalRef.result.then(
+      (result) => {
+        this.restaurantService.getRestaurant(this.restaurant.restaurantId).then(
+          (resp) => {
+            this.restaurant = resp
+          },
+          (err) => { }
+        )
+      },
+      (reason) => { }
+    )
+  }
 }

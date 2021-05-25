@@ -3,10 +3,11 @@ import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Observable } from 'rxjs';
+import { User } from '../../model/user';
 import { getFunction, PaginationService } from '../../services/pagination.service';
 
 type deleteFunction = (id: number) => Promise<HttpResponse<Object>>
-type selectFunction = (item: Object) => void
+type selectFunction = (item: Object, objects?: Object[]) => void
 type errorHandler = (err: any) => void | string
 
 export type mapping = {
@@ -25,6 +26,7 @@ export type Listable = {
   deleteLabel?: string
   deleteError?: errorHandler
   select?: selectFunction
+  parent?: any
 }
 
 @Component({
@@ -120,8 +122,6 @@ export class ListingComponent implements OnInit {
         <th scope="col">${col.column}</th>
       `})
     this.constructRows()
-    
-    this.details = `/${this.configuration.detailRoute}/${this.configuration.idProperty}`
   }
   
   constructRows(): void {
@@ -131,7 +131,7 @@ export class ListingComponent implements OnInit {
       this.configuration.columns.forEach((x) => {
         let val = this.getProperty(object, x.property)
         row += `
-          <td>
+          <td scope="row">
             ${val}
           </td>
       `})
@@ -184,8 +184,12 @@ export class ListingComponent implements OnInit {
   //   this.page = this.pager.search()
   // }
 
-  select(item: Object): void {
-    this.configuration.select(item)
+  select(item: User): void {
+    if (typeof this.configuration.parent != 'undefined') {
+      this.configuration.select.call(this.configuration.parent, item)
+    } else {
+      this.configuration.select(item)
+    }
   }
 
   open(content: TemplateRef<any>, fail: TemplateRef<any>, obj: Object): void {
@@ -219,7 +223,6 @@ export class ListingComponent implements OnInit {
         this.onPageChange()
       },
       (err) => {
-        console.log(err)
         if (this.customDeleteHandler) {
           let holder: any
           holder = this.configuration.deleteError(err)

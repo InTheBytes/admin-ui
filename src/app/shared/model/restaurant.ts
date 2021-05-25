@@ -1,9 +1,12 @@
+import { User } from "./user"
+
 export class Restaurant {
     restaurantId: number
     name: string
     cuisine: string
     location: Location
     foods: Array<Food>
+    managers: User[]
 }
 
 export class Location {

@@ -1,0 +1,49 @@
+
+<form class="text-center border border-light p-5" [formGroup]="accountForm">
+
+    <div *ngIf="needRole">
+      <label for="role">Select User Role</label>
+      <select class="custom-select" id="role" formControlName="role">
+        <option *ngFor="let role of roles">{{role.name}}</option>
+      </select>
+    </div>
+  
+    <input type="email" class="form-control mb-4" formControlName="email" placeholder="E-mail">
+  
+    <input type="text" class="form-control mb-4" formControlName="username" placeholder="Username">
+  
+    <div class="form-row mb-4">
+      <div class="col">
+        <input type="text" class="form-control mb-2" formControlName="firstName" placeholder="First name">
+      </div>
+
+      <div class="col">
+        <input type="text" class="form-control mb-2" formControlName="lastName" placeholder="Last name">
+      </div>
+    </div>
+
+    <input type="text" class="form-control mb-4" formControlName="phone" placeholder="Phone #">
+
+    <div class="d-flex justify-content-center" *ngIf="needSubmit">
+      <button type="submit" class="btn btn-primary" (click)="submit(submitFailure)">Create</button>
+    </div>    
+</form>
+
+<ng-template #submitFailure>
+  <div class="modal-header">
+      <h5 class="modal-title" id="deleteFailedLabel">Failure</h5>
+
+      <button type="button" class="btn-close" aria-label="Close" (click)="failModalRef.dismiss('')">
+      </button>
+  </div>
+
+  <div class="modal-body">
+      <p>Error: {{ message }}</p>
+  </div>
+
+  <div class="modal-footer">
+      <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="failModalRef.dismiss('')">Okay</button>
+      </div>
+  </div>
+</ng-template>

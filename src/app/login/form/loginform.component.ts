@@ -79,4 +79,6 @@ export class LoginFormComponent implements OnInit {
       role: {roleId: 4, name: 'admin'}
     }
   }
+
+  saveUser(){}
 }

@@ -1,4 +1,30 @@
 <h2 class="text-center">User Manager</h2>
+<div class="text-center">
+    <a routerLink="/users" class="btn mb-2">Browse Users</a>
+    <button class="btn mb-2" (click)="clickCreate()">Create New Account</button>
+</div>
 <div class="container">
     <router-outlet></router-outlet>
 </div>
+
+<ng-template #creationModal>
+    <div class="modal-header">
+        <h5 class="modal-title" id="deleteFailedLabel">Create New Account</h5>
+    
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss(' ')">
+        </button>
+    </div>
+    
+    <div class="modal-body" *ngIf='createClicked'>
+        <app-account-creator [modalRef]='modalRef'></app-account-creator>
+    </div>
+    
+    <div class="modal-footer">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>
+            <button type="button" class="btn btn-primary" (click)="modalRef.close(' ')" >Submit</button>
+        </div>
+    </div>
+</ng-template>
+
+

@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Restaurant } from 'src/app/shared/model/restaurant';
+import { Role, User } from 'src/app/shared/model/user';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 
 @Component({
@@ -10,24 +12,37 @@ import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 })
 export class DetailPageComponent implements OnInit {
 
-  restaurant: Restaurant;
-  message: string;
-  success: boolean;
+  restaurant: Restaurant
+  users: User[]
+  message: string
+  success: boolean
+  modalRef: NgbModalRef
+  adjustmentSuccess: boolean
+  hasManagers: boolean
+
+  role: Role = {
+    roleId: 2,
+    name: 'restaurant'
+  }
 
   constructor(
     private restaurantService: RestaurantService,
-    private actRoute: ActivatedRoute
+    private actRoute: ActivatedRoute,
+    private modalService: NgbModal
     ) { }
 
   ngOnInit(): void {
     this.message = ''
     this.success = false
-    this.initRestaurant()
+    this.adjustmentSuccess = true
+    this.hasManagers = false
     this.restaurantService
       .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
       .then((resp) => {         
         this.restaurant = resp;
-        this.success = true;
+        this.users = resp.managers
+        this.success = true
+        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
       },
       (err) => {
         switch (err.status) {
@@ -43,17 +58,59 @@ export class DetailPageComponent implements OnInit {
             "An unexpected error occured. Perhaps there's a problem with the connection"
         }
       })
-    
   }
 
-  initRestaurant() {
-    const empty = {
-      restaurantId: -1, name: "", cuisine: "",
-      location: {
-        locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
+  removeManager(user: User) {
+    this.restaurantService.removeManager(this.restaurant.restaurantId, user).then(
+      (resp) => {
+        this.restaurant = resp.body
+        this.users = resp.body.managers
+        this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+      },
+      (err) => {
+        this.tempError("Failed to remove manager")
       }
-    }
-    this.restaurant = empty;
+    )
   }
 
+  tempError(message: string) {
+    this.message = `Error: ${message}`
+    this.adjustmentSuccess = false
+    setTimeout(() => {
+      this.adjustmentSuccess = true
+    }, 45000)
+  }
+
+  addManager(userPromise: Promise<User>) {
+    userPromise.then(
+      (resp) => {
+        this.restaurantService.addManager(this.restaurant.restaurantId, resp).then(
+          (resp) => {
+            this.restaurant = resp.body
+            this.users = resp.body.managers
+            this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+          },
+          (err) => {
+            this.tempError("Failed to add manager")
+          }
+        )
+      },
+      (err) => {}
+    )
+  }
+
+  open(content: TemplateRef<any>) {
+    this.modalRef = this.modalService.open(content)
+    this.modalRef.result.then(
+      (result) => {
+        this.restaurantService.getRestaurant(this.restaurant.restaurantId).then(
+          (resp) => {
+            this.restaurant = resp
+          },
+          (err) => { }
+        )
+      },
+      (reason) => { }
+    )
+  }
 }

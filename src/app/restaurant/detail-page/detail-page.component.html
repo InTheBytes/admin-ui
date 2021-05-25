@@ -1,7 +1,7 @@
 
 <div class="card text-center" *ngIf='success; else failTemplate'>
     <div class="d-flex justify-content-end">
-        <button class="btn btn-primary">Modify</button>
+        <button class="btn btn-primary" (click)="open(managerModal)">Add Manager</button>
     </div>
     <h3>{{ restaurant.name }}</h3>
     <p><em>{{ restaurant.cuisine }}</em></p>
@@ -11,8 +11,49 @@
     </p>
 </div>
 
+<table *ngIf='hasManagers'>
+    <thead>
+        <title>{{ restaurant.name }} Accounts</title>
+        <tr>
+            <th scope="col">Deactivate</th>
+            <th scope="col">Username</th>
+            <th scope="col">E-Mail</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let user of users">
+            <td>
+                <button type="button" class="btn-close" (click)="removeManager(user)"></button>
+            </td>
+            <td>
+                {{ user.username }}
+            </td>
+            <td>
+                {{ user.email }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div *ngIf='adjustmentSuccess; else failTemplate'></div>
+
 <ng-template #failTemplate>
     <div class='text-center'>
         <p><strong>{{ message }}</strong></p>
+    </div>
+</ng-template>
+
+<ng-template #managerModal>
+    <div class="modal-header">
+        <h5>Add Manager</h5>
+        <button type="button" class="btn-close" (click)="modalRef.dismiss(' ')">
+        </button>
+    </div>
+    <div class="modal-body">
+        <app-account-creator [modalRef]='modalRef' [role]="role" (userChanged)=addManager($event)></app-account-creator>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="modalRef.close(' ')">Submit</button>
     </div>
 </ng-template>

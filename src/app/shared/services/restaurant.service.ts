@@ -1,7 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Predicate } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Restaurant } from '../model/restaurant';
-import { Observable } from 'rxjs';
+import { User } from '../model/user';
 
 @Injectable({
   providedIn: 'root'
@@ -12,7 +12,7 @@ export class RestaurantService {
 
   constructor(private http: HttpClient) { }
 
-  getAllRestaurants = async (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
+  getAllRestaurants = (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
     let params = `page-size=${pageSize}&page=${page}`
     // POSSIBLE SEARCH IMPLEMENTATION (future)
     // params += (typeof query !== 'undefined') ? `&${query}` : '' 
@@ -73,6 +73,40 @@ export class RestaurantService {
   deleteRestaurant = (id: number): Promise<HttpResponse<any>> => {
     return new Promise((resolve, reject) => {
       this.http.delete<Restaurant>(`${this.base}/${id}`, {observe: 'response'}).subscribe(
+        (resp) => {
+          resolve(resp)
+        },
+        (err) => {
+          reject(err)
+        }
+      )
+    })
+  }
+
+  addManager = (id: number, user: User): Promise<HttpResponse<Restaurant>> => {
+    const payload = {
+      userId: user.userId,
+      username: user.username,
+      role: user.role,
+      isActive: user.isActive
+    }
+    const endpoint = `s/${Number(id)}/managers/${Number(user.userId)}`
+    return new Promise((resolve, reject) => {
+      this.http.put<Restaurant>(`${this.base}${endpoint}`, payload, {observe: 'response'}).subscribe(
+        (resp) => {
+          resolve(resp)
+        },
+        (err) => {
+          reject(err)
+        }
+      )
+    })
+  }
+
+  removeManager = (id: number, payload: User): Promise<HttpResponse<Restaurant>> => {
+    const endpoint = `s/${id}/managers/${payload.userId}`
+    return new Promise((resolve, reject) => {
+      this.http.delete<Restaurant>(`${this.base}${endpoint}`, {observe: 'response'}).subscribe(
         (resp) => {
           resolve(resp)
         },

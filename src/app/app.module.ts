@@ -28,7 +28,6 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -66,7 +65,7 @@ import { CommonModule } from '@angular/common';
     MatButtonModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
-    NoopAnimationsModule,
+    BrowserAnimationsModule,
     CommonModule
   ],
   providers: [RestaurantService],

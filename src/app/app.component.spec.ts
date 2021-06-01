@@ -24,10 +24,10 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'angular-ui'`, () => {
+  it(`should have as title 'admin-ui'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('angular-ui');
+    expect(app.title).toEqual('admin-ui');
   });
 
   it('should render navlinks', () => {

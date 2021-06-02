@@ -18,8 +18,8 @@ pipeline {
             steps {
                 dir('/var/lib/jenkins/workspace/Admin-UI/dist/admin-ui') {
                     withAWS(region:'us-east-2',credentials:'aws-ecr-creds') {
-                        s3Delete(bucket:"stacklunch-ui-portals", path:'admin-ui/');
-                        s3Upload(bucket:"stacklunch-ui-portals", path:'admin-ui/', includePathPattern:'**/*');
+                        s3Delete(bucket:"admin.stacklunch.com", path:'');
+                        s3Upload(bucket:"admin.stacklunch.com", path:'', includePathPattern:'**/*');
                     }   
                 } 
             }

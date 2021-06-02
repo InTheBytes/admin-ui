@@ -8,7 +8,7 @@ import { User } from '../model/user';
 })
 export class RestaurantService {
 
-  private base = "http://localhost:8081/apis/restaurant"
+  private base = "http://api.stacklunch.com/apis/restaurant"
 
   constructor(private http: HttpClient) { }
 
@@ -28,7 +28,7 @@ export class RestaurantService {
     )})
   }
 
-  getRestaurant = (id: number): Promise<Restaurant> => {
+  getRestaurant = (id: string): Promise<Restaurant> => {
     return new Promise((resolve, reject) => {
       this.http.get<Restaurant>(`${this.base}/${id}`).subscribe(
       (resp) => {
@@ -70,7 +70,7 @@ export class RestaurantService {
     
   }
 
-  deleteRestaurant = (id: number): Promise<HttpResponse<any>> => {
+  deleteRestaurant = (id: string): Promise<HttpResponse<any>> => {
     return new Promise((resolve, reject) => {
       this.http.delete<Restaurant>(`${this.base}/${id}`, {observe: 'response'}).subscribe(
         (resp) => {
@@ -83,7 +83,7 @@ export class RestaurantService {
     })
   }
 
-  addManager = (id: number, user: User): Promise<HttpResponse<Restaurant>> => {
+  addManager = (id: string, user: User): Promise<HttpResponse<Restaurant>> => {
     const payload = {
       userId: user.userId,
       username: user.username,
@@ -103,7 +103,7 @@ export class RestaurantService {
     })
   }
 
-  removeManager = (id: number, payload: User): Promise<HttpResponse<Restaurant>> => {
+  removeManager = (id: string, payload: User): Promise<HttpResponse<Restaurant>> => {
     const endpoint = `s/${id}/managers/${payload.userId}`
     return new Promise((resolve, reject) => {
       this.http.delete<Restaurant>(`${this.base}${endpoint}`, {observe: 'response'}).subscribe(

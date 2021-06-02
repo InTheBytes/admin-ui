@@ -21,7 +21,7 @@ export class DetailPageComponent implements OnInit {
   hasManagers: boolean
 
   role: Role = {
-    roleId: 2,
+    roleId: "2",
     name: 'restaurant'
   }
 
@@ -37,7 +37,7 @@ export class DetailPageComponent implements OnInit {
     this.adjustmentSuccess = true
     this.hasManagers = false
     this.restaurantService
-      .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
+      .getRestaurant(this.actRoute.snapshot.paramMap.get("restaurantId"))
       .then((resp) => {         
         this.restaurant = resp;
         this.users = resp.managers

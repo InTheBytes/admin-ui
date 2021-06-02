@@ -12,7 +12,7 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  baseUrl = "http://localhost:8080/user"
+  baseUrl = "http://api.stacklunch.com/user"
 
   filterGetUsers = (filterFunct: Predicate<User>): getFunction => {
     return (pageSize: number, page: number):Promise<HttpResponse<User[]>> => {
@@ -57,7 +57,7 @@ export class UserService {
     )})
   }
 
-  getUser = async (id: number): Promise<HttpResponse<User>> => {
+  getUser = async (id: string): Promise<HttpResponse<User>> => {
     return new Promise((resolve, reject) => {
       this.http.get<User>(`${this.baseUrl}/${id}`, {observe: 'response'}).subscribe(
         (resp) => {
@@ -84,7 +84,7 @@ export class UserService {
     })
   }
 
-  deleteUser = async (id: number): Promise<HttpResponse<any>> => {
+  deleteUser = async (id: string): Promise<HttpResponse<any>> => {
     return new Promise((resolve, reject) => {
       this.http.delete(`${this.baseUrl}/${id}`, {observe: 'response'}).subscribe(
         (resp) => {

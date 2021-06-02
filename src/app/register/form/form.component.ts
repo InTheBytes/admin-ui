@@ -104,7 +104,7 @@ export class FormComponent implements OnInit {
       phone: this.registerForm.value.phone,
       password: this.registerForm.value.password,
       isActive: false,
-      role: {roleId: 4, name: 'admin'}
+      role: {roleId: "4", name: 'admin'}
     }
   }
 }

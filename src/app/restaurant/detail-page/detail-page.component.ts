@@ -55,7 +55,7 @@ export class DetailPageComponent implements OnInit {
   hasManagers: boolean
 
   role: Role = {
-    roleId: 2,
+    roleId: "2",
     name: 'restaurant'
   }
 
@@ -72,12 +72,13 @@ export class DetailPageComponent implements OnInit {
     this.adjustmentSuccess = true
     this.hasManagers = false
     this.restaurantService
-      .getRestaurant(Number(this.actRoute.snapshot.paramMap.get("restaurantId")))
+      .getRestaurant(this.actRoute.snapshot.paramMap.get("restaurantId"))
       .then((resp) => {         
         this.restaurant = resp;
         this.users = resp.managers
         this.success = true
         this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
+        this.dataSource = this.restaurant.foods
       },
       (err) => {
         switch (err.status) {
@@ -93,7 +94,6 @@ export class DetailPageComponent implements OnInit {
             "An unexpected error occured. Perhaps there's a problem with the connection"
         }
       })
-      this.dataSource = this.restaurant.foods
   }
 
 
@@ -111,9 +111,9 @@ export class DetailPageComponent implements OnInit {
  
   initRestaurant() {
     const empty = {
-      restaurantId: -1, name: "", cuisine: "", managers: [],
+      restaurantId: "-1", name: "", cuisine: "", managers: [],
       location: {
-        locationId: 0, unit: "", street: "", city: "", state: "", zipCode: null
+        locationId: "0", unit: "", street: "", city: "", state: "", zipCode: null
       },
       foods: []
     }

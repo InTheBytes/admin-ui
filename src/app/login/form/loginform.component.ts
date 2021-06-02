@@ -68,7 +68,7 @@ export class LoginFormComponent implements OnInit {
         return null
       }
     return {
-      userId: 0,
+      userId: "0",
       username: this.loginForm.value.username,
       email: "",
       firstName: "",
@@ -76,7 +76,7 @@ export class LoginFormComponent implements OnInit {
       phone: null,
       password: this.loginForm.value.password,
       isActive: false,
-      role: {roleId: 4, name: 'admin'}
+      role: {roleId: "4", name: 'admin'}
     }
   }
 

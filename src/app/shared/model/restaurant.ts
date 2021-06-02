@@ -1,7 +1,7 @@
 import { User } from "./user"
 
 export class Restaurant {
-    restaurantId: number
+    restaurantId: string
     name: string
     cuisine: string
     location: Location
@@ -10,7 +10,7 @@ export class Restaurant {
 }
 
 export class Location {
-    locationId: number
+    locationId: string
     street: string
     unit: string
     city: string

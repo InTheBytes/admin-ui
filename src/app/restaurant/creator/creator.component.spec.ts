@@ -31,7 +31,9 @@ describe('CreatorComponent', () => {
         city: "Somewhere",
         state: "Somewhere",
         zipCode: 0
-      }
+      },
+      foods: [],
+      managers: []
     }
 
   beforeEach(async () => {

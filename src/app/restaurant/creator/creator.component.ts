@@ -102,17 +102,18 @@ export class CreatorComponent implements OnInit {
         return null
       }
     return {
-      restaurantId: 0,
+      restaurantId: "0",
       name: this.restaurantForm.value.name,
       cuisine: this.restaurantForm.value.cuisine,
       location: {
-        locationId: 0,
+        locationId: "0",
         unit: this.restaurantForm.value.locationUnit,
         street: this.restaurantForm.value.locationStreet,
         city: this.restaurantForm.value.locationCity,
         state: this.restaurantForm.value.locationState,
         zipCode: this.restaurantForm.value.locationZip
-      },
+      }, 
+      foods: null,
       managers: [] 
     }
   }

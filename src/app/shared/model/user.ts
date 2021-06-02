@@ -1,5 +1,5 @@
 export class User {
-    userId?: number
+    userId?: string
     role: Role
     username: string
     password?: string
@@ -11,12 +11,12 @@ export class User {
 }
 
 export class Role {
-    roleId: number
+    roleId: string
     name: string
 }
 
 export class UserEntity {
-    userId?: number
+    userId?: string
     role: Role
     username: string
     password?: string

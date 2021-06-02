@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { User } from '../../model/user';
 import { getFunction, PaginationService } from '../../services/pagination.service';
 
-type deleteFunction = (id: number) => Promise<HttpResponse<Object>>
+type deleteFunction = (id: string) => Promise<HttpResponse<Object>>
 type selectFunction = (item: Object, objects?: Object[]) => void
 type errorHandler = (err: any) => void | string
 
@@ -217,7 +217,7 @@ export class ListingComponent implements OnInit {
     );
   }
 
-  delete(id: number, failModal: TemplateRef<any>) {
+  delete(id: string, failModal: TemplateRef<any>) {
     this.configuration.delete(id).then(
       (resp) => {
         this.onPageChange()

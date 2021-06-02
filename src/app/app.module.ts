@@ -17,8 +17,17 @@ import { UserComponent } from './user/user.component';
 import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
+import { RegisterComponent } from './register/register.component';
+import { LoginComponent } from './login/login.component';
+import { FormComponent } from './register/form/form.component';
+import { LoginFormComponent } from './login/form/loginform.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatTableModule } from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatIconModule} from '@angular/material/icon';
+import {MatButtonModule} from '@angular/material/button';
+import {MatDialogModule} from '@angular/material/dialog';
 import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { CommonModule } from '@angular/common';
 
 @NgModule({
@@ -32,10 +41,15 @@ import { CommonModule } from '@angular/common';
     DetailPageComponent,
     BrowseRestaurantComponent,
     UserComponent,
+    
     BrowseUserComponent,
     UserDetailsComponent,
     AllUsersComponent,
-    AccountCreatorComponent,
+    RegisterComponent,
+    LoginComponent,
+    FormComponent,
+    LoginFormComponent,
+    AccountCreatorComponent
   ],
   imports: [
     AppRoutingModule,
@@ -43,8 +57,15 @@ import { CommonModule } from '@angular/common';
     FormsModule,
     HttpClientModule,
     NgbModule,
+    MatDialogModule,
     ReactiveFormsModule,
-    NoopAnimationsModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatIconModule,
+    MatButtonModule,
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
     CommonModule
   ],
   providers: [RestaurantService],

@@ -28,9 +28,9 @@ export class AccountCreatorComponent implements OnInit {
   failModalRef: NgbModalRef;
 
   roles: Role[] = [
-    { roleId: 1, name: 'admin' },
-    { roleId: 4, name: 'customer' },
-    { roleId: 3, name: 'driver' },
+    { roleId: "1", name: 'admin' },
+    { roleId: "4", name: 'customer' },
+    { roleId: "3", name: 'driver' },
   ];
 
   needSubmit: Boolean;

@@ -1,0 +1,55 @@
+<div class="card">
+    <div class="d-flex justify-content-center">
+        <form [formGroup]="registerForm">
+            <div class="row g-2">
+                <div class="col-auto">
+                    <label for="username">USERNAME</label>
+                    <input type="text" class="form-control" formControlName="username">
+                    <label for="email">EMAIL</label>
+                    <input type="text" class="form-control" formControlName="email">
+                    <label for="password">PASSWORD</label>
+                    <input type="password" class="form-control" formControlName="password">
+                    <label for="confpassword">CONFIRM PASSWORD</label>
+                    <input type="password" class="form-control" formControlName="confpassword">
+                </div>
+                <div class="col-auto">
+                        <label for="firstname">FIRST NAME</label>
+                    <input type="text" class="form-control" formControlName="firstname">
+                    <label for="lastname">LAST NAME</label>
+                    <input type="text" class="form-control" formControlName="lastname">
+                    <label for="phone">PHONE</label>
+                    <input type="text" class="form-control" formControlName="phone">
+                    <label for="role">USER TYPE</label>
+                    <select name="role" id="role">
+                        <option value="Customer">Customer</option>
+                        <option value="Driver">Driver</option>
+                        <option value="Manager">Manager</option>
+                        <option value="Administrator">Administrator</option>
+                      </select>
+                </div>
+            </div>
+            <div class="d-flex justify-content-center">
+                <button type="submit" class="btn btn-primary" (click)="saveUser(creationFailedModal)">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+<ng-template #creationFailedModal>
+
+    <div class="modal-header">
+        <h5 class="modal-title" id="deleteFailedLabel">Failed to create {{ name }}</h5>
+
+        <button type="button" class="btn-close" aria-label="Close" (click)="modalRef.dismiss(' ')">
+        </button>
+    </div>
+
+    <div class="modal-body">
+        <p>Failed to create the user. {{ failMessage }}</p>
+    </div>
+
+    <div class="modal-footer">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Okay</button>
+        </div>
+    </div>
+</ng-template>

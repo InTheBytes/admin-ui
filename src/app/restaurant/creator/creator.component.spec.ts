@@ -21,17 +21,19 @@ describe('CreatorComponent', () => {
 
   const testRestaurant: Restaurant =
     {
-      restaurantId: 26,
+      restaurantId: "26",
       name: "Test",
       cuisine: "Test",
       location: {
-        locationId: 0,
+        locationId: "0",
         unit: '0',
         street: "Somewhere",
         city: "Somewhere",
         state: "Somewhere",
         zipCode: 0
-      }
+      },
+      foods: [],
+      managers: []
     }
 
   beforeEach(async () => {

@@ -8,14 +8,14 @@ import { User } from '../model/user';
 })
 export class RestaurantService {
 
-  private base = "http://api.stacklunch.com/apis/restaurant"
+  private base = "https://api.stacklunch.com/apis/restaurant"
 
   constructor(private http: HttpClient) { }
 
   getAllRestaurants = (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
     let params = `page-size=${pageSize}&page=${page}`
     // POSSIBLE SEARCH IMPLEMENTATION (future)
-    // params += (typeof query !== 'undefined') ? `&${query}` : '' 
+    // params += (typeof query !== 'undefined') ? `&${query}` : ''
 
     return new Promise((resolve, reject) => {
       this.http.get<Restaurant[]>(`${this.base}?${params}`, {observe: 'response'}).subscribe(
@@ -66,8 +66,8 @@ export class RestaurantService {
         }
       )
     })
-    
-    
+
+
   }
 
   deleteRestaurant = (id: string): Promise<HttpResponse<any>> => {

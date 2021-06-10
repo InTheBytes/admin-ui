@@ -12,7 +12,7 @@ export class UserService {
     private http: HttpClient
   ) { }
 
-  baseUrl = "http://api.stacklunch.com/user"
+  baseUrl = "https://api.stacklunch.com/user"
 
   filterGetUsers = (filterFunct: Predicate<User>): getFunction => {
     return (pageSize: number, page: number):Promise<HttpResponse<User[]>> => {
@@ -95,7 +95,7 @@ export class UserService {
         }
       )
     })
-  } 
+  }
 
   loginUser(user: User){}
   registerUser = async (user: User): Promise<User> => {

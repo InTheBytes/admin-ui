@@ -10,7 +10,7 @@ export class Restaurant {
 }
 
 export class Location {
-    locationId: string
+    locationId?: string
     street: string
     unit: string
     city: string

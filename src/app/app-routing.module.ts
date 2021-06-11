@@ -14,6 +14,7 @@ import {RegisterComponent} from './register/register.component';
 import { FormComponent } from './register/form/form.component';
 import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login/form/loginform.component';
+import { OrderComponent } from './order/order.component';
  
 const routes: Routes = [
     {
@@ -65,6 +66,11 @@ const routes: Routes = [
           component: UserDetailsComponent
         }
       ]
+    },
+    {
+      path: 'orders',
+      component: OrderComponent,
+      children: []
     },
     {
       path: 'register',

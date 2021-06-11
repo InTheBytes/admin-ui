@@ -29,6 +29,7 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
 import { CommonModule } from '@angular/common';
+import { OrderComponent } from './order/order.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { CommonModule } from '@angular/common';
     LoginComponent,
     FormComponent,
     LoginFormComponent,
-    AccountCreatorComponent
+    AccountCreatorComponent,
+    OrderComponent
   ],
   imports: [
     AppRoutingModule,

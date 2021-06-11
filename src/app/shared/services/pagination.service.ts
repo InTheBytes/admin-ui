@@ -1,7 +1,10 @@
 import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Page } from '../model/page';
 
-export type getFunction = (pageSize: number, page: number, query?: string) => Promise<HttpResponse<any[]>>
+export type getFunction = 
+  (pageSize: number, page: number, query?: string) => 
+  Promise<HttpResponse<any[]>> | Promise<Page<any>>
 
 @Injectable({
   providedIn: 'root'
@@ -16,8 +19,17 @@ export class PaginationService {
   pageSize: number
   serviceCall: Function
 
-  initialize(getFunct: getFunction, pageSize: number): Promise<any[]> {
+  // Boolean for discrepencies in backend pagination
+  // patchwork to be removed when all services migrate to new pagination
+  newPageStyle: boolean
+
+  initialize(getFunct: getFunction, pageSize: number, pageStyle?: boolean): Promise<any[]> {
+    if (!(typeof pageStyle == 'undefined' || pageStyle == null))
+      this.newPageStyle = pageStyle
+
+    console.log('initialized pager')
     this.serviceCall = getFunct
+    console.log(this.serviceCall)
     this.currentPage = 1
     this.pageSize = pageSize
     return this.getPage()
@@ -37,6 +49,29 @@ export class PaginationService {
 
   getPage(query?: string): Promise<Object[]> {
     let result: Object[]
+    console.log('new style: ' + this.newPageStyle)
+    if (this.newPageStyle) {
+      return new Promise((resolve, reject) => {
+        console.log('promise was called')
+        this.serviceCall(this.currentPage, this.pageSize).then(
+          (value) => {
+            console.log("fetching page")
+            this.currentPage = value.pageMetadata.number
+            this.totalPages = value.pageMetadata.totalPages
+            resolve(value.content)
+          }, (err) => {
+            console.log('error getting page')
+            reject(err)
+          }
+        )
+      })
+    } else {
+      return this.oldGetPage(query)
+    }
+  }
+
+  oldGetPage(query?: string): Promise<Object[]> {
+    console.log('made it to the old get page')
     return new Promise((resolve, reject) => {
       if (typeof query !== 'undefined') {
         this.serviceCall(this.pageSize, this.currentPage, query).then(
@@ -62,9 +97,5 @@ export class PaginationService {
         )
       }
     })
-
-    // POSSIBLE SEARCH IMPLEMENTATION (future)
-    // if (typeof query !== 'undefined') {
-    // }
   }
 }

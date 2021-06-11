@@ -26,13 +26,15 @@ export type Listable = {
   deleteLabel?: string
   deleteError?: errorHandler
   select?: selectFunction
-  parent?: any
+  parent?: any,
+  newPageStyle?: boolean
 }
 
 @Component({
   selector: 'app-listing',
   templateUrl: './listing.component.html',
-  styleUrls: ['./listing.component.css']
+  styleUrls: ['./listing.component.css'],
+  providers: [PaginationService]
 })
 export class ListingComponent implements OnInit {
 
@@ -77,7 +79,7 @@ export class ListingComponent implements OnInit {
   ngOnInit(): void {
     this.checkSettings()
     this.initializeForms()
-    this.pager.initialize(this.configuration.get, this.pageSize).then(
+    this.pager.initialize(this.configuration.get, this.pageSize, this.configuration.newPageStyle).then(
       (value) => {
         this.page = value
         this.totalPages = this.pager.totalPages

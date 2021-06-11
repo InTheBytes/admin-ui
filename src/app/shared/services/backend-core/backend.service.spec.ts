@@ -21,9 +21,10 @@ describe('BackendService', () => {
   ]);
   let routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
-  let result = { hello: 'test' };
+  const result = { hello: 'test' };
 
-  let resultPage: Page<any> = {
+  let resultPage: Page<any>
+  let cleanCopyPage: Page<any> = {
     content: [result],
     pageMetadata: {
       size: 1,
@@ -32,6 +33,10 @@ describe('BackendService', () => {
       number: 0,
     },
   };
+
+  function setResultPage() {
+    resultPage = cleanCopyPage;
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +57,9 @@ describe('BackendService', () => {
   });
 
   it('should perform get for a page of objects', () => {
+    setResultPage()
+    console.log('result page: '+resultPage)
+    console.log('clean copy: '+ cleanCopyPage)
     let response: HttpResponse<Page<any>> = new HttpResponse({
       body: resultPage,
     });
@@ -60,6 +68,7 @@ describe('BackendService', () => {
     service.getPage().then(
       (value) => {
         expect(value).toEqual(resultPage);
+        expect(value.pageMetadata.number).toEqual(1)
       },
       (error) => {
         fail('An error was returned');
@@ -67,6 +76,20 @@ describe('BackendService', () => {
     );
     expect(apiMock.get).toHaveBeenCalled();
   });
+
+  it('should return customized page of objects', () => {
+    setResultPage()
+    let response: HttpResponse<Page<any>> = new HttpResponse({
+      body: resultPage
+    })
+    apiMock.get.and.returnValue(of(response))
+
+    service.getPage(2, 5).then(
+      (value) => {},
+      (error) => {fail('returned an error with page params')}
+    )
+    expect(apiMock.get).toHaveBeenCalledWith(`${base}?page=1&page-size=5`);
+  })
 
   it('should perform get for an object', () => {
     let response: HttpResponse<any> = new HttpResponse({ body: result });

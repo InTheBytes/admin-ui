@@ -1,8 +1,6 @@
-import { validateHorizontalPosition } from '@angular/cdk/overlay';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observer } from 'rxjs';
 import { Page } from '../../model/page';
 import { ApiService } from './api.service';
 
@@ -13,12 +11,11 @@ export abstract class BackendService<T> {
   constructor(private apiService: ApiService, private routerService: Router) {}
 
   resolver = (callback: (val: any) => void | any) => {
-    return (x) => {console.log('in resolver'+x); callback(x.body)};
+    return (x) => {callback(x.body)};
   };
 
   rejecter = (callback: (val: any) => void | any) => {
     return (x: any) => {
-      console.log('in rejectpr ' + x)
       if (x.status == 401) {
         this.redirect401ToLogin(x, callback);
       } else {
@@ -29,10 +26,8 @@ export abstract class BackendService<T> {
 
   redirect401ToLogin(error: HttpErrorResponse, errorHandler: Function) {
     if (error.status == 401) {
-      console.log("made it to redirect with 401")
       this.routerService.navigate(['/login']);
     } else {
-      console.log("Not 401 - " + error)
       errorHandler(error);
     }
   }
@@ -43,13 +38,20 @@ export abstract class BackendService<T> {
 
   getPage(page?: number, pageSize?: number): Promise<Page<T>> {
     let params = '';
-    params += this.checkOptionalParam(page) ? `?page=${page}` : '';
+    params += this.checkOptionalParam(page) ? `?page=${page-1}` : '';
     params += this.checkOptionalParam(pageSize) ? `&page-size=${pageSize}` : '';
 
     return new Promise((resolve, reject) => {
+      let adjustedPage: number
       this.apiService
         .get<Page<T>>(`${this.base}${params}`)
-        .subscribe(this.resolver(resolve), this.rejecter(reject));
+        .subscribe(
+          (response) => {
+            let page = response.body
+            page.pageMetadata.number = response.body.pageMetadata.number + 1
+            console.log(page)
+            resolve(response.body)
+          }, this.rejecter(reject));
     });
   }
 

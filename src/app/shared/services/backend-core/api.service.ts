@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  url: string = "https://api.stacklunch.com"
+  url: string = "http://localhost:8080"
   authLabel: string = "Authentication"
   auth: string
   headers: HttpHeaders

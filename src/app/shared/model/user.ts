@@ -1,10 +1,12 @@
 export class User {
     userId?: string
+    id?: string
     role?: Role
     username?: string
     password?: string
     email?: string
     phone?: number
+    name?: string
     firstName?: string
     lastName?: string
     isActive?: boolean

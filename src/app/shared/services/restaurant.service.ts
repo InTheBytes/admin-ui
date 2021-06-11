@@ -8,7 +8,7 @@ import { User } from '../model/user';
 })
 export class RestaurantService {
 
-  private base = "https://api.stacklunch.com/apis/restaurant"
+  private base = "http://localhost:8080/apis/restaurant"
 
   constructor(private http: HttpClient) { }
 

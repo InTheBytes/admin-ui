@@ -8,7 +8,7 @@ import { Observable } from 'rxjs';
 export class ApiService {
   url: string = 'http://localhost:8080';
   authLabel: string = 'Authentication';
-  auth: string = 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJsZXhuZWwiLCJJbkJ5dGVzQXV0aCI6IlJPTEVfQURNSU4iLCJleHAiOjE2MjM0OTAwMDB9.juof7RrFIJOa4t-GEEjJ6aX8ZiPE3Qee7sbny41cRvKj7epUN_5p9CPAVDyWgOpoQy7_W5VekjygE4IVRbALxw';
+  auth: string = '';
   headers: HttpHeaders;
 
   constructor(private http: HttpClient) {}

@@ -29,12 +29,10 @@ describe('OrderService', () => {
 
   let resultPage: Page<Order> = {
     content: [result],
-    pageMetadata: {
       size: 1,
       totalElements: 1,
       totalPages: 1,
       number: 0,
-    },
   };
 
   beforeEach(() => {

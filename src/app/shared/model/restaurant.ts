@@ -20,7 +20,7 @@ export class Location {
 }
 
 export class Food {
-    foodId: number
+    foodId: string
     name: string
     price: number
     description: string

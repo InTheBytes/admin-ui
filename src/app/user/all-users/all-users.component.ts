@@ -26,7 +26,7 @@ export class AllUsersComponent implements OnInit {
         {column: 'First Name', property: 'firstName'},
         {column: 'Last Name', property: 'lastName'}
       ],
-      get: this.service.getUsers,
+      get: this.service.getAllUsers,
       detailRoute: 'users'
     }
   }

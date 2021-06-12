@@ -6,7 +6,7 @@ export class Order {
     id?: string
     status?: string | number
     destinationId?: string
-    distination?: string | Location
+    destination?: Location
     windowStart?: Time
     windowEnd?: Time
     specialInstructions?: string

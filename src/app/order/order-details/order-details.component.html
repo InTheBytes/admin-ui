@@ -1,0 +1,11 @@
+<div class='container'>
+    <p>Status: {{order.status}}</p>
+    <h2> {{order.customer.name}} </h2>
+    <p><em>{{order.windowStart | date:'MMM, d, y'}}</em></p>
+    <p><em><strong> {{order.destination | address: order.destination}} </strong></em></p>
+    <p>{{order.windowStart | date:'h:mm a'}} - {{order.windowEnd | date:'h:mm a'}}</p>
+</div>
+
+<div id='' class='container'>
+    <h3>{{order.restaurant.name}}</h3>
+</div>

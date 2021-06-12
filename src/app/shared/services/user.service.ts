@@ -1,103 +1,65 @@
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Injectable, Predicate } from '@angular/core';
+import { Router } from '@angular/router';
 import { convert, User, UserEntity } from '../model/user';
+import { ApiService } from './backend-core/api.service';
+import { BackendService } from './backend-core/backend.service';
 import { getFunction } from './pagination.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class UserService extends BackendService<User> {
 
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private api: ApiService,
+    private router: Router
+  ) {
+    super(api, router)
+    this.base = 'user'
+   }
 
   baseUrl = "http://localhost:8080/user"
 
-  filterGetUsers = (filterFunct: Predicate<User>): getFunction => {
-    return (pageSize: number, page: number):Promise<HttpResponse<User[]>> => {
-      return new Promise((resolve, reject) => {
-        this.getUsers(pageSize, page).then(
-          (resp) => {
-            const filteredBody = resp.body.filter(filterFunct)
-            const newResp = resp.clone({body: filteredBody})
-            resolve(newResp)
-          },
-          (err) => {
-            reject(err)
-          }
-        )
-      })
-    }
+  // filterGetUsers = (filterFunct: Predicate<User>): getFunction => {
+  //   return (pageSize: number, page: number):Promise<HttpResponse<User[]>> => {
+  //     return new Promise((resolve, reject) => {
+  //       this.getUsers(pageSize, page).then(
+  //         (resp) => {
+  //           const filteredBody = resp.body.filter(filterFunct)
+  //           const newResp = resp.clone({body: filteredBody})
+  //           resolve(newResp)
+  //         },
+  //         (err) => {
+  //           reject(err)
+  //         }
+  //       )
+  //     })
+  //   }
+  // }
+
+  getUser = this.getObject
+  updateUser = this.updateObject
+  deleteUser = this.deleteObject
+  getAllUsers = this.getPage
+
+  getUsersByActive = (active: boolean, page?: number, pageSize?: number) => {
+    console.log(page)
+    console.log(pageSize)
+    return this.getPage(page, pageSize, [{param: 'active', argument: true}])
   }
 
-  getUsers = async (pageSize: number, page: number): Promise<HttpResponse<User[]>> => {
-    const params = `page-size=${pageSize}&page=${page}`
-    return new Promise((resolve, reject) => {
-      this.http.get<User[]>(`${this.baseUrl}?${params}`, {observe: 'response'}).subscribe(
-      (resp) => {
-        resolve(resp)
-      },
-      (err) => {
-        reject(err)
-      }
-    )})
+  getInactiveUsers = (page?: number, pageSize?: number) => {
+    return this.getUsersByActive(false)
   }
 
-  getActiveUsers = async (pageSize: number, page: number): Promise<HttpResponse<User[]>> => {
-    const params = `page-size=${pageSize}&page=${page}`
-    return new Promise((resolve, reject) => {
-      this.http.get<User[]>(`${this.baseUrl}/active?${params}`, {observe: 'response'}).subscribe(
-      (resp) => {
-        resolve(resp)
-      },
-      (err) => {
-        reject(err)
-      }
-    )})
+  getActiveUsers = (page?: number, pageSize?: number) => {
+    return this.getUsersByActive(true, page, pageSize)
   }
 
-  getUser = async (id: string): Promise<HttpResponse<User>> => {
-    return new Promise((resolve, reject) => {
-      this.http.get<User>(`${this.baseUrl}/${id}`, {observe: 'response'}).subscribe(
-        (resp) => {
-          resolve(resp)
-        },
-        (err) => {
-          reject(err)
-        }
-      )
-    })
-  }
 
-  updateUser = async (payload: User): Promise<HttpResponse<User>> => {
-    return new Promise((resolve, reject) => {
-      this.http.put<User>(`${this.baseUrl}/${payload.userId}`, payload, {observe: 'response'})
-        .subscribe(
-          (resp) => {
-            resolve(resp)
-          },
-          (err) => {
-            reject(err)
-          }
-        )
-    })
-  }
-
-  deleteUser = async (id: string): Promise<HttpResponse<any>> => {
-    return new Promise((resolve, reject) => {
-      this.http.delete(`${this.baseUrl}/${id}`, {observe: 'response'}).subscribe(
-        (resp) => {
-          resolve(resp)
-        },
-        (err) => {
-          reject(err)
-        }
-      )
-    })
-  }
-
-  loginUser(user: User){}
+  
   registerUser = async (user: User): Promise<User> => {
     const headers = {'content-type': 'application/json'}
     const path = this.baseUrl + "/register"

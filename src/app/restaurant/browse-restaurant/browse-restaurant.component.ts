@@ -5,32 +5,33 @@ import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 @Component({
   selector: 'app-browse-restaurant',
   templateUrl: './browse-restaurant.component.html',
-  styleUrls: ['./browse-restaurant.component.css']
+  styleUrls: ['./browse-restaurant.component.css'],
+  providers: [ RestaurantService ]
 })
 export class BrowseRestaurantComponent implements OnInit {
 
-  listConfig: Listable
-  pageSize: number
+  
+  pageSize: number = 10
+  listConfig: Listable = {
+    idProperty: "restaurantId",
+    nameProperty: "name",
+    columns: [
+      {property: "name", column: "Name"},
+      {property: "cuisine", column: "Cuisine"},
+      {property: "location.city", column: "City"},
+      {property: "location.state", column: "State"}
+    ],
+    get: this.restaurantService.getRestaurants,
+    delete: this.restaurantService.deleteRestaurant,
+    detailRoute: 'restaurants'
+  }
 
   constructor(
     private restaurantService: RestaurantService
   ) { }
 
   ngOnInit(): void {
-    this.pageSize = 10
-    this.listConfig = {
-      idProperty: "restaurantId",
-      nameProperty: "name",
-      columns: [
-        {property: "name", column: "Name"},
-        {property: "cuisine", column: "Cuisine"},
-        {property: "location.city", column: "City"},
-        {property: "location.state", column: "State"}
-      ],
-      get: this.restaurantService.getAllRestaurants,
-      delete: this.restaurantService.deleteRestaurant,
-      detailRoute: 'restaurants'
-    }
+    
   }
 
 }

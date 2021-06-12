@@ -1,6 +1,7 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Listable } from 'src/app/shared/component/listing/listing.component';
+import { Page } from 'src/app/shared/model/page';
 import { User } from 'src/app/shared/model/user';
 import { UserService } from 'src/app/shared/services/user.service';
 
@@ -29,10 +30,14 @@ export class BrowseUserComponent implements OnInit {
         {column: 'First Name', property: 'firstName'},
         {column: 'Last Name', property: 'lastName'}
       ],
-      get: this.service.getActiveUsers,
+      get: this.activeUsers,
       delete: this.service.deleteUser,
       deleteLabel: 'Deactivate',
       detailRoute: 'users'
     }
+  }
+
+  activeUsers = (page: number, pageSize: number): Promise<Page<User>> => {
+    return this.service.getActiveUsers(page, pageSize);
   }
 }

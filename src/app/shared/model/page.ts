@@ -1,6 +1,10 @@
 export class Page<T> {
     content: T[]
-    pageMetadata: PageData
+    size: number
+    totalElements: number
+    totalPages: number
+    number: number
+    pageMetadata?: PageData
 }
 
 export class PageData {

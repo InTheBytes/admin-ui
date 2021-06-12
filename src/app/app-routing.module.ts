@@ -15,6 +15,8 @@ import { FormComponent } from './register/form/form.component';
 import { LoginComponent } from './login/login.component';
 import { LoginFormComponent } from './login/form/loginform.component';
 import { OrderComponent } from './order/order.component';
+import { OrderDetailsComponent } from './order/order-details/order-details.component';
+import { BrowseOrderComponent } from './order/browse-order/browse-order.component';
  
 const routes: Routes = [
     {
@@ -70,7 +72,16 @@ const routes: Routes = [
     {
       path: 'orders',
       component: OrderComponent,
-      children: []
+      children: [
+        {
+          path: '',
+          component: BrowseOrderComponent
+        },
+        {
+          path: ':orderId',
+          component: OrderDetailsComponent
+        }
+      ]
     },
     {
       path: 'register',

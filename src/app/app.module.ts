@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,12 +11,8 @@ import { CreatorComponent } from './restaurant/creator/creator.component';
 import { RestaurantService } from './shared/services/restaurant.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
-import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
-import { ListingComponent } from './shared/component/listing/listing.component';
 import { UserComponent } from './user/user.component';
-import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { UserDetailsComponent } from './user/user-details/user-details.component';
-import { AllUsersComponent } from './user/all-users/all-users.component';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
 import { FormComponent } from './register/form/form.component';
@@ -30,6 +26,13 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
 import { CommonModule } from '@angular/common';
 import { OrderComponent } from './order/order.component';
+import { OrderDetailsComponent } from './order/order-details/order-details.component';
+import { BrowseOrderComponent } from './order/browse-order/browse-order.component';
+import { AllUsersComponent } from './user/all-users/all-users.component';
+import { BrowseUserComponent } from './user/browse-user/browse-user.component';
+import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
+import { ListingComponent } from './shared/component/listing/listing.component';
+import { AddressPipe } from './shared/pipes/address-pipe';
 
 @NgModule({
   declarations: [
@@ -40,8 +43,8 @@ import { OrderComponent } from './order/order.component';
     ListingComponent,
     BrowseRestaurantComponent,
     DetailPageComponent,
-    BrowseRestaurantComponent,
     UserComponent,
+    AddressPipe,
     
     BrowseUserComponent,
     UserDetailsComponent,
@@ -51,7 +54,9 @@ import { OrderComponent } from './order/order.component';
     FormComponent,
     LoginFormComponent,
     AccountCreatorComponent,
-    OrderComponent
+    OrderComponent,
+    OrderDetailsComponent,
+    BrowseOrderComponent
   ],
   imports: [
     AppRoutingModule,
@@ -69,6 +74,9 @@ import { OrderComponent } from './order/order.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     CommonModule
+  ],
+  exports: [
+    AddressPipe
   ],
   providers: [RestaurantService],
   bootstrap: [AppComponent]

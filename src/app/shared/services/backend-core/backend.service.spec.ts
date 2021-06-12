@@ -10,8 +10,8 @@ import { BackendService } from './backend.service';
 
 describe('BackendService', () => {
   let service: BackendService<any>;
-  let base = "test"
-  let path = `${base}/id`
+  let base = 'test';
+  let path = `${base}/id`;
 
   let apiMock = jasmine.createSpyObj('ApiService', [
     'get',
@@ -23,15 +23,14 @@ describe('BackendService', () => {
 
   const result = { hello: 'test' };
 
-  let resultPage: Page<any>
+  let resultPage: Page<any>;
   let cleanCopyPage: Page<any> = {
     content: [result],
-    pageMetadata: {
-      size: 1,
-      totalElements: 1,
-      totalPages: 1,
-      number: 0,
-    },
+
+    size: 1,
+    totalElements: 1,
+    totalPages: 1,
+    number: 0,
   };
 
   function setResultPage() {
@@ -49,7 +48,7 @@ describe('BackendService', () => {
     apiMock = TestBed.inject(ApiService);
     routerMock = TestBed.inject(Router);
     service = TestBed.inject(BackendService);
-    service.base = base
+    service.base = base;
   });
 
   it('should be created', () => {
@@ -57,39 +56,41 @@ describe('BackendService', () => {
   });
 
   it('should perform get for a page of objects', () => {
-    setResultPage()
-    console.log('result page: '+resultPage)
-    console.log('clean copy: '+ cleanCopyPage)
+    setResultPage();
+    console.log('result page: ' + resultPage);
+    console.log('clean copy: ' + cleanCopyPage);
     let response: HttpResponse<Page<any>> = new HttpResponse({
       body: resultPage,
     });
     apiMock.get.and.returnValue(of(response));
 
-    service.getPage().then(
+    service.getPage(2, 5).then(
       (value) => {
         expect(value).toEqual(resultPage);
-        expect(value.pageMetadata.number).toEqual(1)
+        expect(value.number).toEqual(2);
       },
       (error) => {
         fail('An error was returned');
       }
     );
-    expect(apiMock.get).toHaveBeenCalled();
+    expect(apiMock.get).toHaveBeenCalledWith(`${base}?page=1&page-size=5`);
   });
 
   it('should return customized page of objects', () => {
-    setResultPage()
+    setResultPage();
     let response: HttpResponse<Page<any>> = new HttpResponse({
-      body: resultPage
-    })
-    apiMock.get.and.returnValue(of(response))
+      body: resultPage,
+    });
+    apiMock.get.and.returnValue(of(response));
 
     service.getPage(2, 5).then(
       (value) => {},
-      (error) => {fail('returned an error with page params')}
-    )
+      (error) => {
+        fail('returned an error with page params');
+      }
+    );
     expect(apiMock.get).toHaveBeenCalledWith(`${base}?page=1&page-size=5`);
-  })
+  });
 
   it('should perform get for an object', () => {
     let response: HttpResponse<any> = new HttpResponse({ body: result });
@@ -100,7 +101,7 @@ describe('BackendService', () => {
         expect(value).toEqual(result);
       },
       (error) => {
-        expect(false).toBeTrue()
+        expect(false).toBeTrue();
         fail('An error was returned');
       }
     );
@@ -116,7 +117,7 @@ describe('BackendService', () => {
         expect(value).toEqual(result);
       },
       (error) => {
-        expect(false).toBeTrue()
+        expect(false).toBeTrue();
         fail('An error was returned');
       }
     );
@@ -139,48 +140,51 @@ describe('BackendService', () => {
   });
 
   it('should perform delete on an object', () => {
-    let response: HttpResponse<any> = new HttpResponse({status: 200, statusText: "good"})
-    apiMock.delete.and.returnValue(of(response))
+    let response: HttpResponse<any> = new HttpResponse({
+      status: 200,
+      statusText: 'good',
+    });
+    apiMock.delete.and.returnValue(of(response));
 
     service.deleteObject('id').then(
       (value) => {
-        expect(value).toBeTrue()
+        expect(value).toBeTrue();
       },
       (error) => {
-        fail('An error was returned')
+        fail('An error was returned');
       }
-    )
-    expect(apiMock.delete).toHaveBeenCalledWith(path)
-  })
+    );
+    expect(apiMock.delete).toHaveBeenCalledWith(path);
+  });
 
   it('should return error other than 401', () => {
-    let response = {status: 401}
+    let response = { status: 401 };
     apiMock.get.and.returnValue(throwError(response));
 
     service.getObject('id').then(
       (value) => {
-        fail('An error went the resolver')
+        fail('An error went the resolver');
       },
       (error) => {
-        expect(error).toEqual(response)
+        expect(error).toEqual(response);
       }
-    )
+    );
     expect(apiMock.get).toHaveBeenCalledWith(path);
-  })
+  });
 
   it('should redirect to login for 401', () => {
-    let response = {status: 401}
-    apiMock.get.and.returnValue(throwError(response))
+    let response = { status: 401 };
+    apiMock.get.and.returnValue(throwError(response));
 
     service.getObject('id').then(
       (value) => {
-        fail('An error went the resolver')
+        fail('An error went the resolver');
       },
       (error) => {
-        fail('error handler was not overriden by redirect')
+        fail('error handler was not overriden by redirect');
       }
-    )
+    );
     expect(apiMock.get).toHaveBeenCalledWith(path);
-    expect(routerMock.navigate).toHaveBeenCalled()
-  })
+    expect(routerMock.navigate).toHaveBeenCalled();
+  });
 });

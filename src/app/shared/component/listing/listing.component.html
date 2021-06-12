@@ -10,7 +10,7 @@
           </div>
           <tr>
             <th *ngIf="selectEnabled" scope="col"></th>
-            <div [innerHtml]="colHeader"></div>
+            <th *ngFor="let col of configuration.columns">{{col.column}}</th>
             <th *ngIf="hasDetailsLink" scope="col"></th>
             <th *ngIf="deleteEnabled" scope="col"></th>
           </tr>
@@ -22,7 +22,10 @@
                         Select
                     </button>
                 </td>
-                <div [innerHtml]="item.rows"></div>
+                <ng-container *ngFor="let val of item.rows" >
+                    <td>{{val}}</td>
+                </ng-container>
+                
                 
                 <td *ngIf="hasDetailsLink">
                     <a [routerLink]="item.link"

@@ -2,118 +2,101 @@ import { Injectable, Predicate } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Restaurant } from '../model/restaurant';
 import { User } from '../model/user';
+import { BackendService } from './backend-core/backend.service';
+import { ApiService } from './backend-core/api.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
-export class RestaurantService {
+export class RestaurantService extends BackendService<Restaurant> {
 
-  private base = "http://localhost:8080/apis/restaurant"
+  private baseUrl = "http://localhost:8080/apis/restaurant"
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private api: ApiService,
+    private router: Router
+    ) {
+      super(api, router)
+      this.base = "apis/restaurant"
+     }
 
-  getAllRestaurants = (pageSize: number, page: number, query?: string): Promise<HttpResponse<Restaurant[]>> => {
-    let params = `page-size=${pageSize}&page=${page}`
-    // POSSIBLE SEARCH IMPLEMENTATION (future)
-    // params += (typeof query !== 'undefined') ? `&${query}` : ''
+  getRestaurants = this.getPage
+  getRestaurant = this.getObject
+  createRestaurant = this.createObject
+  updateRestaurant = this.updateObject
+  deleteRestaurant = this.deleteObject
 
-    return new Promise((resolve, reject) => {
-      this.http.get<Restaurant[]>(`${this.base}?${params}`, {observe: 'response'}).subscribe(
-      (resp) => {
-        resolve(resp)
-      },
-      (err) => {
-        reject(err)
-      }
-    )})
+  
+  addManager = (id: string, user: User): Promise<Restaurant> => {
+    return this.updateObject(`/s${id}/managers/${user.userId}`, user)
   }
 
-  getRestaurant = (id: string): Promise<Restaurant> => {
-    return new Promise((resolve, reject) => {
-      this.http.get<Restaurant>(`${this.base}/${id}`).subscribe(
-      (resp) => {
-        resolve(resp)
-      },
-      (err) => {
-        reject(err)
-      }
-    )})
+  // updateRestaurant = (payload: Restaurant) => {
+  //   return new Promise((resolve, reject) => {
+  //     this.http.put(`${this.baseUrl}/${payload.restaurantId}`, payload).subscribe(
+  //       (resp) => {
+  //         resolve(resp)
+  //       },
+  //       (err) => {
+  //         reject(err)
+  //       }
+  //     )
+  //   })
+
+
+  // }
+
+  // deleteRestaurant = (id: string): Promise<HttpResponse<any>> => {
+  //   return new Promise((resolve, reject) => {
+  //     this.http.delete<Restaurant>(`${this.baseUrl}/${id}`, {observe: 'response'}).subscribe(
+  //       (resp) => {
+  //         resolve(resp)
+  //       },
+  //       (err) => {
+  //         reject(err)
+  //       }
+  //     )
+  //   })
+  // }
+
+
+  // addManager = (id: string, user: User): Promise<HttpResponse<Restaurant>> => {
+  //   const payload = {
+  //     userId: user.userId,
+  //     username: user.username,
+  //     role: user.role,
+  //     isActive: user.isActive
+  //   }
+  //   const endpoint = `s/${Number(id)}/managers/${Number(user.userId)}`
+  //   return new Promise((resolve, reject) => {
+  //     this.http.put<Restaurant>(`${this.baseUrl}${endpoint}`, payload, {observe: 'response'}).subscribe(
+  //       (resp) => {
+  //         resolve(resp)
+  //       },
+  //       (err) => {
+  //         reject(err)
+  //       }
+  //     )
+  //   })
+  // }
+
+  removeManager = (id: string, payload: User): Promise<Restaurant> => {
+    return this.deleteObject(`s/${id}/managers/${payload.userId}`)
   }
 
-  createRestaurant = (payload: Restaurant): Promise<Restaurant> => {
-    const headers = {'content-type': 'application/json'}
-    return new Promise((resolve, reject) => {
-      this.http.post<Restaurant>(this.base, JSON.stringify(payload), {'headers': headers})
-        .subscribe(
-          (resp) => {
-            resolve(resp)
-          },
-          (err) => {
-            reject(err)
-          }
-        )
-    })
-  }
-
-  updateRestaurant = (payload: Restaurant) => {
-    return new Promise((resolve, reject) => {
-      this.http.put(`${this.base}/${payload.restaurantId}`, payload).subscribe(
-        (resp) => {
-          resolve(resp)
-        },
-        (err) => {
-          reject(err)
-        }
-      )
-    })
-
-
-  }
-
-  deleteRestaurant = (id: string): Promise<HttpResponse<any>> => {
-    return new Promise((resolve, reject) => {
-      this.http.delete<Restaurant>(`${this.base}/${id}`, {observe: 'response'}).subscribe(
-        (resp) => {
-          resolve(resp)
-        },
-        (err) => {
-          reject(err)
-        }
-      )
-    })
-  }
-
-  addManager = (id: string, user: User): Promise<HttpResponse<Restaurant>> => {
-    const payload = {
-      userId: user.userId,
-      username: user.username,
-      role: user.role,
-      isActive: user.isActive
-    }
-    const endpoint = `s/${Number(id)}/managers/${Number(user.userId)}`
-    return new Promise((resolve, reject) => {
-      this.http.put<Restaurant>(`${this.base}${endpoint}`, payload, {observe: 'response'}).subscribe(
-        (resp) => {
-          resolve(resp)
-        },
-        (err) => {
-          reject(err)
-        }
-      )
-    })
-  }
-
-  removeManager = (id: string, payload: User): Promise<HttpResponse<Restaurant>> => {
-    const endpoint = `s/${id}/managers/${payload.userId}`
-    return new Promise((resolve, reject) => {
-      this.http.delete<Restaurant>(`${this.base}${endpoint}`, {observe: 'response'}).subscribe(
-        (resp) => {
-          resolve(resp)
-        },
-        (err) => {
-          reject(err)
-        }
-      )
-    })
-  }
+  // removeManager = (id: string, payload: User): Promise<HttpResponse<Restaurant>> => {
+  //   const endpoint = `s/${id}/managers/${payload.userId}`
+  //   return new Promise((resolve, reject) => {
+  //     this.http.delete<Restaurant>(`${this.baseUrl}${endpoint}`, {observe: 'response'}).subscribe(
+  //       (resp) => {
+  //         resolve(resp)
+  //       },
+  //       (err) => {
+  //         reject(err)
+  //       }
+  //     )
+  //   })
+  // }
 }

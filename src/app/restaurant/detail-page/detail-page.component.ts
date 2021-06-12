@@ -10,6 +10,7 @@ import { Food, Restaurant } from 'src/app/shared/model/restaurant';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Role, User } from 'src/app/shared/model/user';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
+import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
 
 
 
@@ -47,6 +48,22 @@ export class DetailPageComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild('newFoodModal') newFoodModal: TemplateRef<any>;
   @ViewChild('editFoodModal') editFoodModal: TemplateRef<any>;
+
+  // managersConfig: Listable = {
+  //   idProperty: 'userId',
+  //   nameProperty: 'username',
+  //   columns: [
+  //     {}
+  //   ],
+  //   get: () => {return new Promise((resolve, reject) => { resolve()})}
+  // }
+
+  // getManagers = (page: number, pageSize: number): Promise<Page<User>> => {
+  //   return new Promise((res, rej) => { 
+  //     if (typeof this.restaurant.managers != 'undefined' )
+  //     resolve(this.restaurant.managers)
+  //   })
+  // }
 
 
   users: User[]
@@ -137,7 +154,7 @@ export class DetailPageComponent implements OnInit {
 
   newClick(){
     this.foodInput = {
-      foodId: 0,
+      foodId: '',
       name: "",
       price: 0,
       description: ""
@@ -173,7 +190,7 @@ export class DetailPageComponent implements OnInit {
       this.foodDescription = this.activeRow.description;
 
       this.foodInput = {
-        foodId: 0,
+        foodId: '',
         name: "",
         price: 0,
         description: ""
@@ -204,14 +221,14 @@ export class DetailPageComponent implements OnInit {
   }
 
   saveChangesClick(){
-    this.restaurantService.updateRestaurant(this.restaurant);
+    this.restaurantService.updateRestaurant(this.restaurant.restaurantId, this.restaurant);
   }
 
   removeManager(user: User) {
     this.restaurantService.removeManager(this.restaurant.restaurantId, user).then(
       (resp) => {
-        this.restaurant = resp.body
-        this.users = resp.body.managers
+        this.restaurant = resp
+        this.users = resp.managers
         this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
       },
       (err) => {
@@ -233,8 +250,8 @@ export class DetailPageComponent implements OnInit {
       (resp) => {
         this.restaurantService.addManager(this.restaurant.restaurantId, resp).then(
           (resp) => {
-            this.restaurant = resp.body
-            this.users = resp.body.managers
+            this.restaurant = resp
+            this.users = resp.managers
             this.hasManagers = (typeof this.users !== 'undefined' && this.users.length > 0)
           },
           (err) => {

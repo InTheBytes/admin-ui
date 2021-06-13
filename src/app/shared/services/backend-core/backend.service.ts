@@ -26,11 +26,10 @@ export abstract class BackendService<T> {
 
   rejecter = (callback: (val: any) => void | any) => {
     return (x: any) => {
+      console.log(x)
       if (x.status == 401) {
-        console.log('made it to redirect')
         this.redirect401ToLogin(x, callback);
       } else {
-        console.log('did not redirect, button error happened')
         callback(x);
       }
     };
@@ -38,10 +37,8 @@ export abstract class BackendService<T> {
 
   redirect401ToLogin = (error: HttpErrorResponse, errorHandler: Function) => {
     if (error.status == 401) {
-      console.log('error was 404')
       this.routerService.navigate(['/login']);
     } else {
-      console.log('not read as 404')
       errorHandler(error);
     }
   }

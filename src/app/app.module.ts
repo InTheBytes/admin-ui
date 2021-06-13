@@ -1,4 +1,4 @@
-import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
+import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
@@ -8,7 +8,6 @@ import { RestaurantComponent } from './restaurant/restaurant.component';
 import { HomeComponent } from './home/home.component';
 import { AppRoutingModule } from './app-routing.module';
 import { CreatorComponent } from './restaurant/creator/creator.component';
-import { RestaurantService } from './shared/services/restaurant.service';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { DetailPageComponent } from './restaurant/detail-page/detail-page.component';
 import { UserComponent } from './user/user.component';
@@ -25,14 +24,11 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
 import { CommonModule } from '@angular/common';
-import { OrderComponent } from './order/order.component';
-import { OrderDetailsComponent } from './order/order-details/order-details.component';
-import { BrowseOrderComponent } from './order/browse-order/browse-order.component';
 import { AllUsersComponent } from './user/all-users/all-users.component';
 import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
-import { ListingComponent } from './shared/component/listing/listing.component';
-import { AddressPipe } from './shared/pipes/address-pipe';
+import { TableModule } from './table/table.module';
+import { OrderModule } from './order/order.module';
 
 @NgModule({
   declarations: [
@@ -40,11 +36,9 @@ import { AddressPipe } from './shared/pipes/address-pipe';
     RestaurantComponent,
     HomeComponent,
     CreatorComponent,
-    ListingComponent,
     BrowseRestaurantComponent,
     DetailPageComponent,
     UserComponent,
-    AddressPipe,
     
     BrowseUserComponent,
     UserDetailsComponent,
@@ -54,11 +48,11 @@ import { AddressPipe } from './shared/pipes/address-pipe';
     FormComponent,
     LoginFormComponent,
     AccountCreatorComponent,
-    OrderComponent,
-    OrderDetailsComponent,
-    BrowseOrderComponent
   ],
   imports: [
+    TableModule,
+    OrderModule,
+
     AppRoutingModule,
     BrowserModule,
     FormsModule,
@@ -75,10 +69,8 @@ import { AddressPipe } from './shared/pipes/address-pipe';
     BrowserAnimationsModule,
     CommonModule
   ],
-  exports: [
-    AddressPipe
-  ],
-  providers: [RestaurantService],
+  exports: [ ],
+  providers: [ ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -59,8 +59,6 @@ export class FormComponent implements OnInit {
   }
 
   saveUser(failModal: TemplateRef<any>) {
-
-    console.log("saving user")
     
     if (this.makeUser() === null) {
       this.failMessage = "Please enter information for all of the fields"

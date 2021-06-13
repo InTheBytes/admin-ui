@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { UserService } from 'src/app/shared/services/user.service';
+import { Listable } from 'src/app/table/table.component';
 
 @Component({
   selector: 'app-all-users',

@@ -5,12 +5,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
-import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { Food, Restaurant } from 'src/app/shared/model/restaurant';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { Role, User } from 'src/app/shared/model/user';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
 import { resolve } from '@angular/compiler-cli/src/ngtsc/file_system';
+import { Listable } from 'src/app/table/table.component';
 
 
 
@@ -146,7 +146,6 @@ export class DetailPageComponent implements OnInit {
   }
 
   deleteClick(){
-    console.log("delete click");
     this.restaurant.foods.forEach((value,index)=>{
       if(value==this.activeRow) this.restaurant.foods.splice(index,1);
     });

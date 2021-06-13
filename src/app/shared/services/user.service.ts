@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { convert, User, UserEntity } from '../model/user';
 import { ApiService } from './backend-core/api.service';
 import { BackendService } from './backend-core/backend.service';
-import { getFunction } from './pagination.service';
 
 @Injectable({
   providedIn: 'root'
@@ -45,8 +44,6 @@ export class UserService extends BackendService<User> {
   getAllUsers = this.getPage
 
   getUsersByActive = (active: boolean, page?: number, pageSize?: number) => {
-    console.log(page)
-    console.log(pageSize)
     return this.getPage(page, pageSize, [{param: 'active', argument: true}])
   }
 

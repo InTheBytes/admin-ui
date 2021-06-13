@@ -1,6 +1,6 @@
 import { Component, OnInit, SystemJsNgModuleLoader } from '@angular/core';
-import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { RestaurantService } from 'src/app/shared/services/restaurant.service';
+import { Listable } from 'src/app/table/table.component';
 
 @Component({
   selector: 'app-browse-restaurant',

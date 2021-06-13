@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { OrderService } from 'src/app/shared/services/order.service';
+import { Listable } from 'src/app/table/table.component';
 
 @Component({
   selector: 'app-browse-order',
@@ -33,6 +33,7 @@ export class BrowseOrderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('initialized browser')
   }
 
 }

@@ -1,5 +1,17 @@
 <div class="card">
+
+    <!-- <div #delayTemplate *ngIf='isLoading; else dataTable'>
+        <div *ngSwitch='loadstate' layout-align='center'>
+            <div *ngSwitchCase='failed'>
+                <p>Something went wrong fetching the data</p>
+            </div>
+            <div *ngSwitchDefault>
+            </div>
+        </div>
+    </div>     -->
+    
     <table class="table">
+        
         <thead>
           <div *ngIf="searchEnabled">
             <strong>Search:</strong>
@@ -15,6 +27,7 @@
             <th *ngIf="deleteEnabled" scope="col"></th>
           </tr>
         </thead>
+        
         <tbody>
             <tr *ngFor="let item of htmlPage">
                 <td *ngIf="selectEnabled">
@@ -40,12 +53,13 @@
                 </td>
             </tr>
         </tbody>
-        <div class="d-flex justify-content-end">
+        <div class="d-flex justify-content-end" *ngIf='isPaged'>
             <ngb-pagination [collectionSize]="(totalPages*pageSize)" [(page)]="currentPage" [pageSize]="pageSize"
                 [maxSize]="5" [boundaryLinks]="true" [directionLinks]="true" [rotate]="true" (pageChange)="onPageChange()">
             </ngb-pagination>
         </div>
-    </table>        
+    </table>
+     
 </div>
 
 <ng-template #deleteModal>

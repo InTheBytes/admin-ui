@@ -64,7 +64,6 @@ export class UserDetailsComponent implements OnInit {
   deactivate() {
     this.service.deleteUser(this.user.userId).then(
       (resp) => {
-        console.log("deactivate?")
         this.user = resp
         this.inactive = !this.user.isActive
       },

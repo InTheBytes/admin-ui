@@ -1,10 +1,8 @@
-import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
-import { User } from '../../model/user';
-import { getFunction, PaginationService } from '../../services/pagination.service';
+import { User } from '../shared/model/user';
+import { getFunction, PaginationService } from './pagination.service';
 
 type deleteFunction = (id: string) => Promise<any>
 type selectFunction = (item: Object, objects?: Object[]) => void
@@ -31,15 +29,19 @@ export type Listable = {
 }
 
 @Component({
-  selector: 'app-listing',
-  templateUrl: './listing.component.html',
-  styleUrls: ['./listing.component.css'],
-  providers: [PaginationService]
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.css'],
+  providers: [
+    PaginationService
+  ]
 })
-export class ListingComponent implements OnInit {
+export class TableComponent implements OnInit {
 
   @Input() configuration: Listable
   @Input() pageSize: number
+  isLoading: boolean = true
+  loadstate: string = 'loading'
 
   selectEnabled: boolean
   searchEnabled: boolean
@@ -51,7 +53,7 @@ export class ListingComponent implements OnInit {
   totalPages: number
   page: any[]
   currentPage: number
-
+  isPaged: boolean
   htmlPage: Object[]
   details: string
 
@@ -78,19 +80,18 @@ export class ListingComponent implements OnInit {
       (value) => {
         this.page = value
         this.totalPages = this.pager.totalPages
-        this.currentPage = this.pager.currentPage
-        console.log(value)
-        console.log(this.page)        
+        this.isPaged = this.totalPages > 1
+        this.currentPage = this.pager.currentPage       
         this.constructRows()
+        this.isLoading = false
       },
       (err) => {
         if (typeof this.configuration.getError !== 'undefined') {
-          console.log('an error should be handled')
           this.configuration.getError(err)
         } else {
-          console.log('an error was returned: '+ err)
           this.constructRows()
         }
+        this.loadstate = 'fail'
       }
     )
   }
@@ -149,14 +150,17 @@ export class ListingComponent implements OnInit {
   }
 
   onPageChange(): void {
+    this.isLoading
     this.pager.changePage(this.currentPage).then(
       (value) => {
         this.page = value
         this.pageSize = value.length
         this.constructRows()
+        this.isLoading=false
       },
       (err) => {
         (typeof this.configuration.getError !== 'undefined') ? this.configuration.getError(err) : null;
+        this.loadstate = 'failed'
       }
     )
   }
@@ -212,3 +216,4 @@ export class ListingComponent implements OnInit {
       });
   }
 }
+

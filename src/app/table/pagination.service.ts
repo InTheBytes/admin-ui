@@ -1,7 +1,6 @@
-import { HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Page } from '../model/page';
-import { Query } from './backend-core/backend.service';
+import { Page } from '../shared/model/page';
+import { Query } from '../shared/services/backend-core/backend.service';
 
 export type getFunction = 
   (page?: number, pageSize?: number, query?: Query[]) => Promise<Object> | Promise<Page<Object>>
@@ -39,6 +38,7 @@ export class PaginationService {
       return new Promise((resolve, reject) => {
         this.serviceCall(this.currentPage - 1, this.pageSize).then(
           (value) => {
+            console.log(value)
             this.currentPage = value.number
             this.totalPages = value.totalPages
             resolve(value.content)

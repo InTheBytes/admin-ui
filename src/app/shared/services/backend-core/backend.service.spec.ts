@@ -57,8 +57,6 @@ describe('BackendService', () => {
 
   it('should perform get for a page of objects', () => {
     setResultPage();
-    console.log('result page: ' + resultPage);
-    console.log('clean copy: ' + cleanCopyPage);
     let response: HttpResponse<Page<any>> = new HttpResponse({
       body: resultPage,
     });

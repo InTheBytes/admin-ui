@@ -1,9 +1,9 @@
 import { HttpResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { Listable } from 'src/app/shared/component/listing/listing.component';
 import { Page } from 'src/app/shared/model/page';
 import { User } from 'src/app/shared/model/user';
 import { UserService } from 'src/app/shared/services/user.service';
+import { Listable } from 'src/app/table/table.component';
 
 @Component({
   selector: 'app-browse-user',

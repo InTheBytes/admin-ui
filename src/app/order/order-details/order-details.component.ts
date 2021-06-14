@@ -43,7 +43,7 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.viewInfoPortal = new TemplatePortal(this.viewInfoTemplateContent, this._viewContainerRef);
     this.viewPurchasePortal = new TemplatePortal(this.viewPurchaseTemplateContent, this._viewContainerRef);
-    // this.editPortal = new ComponentPortal(this.editDetailsComponent.inject(this.order))
+    this.selectedTemplate = this.viewInfoPortal
   }
 
   ngOnInit(): void {

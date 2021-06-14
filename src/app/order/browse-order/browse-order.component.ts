@@ -33,7 +33,6 @@ export class BrowseOrderComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log('initialized browser')
   }
 
 }

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root',
 })
 export class ApiService {
-  url: string = 'http://localhost:8080';
+  url: string = 'https://api.stacklunch.com';
   authLabel: string = 'Authentication';
   auth: string = '';
   headers: HttpHeaders;
@@ -39,7 +39,6 @@ export class ApiService {
   }
 
   get<T>(endpoint: string): Observable<HttpResponse<T>> {
-    console.log(`${this.url}/${endpoint}`)
     this.configure();
     return this.http.get<T>(`${this.url}/${endpoint}`, {
       headers: this.headers,

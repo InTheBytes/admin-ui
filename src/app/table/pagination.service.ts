@@ -38,7 +38,6 @@ export class PaginationService {
       return new Promise((resolve, reject) => {
         this.serviceCall(this.currentPage - 1, this.pageSize).then(
           (value) => {
-            console.log(value)
             this.currentPage = value.number
             this.totalPages = value.totalPages
             resolve(value.content)

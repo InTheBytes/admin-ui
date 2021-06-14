@@ -47,7 +47,6 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    console.log('initialized details')
     this.service.setOrder(this.actRoute.snapshot.paramMap.get("orderId")).then(
       (x) => { 
         this.refresh()
@@ -62,8 +61,7 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
             {property: 'price', column: 'Price'}
           ],
           get: this.getItems
-        } 
-        console.log(x.windowStart);
+        }
       }, this.catchError
     )
   }

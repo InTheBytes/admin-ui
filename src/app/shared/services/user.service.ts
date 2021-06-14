@@ -19,8 +19,6 @@ export class UserService extends BackendService<User> {
     this.base = 'user'
    }
 
-  baseUrl = "http://localhost:8080/user"
-
   // filterGetUsers = (filterFunct: Predicate<User>): getFunction => {
   //   return (pageSize: number, page: number):Promise<HttpResponse<User[]>> => {
   //     return new Promise((resolve, reject) => {
@@ -58,17 +56,6 @@ export class UserService extends BackendService<User> {
 
   
   registerUser = async (user: User): Promise<User> => {
-    const headers = {'content-type': 'application/json'}
-    const path = this.baseUrl + "/register"
-    return new Promise((resolve, reject) => {
-      this.http.post<User>(path, convert(user), {'headers':headers, 'responseType':'json'}).subscribe(
-        (resp) => {
-          resolve(resp)
-        },
-        (err) => {
-          reject(err)
-        }
-      )
-    })
+    return this.addEnpoint("register", this.createObject, convert(user))
   }
 }

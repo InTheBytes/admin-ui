@@ -26,7 +26,6 @@ export abstract class BackendService<T> {
 
   rejecter = (callback: (val: any) => void | any) => {
     return (x: any) => {
-      console.log(x)
       if (x.status == 401) {
         this.redirect401ToLogin(x, callback);
       } else {

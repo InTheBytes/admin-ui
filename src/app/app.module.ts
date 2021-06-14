@@ -23,7 +23,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AccountCreatorComponent } from './user/account-creator/account-creator.component';
-import { CommonModule } from '@angular/common';
+import { CommonModule, HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { AllUsersComponent } from './user/all-users/all-users.component';
 import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
@@ -70,7 +70,9 @@ import { OrderModule } from './order/order.module';
     CommonModule
   ],
   exports: [ ],
-  providers: [ ],
+  providers: [
+    {provide : LocationStrategy , useClass: HashLocationStrategy}
+   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

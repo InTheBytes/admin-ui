@@ -123,9 +123,9 @@ export class AccountCreatorComponent implements OnInit {
   sendRequest(user: User): Promise<User> {
     if (this.isEdit) {
       return new Promise((resolve, reject) => {
-        this.service.updateUser(user).then(
+        this.service.updateUser(user.userId, user).then(
           (resp) => {
-            resolve(resp.body);
+            resolve(resp);
           },
           (err) => {
             this.handleError(err)

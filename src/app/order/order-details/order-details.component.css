@@ -1,0 +1,30 @@
+#edit-button{
+    display: inline;
+    float: right;
+}
+
+#add-button{
+    display: inline;
+    float: right;
+}
+
+#detail-header{
+    display: inline;
+}
+
+#add-button{
+    display: inline;
+    float: right;
+}
+
+#save-button{
+    display: inline;
+    float: left;   
+}
+
+#live-view{
+    display: inline;
+    float: right;
+    border: 30;
+    padding: 10;
+}

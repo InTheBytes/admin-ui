@@ -37,7 +37,7 @@ export class UserDetailsComponent implements OnInit {
   getUserData() {
     this.service.getUser(this.actRoute.snapshot.paramMap.get("userId")).then(
       (resp) => {
-        this.user = resp.body
+        this.user = resp
         this.inactive = !this.user.isActive
         this.success = true
       },
@@ -49,9 +49,9 @@ export class UserDetailsComponent implements OnInit {
 
   activate() {
     this.user.isActive = true
-    this.service.updateUser(this.user).then(
+    this.service.updateUser(this.user.userId, this.user).then(
       (resp) => {
-        this.user = resp.body
+        this.user = resp
         this.inactive = !this.user.isActive
       },
       (err) => {
@@ -62,9 +62,9 @@ export class UserDetailsComponent implements OnInit {
   }
 
   deactivate() {
-    this.service.deleteUser(this.actRoute.snapshot.paramMap.get("userId")).then(
+    this.service.deleteUser(this.user.userId).then(
       (resp) => {
-        this.user = resp.body
+        this.user = resp
         this.inactive = !this.user.isActive
       },
       (err) => {

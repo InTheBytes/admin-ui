@@ -1,18 +1,20 @@
 export class User {
     userId?: string
-    role: Role
-    username: string
+    id?: string
+    role?: Role
+    username?: string
     password?: string
-    email: string
-    phone: number
-    firstName: string
-    lastName: string
-    isActive: boolean
+    email?: string
+    phone?: number
+    name?: string
+    firstName?: string
+    lastName?: string
+    isActive?: boolean
 }
 
 export class Role {
-    roleId: string
-    name: string
+    roleId?: string
+    name?: string
 }
 
 export class UserEntity {

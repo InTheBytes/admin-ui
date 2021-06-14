@@ -1,12 +1,10 @@
-import { HttpResponse } from '@angular/common/http';
 import { Component, Input, OnInit, TemplateRef } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { Observable } from 'rxjs';
-import { User } from '../../model/user';
-import { getFunction, PaginationService } from '../../services/pagination.service';
+import { User } from '../shared/model/user';
+import { getFunction, PaginationService } from './pagination.service';
 
-type deleteFunction = (id: string) => Promise<HttpResponse<Object>>
+type deleteFunction = (id: string) => Promise<any>
 type selectFunction = (item: Object, objects?: Object[]) => void
 type errorHandler = (err: any) => void | string
 
@@ -26,18 +24,24 @@ export type Listable = {
   deleteLabel?: string
   deleteError?: errorHandler
   select?: selectFunction
-  parent?: any
+  parent?: any,
+  newPageStyle?: boolean
 }
 
 @Component({
-  selector: 'app-listing',
-  templateUrl: './listing.component.html',
-  styleUrls: ['./listing.component.css']
+  selector: 'app-table',
+  templateUrl: './table.component.html',
+  styleUrls: ['./table.component.css'],
+  providers: [
+    PaginationService
+  ]
 })
-export class ListingComponent implements OnInit {
+export class TableComponent implements OnInit {
 
   @Input() configuration: Listable
   @Input() pageSize: number
+  isLoading: boolean = true
+  loadstate: string = 'loading'
 
   selectEnabled: boolean
   searchEnabled: boolean
@@ -49,14 +53,9 @@ export class ListingComponent implements OnInit {
   totalPages: number
   page: any[]
   currentPage: number
-
+  isPaged: boolean
   htmlPage: Object[]
-  colHeader: string
   details: string
-
-  // POSSIBLE SEARCH IMPLEMENTATION (future)
-  // searchForm: FormGroup
-  // searchString: string
 
   modalRef: NgbModalRef
   deleteLabel: string
@@ -77,20 +76,22 @@ export class ListingComponent implements OnInit {
   ngOnInit(): void {
     this.checkSettings()
     this.initializeForms()
-    this.pager.initialize(this.configuration.get, this.pageSize).then(
+    this.pager.initialize(this.configuration.get, this.pageSize, this.configuration.newPageStyle).then(
       (value) => {
         this.page = value
         this.totalPages = this.pager.totalPages
-        this.currentPage = this.pager.currentPage        
-        this.constructTable()
+        this.isPaged = this.totalPages > 1
+        this.currentPage = this.pager.currentPage       
+        this.constructRows()
+        this.isLoading = false
       },
       (err) => {
         if (typeof this.configuration.getError !== 'undefined') {
           this.configuration.getError(err)
         } else {
-          this.colHeader = "An Unexpected error has occured"
-          this.constructTable()
+          this.constructRows()
         }
+        this.loadstate = 'fail'
       }
     )
   }
@@ -114,27 +115,15 @@ export class ListingComponent implements OnInit {
   private checkConfig(boolName: string, configName: string) {
     this[boolName] = (typeof this.configuration[configName] !== 'undefined') ? true : false
   }
-
-  constructTable(): void {
-    this.colHeader = ""
-    this.configuration.columns.forEach((col) => {
-      this.colHeader += `
-        <th scope="col">${col.column}</th>
-      `})
-    this.constructRows()
-  }
   
   constructRows(): void {
     this.htmlPage = []
     this.page.forEach((object) => {
-      let row = ""
+      let row = []
       this.configuration.columns.forEach((x) => {
         let val = this.getProperty(object, x.property)
-        row += `
-          <td scope="row">
-            ${val}
-          </td>
-      `})
+        row.push(val)
+    })
       let details =  `/${this.configuration.detailRoute}/${this.getProperty(object, this.configuration.idProperty)}`
       this.htmlPage.push({
         rows: row,
@@ -153,12 +142,6 @@ export class ListingComponent implements OnInit {
   }
 
   initializeForms() {
-    // POSSIBLE SEARCH IMPLEMENTATION (future)
-    // this.searchForm = new FormGroup({
-    //   searchString: new FormControl(this.searchString, [
-    //     Validators.maxLength(35),
-    //   ]),
-    // });
     this.deleteForm = new FormGroup({
       deleteId: new FormControl(this.deleteId, [Validators.required]),
       deleteName: new FormControl(this.deleteName, [Validators.required]),
@@ -167,22 +150,20 @@ export class ListingComponent implements OnInit {
   }
 
   onPageChange(): void {
+    this.isLoading
     this.pager.changePage(this.currentPage).then(
       (value) => {
         this.page = value
         this.pageSize = value.length
         this.constructRows()
+        this.isLoading=false
       },
       (err) => {
         (typeof this.configuration.getError !== 'undefined') ? this.configuration.getError(err) : null;
+        this.loadstate = 'failed'
       }
     )
   }
-
-  // POSSIBLE SEARCH IMPLEMENTATION (future)
-  // search(): void {
-  //   this.page = this.pager.search()
-  // }
 
   select(item: User): void {
     if (typeof this.configuration.parent != 'undefined') {
@@ -235,3 +216,4 @@ export class ListingComponent implements OnInit {
       });
   }
 }
+

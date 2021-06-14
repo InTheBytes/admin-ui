@@ -1,0 +1,55 @@
+<ng-container *ngIf='isLoaded; then infoPortal'></ng-container>
+
+<ng-template #infoPortal>
+    
+    <mat-card>
+    
+    <div class='justify-content-end' id='edit-button'>
+        <!-- <button mat-mini-fab color="primary" aria-label="Button to edit order details" 
+            (click)="selectedTemplate = editPortal">
+            <mat-icon>edit</mat-icon>
+        </button> -->
+        <button mat-mini-fab id='details-button' (click)="selectedTemplate = viewInfoPortal">
+            <mat-icon>person</mat-icon>
+        </button>
+        <button id='purchase-button' mat-mini-fab (click)="selectedTemplate = viewPurchasePortal">
+            <mat-icon>list</mat-icon>
+        </button>
+    </div>
+    
+    <ng-template [cdkPortalOutlet]="selectedTemplate"></ng-template>
+    </mat-card>
+
+</ng-template>
+
+
+<ng-template #displayInfo>
+        <mat-card-header id='detail-header' aria-label="Customer name, order status, and edit button">
+            <mat-card-title>{{order.customer.name}}</mat-card-title>
+            <mat-card-subtitle>{{order.status | status}}</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content aria-label='Time and location information for order'>
+            <p>{{order.windowStart | date:'MMM, d, y'}}</p>
+            <p>{{order.windowStart | date:'h:mm a'}} - {{order.windowEnd | date:'h:mm a'}}</p>
+            <p [innerHtml]="order.destination | address"></p>
+        </mat-card-content>
+</ng-template>
+
+<ng-template #purchaseDetails>
+        <mat-card-header>
+            <mat-card-title>{{order.restaurant.name}}</mat-card-title>
+            <mat-card-subtitle>
+                <p [innerHtml]="order.restaurant.location | address"></p>
+            </mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-content>
+            <app-table [configuration]='menuConfig' [pageSize]='this.order.items.length'></app-table>
+        </mat-card-content>
+</ng-template>
+
+
+<ng-template #editForm>
+    <div id='info-form'>
+        <app-desination-form [order]='order' #editComponent></app-desination-form>
+    </div>
+</ng-template>

@@ -15,15 +15,12 @@ import { OrderWizardService } from '../order-wizard.service';
   providers: [ OrderWizardService ]
 })
 export class OrderDetailsComponent implements OnInit, AfterViewInit {
+
   @ViewChild('displayInfo') viewInfoTemplateContent: TemplateRef<any>
-  @ViewChild('purchaseDetails') viewPurchaseTemplateContent: TemplateRef<any>
-  @ViewChild('editComponent') editDetailsComponent: ComponentRef<DestinationFormComponent>
+  viewInfoPortal: TemplatePortal<any>
 
   selectedTemplate: Portal<any>
   
-  viewInfoPortal: TemplatePortal<any>
-  viewPurchasePortal: TemplatePortal<any>
-  editPortal: ComponentPortal<DestinationFormComponent>
   
   hasFailed: boolean = false
   message: string
@@ -42,7 +39,6 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.viewInfoPortal = new TemplatePortal(this.viewInfoTemplateContent, this._viewContainerRef);
-    this.viewPurchasePortal = new TemplatePortal(this.viewPurchaseTemplateContent, this._viewContainerRef);
     this.selectedTemplate = this.viewInfoPortal
   }
 
@@ -67,7 +63,7 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
   }
 
   changePortalTemplate(template: TemplateRef<any>) {
-    this.templatePortal = new TemplatePortal(template, this._viewContainerRef)
+    this.selectedTemplate = new TemplatePortal(template, this._viewContainerRef)
   }
 
   refresh = () => {this.order = this.service.order}

@@ -6,8 +6,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class StatusPipe implements PipeTransform {
 
   transform(value: string, ...args: unknown[]): string {
-    let desc = value.split(' ')[2]
-    return `${desc[0]}${desc.substring(1).toLowerCase()}`;
+    let desc = value.split(' ')
+    desc.shift()
+    desc.shift()
+    return `${desc.join(' ')}`;
   }
 
 }

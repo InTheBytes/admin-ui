@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  url: string = 'https://api.stacklunch.com';
+  url: string = environment.apiUrl;
   authLabel: string = 'Authentication';
-  auth: string = '';
+  auth: string = environment.auth;
   headers: HttpHeaders;
 
   constructor(private http: HttpClient) {}

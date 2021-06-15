@@ -19,6 +19,8 @@ import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { PortalModule } from '@angular/cdk/portal';
+import { DetailFormComponent } from './detail-form/detail-form.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -29,7 +31,8 @@ import { PortalModule } from '@angular/cdk/portal';
     BrowseOrderComponent,
     OrderDetailsComponent,
     OrderSelectorComponent,
-    DestinationFormComponent
+    DestinationFormComponent,
+    DetailFormComponent
   ],
   imports: [
     CommonModule,
@@ -46,12 +49,9 @@ import { PortalModule } from '@angular/cdk/portal';
     MatSelectModule,
     MatRadioModule,
     ReactiveFormsModule,
-    MatDatepickerModule,
-    NgxMatTimepickerModule
   ],
   providers: [
     OrderService,
-    FormBuilder
   ],
   exports: [
     OrderComponent,

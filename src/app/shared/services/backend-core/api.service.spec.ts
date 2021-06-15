@@ -22,6 +22,10 @@ describe('ApiService', () => {
     path = `${service.url}/${endpoint}`
   });
 
+  afterEach(() => {
+    http.verify()
+  })
+
   it('should be created', () => {
     expect(service).toBeTruthy();
   });

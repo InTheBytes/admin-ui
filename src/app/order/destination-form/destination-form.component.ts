@@ -9,8 +9,8 @@ import { Order } from 'src/app/shared/model/order';
   styleUrls: ['./destination-form.component.css']
 })
 export class DestinationFormComponent {
-  // @Input() existingOrder?: Order
-  // order: Order
+  @Input() existingOrder?: Order
+  order: Order
 
   addressForm = this.fb.group({
     status: [0, Validators.required],
@@ -105,27 +105,27 @@ export class DestinationFormComponent {
 
   constructor(private fb: FormBuilder) {}
 
-  // ngOnInit() {
-  //   if (typeof this.order != 'undefined' && this.order != null) {
-  //     // this.state = this.findState()
-  //     console.log(this.order)
+  ngOnInit() {
+    if (typeof this.order != 'undefined' && this.order != null) {
+      // this.state = this.findState()
+      console.log(this.order)
 
-  //     this.addressForm.value.address = `${this.order.destination.unit} ${this.order.destination.street}`
-  //     this.addressForm.value.city = this.order.destination.city
-  //     this.addressForm.value.state = this.findState()
-  //     this.addressForm.value.postalCode = this.order.destination.zipCode
+      this.addressForm.value.address = `${this.order.destination.unit} ${this.order.destination.street}`
+      this.addressForm.value.city = this.order.destination.city
+      this.addressForm.value.state = this.findState()
+      this.addressForm.value.postalCode = this.order.destination.zipCode
       
-  //   }
-  //   console.log('form initialized')
-  // }
+    }
+    console.log('form initialized')
+  }
 
-  // findState(): Object {
-  //   let copy = this.states
-  //   copy.filter((x) => (x.name.toLowerCase() == this.order.destination.state.toLowerCase() ||
-  //     x.abbreviation.toLowerCase() == this.order.destination.state.toLowerCase()))
-  //   this.state = copy[0]
-  //   return copy[0]
-  // }
+  findState(): Object {
+    let copy = this.states
+    copy.filter((x) => (x.name.toLowerCase() == this.order.destination.state.toLowerCase() ||
+      x.abbreviation.toLowerCase() == this.order.destination.state.toLowerCase()))
+    this.state = copy[0]
+    return copy[0]
+  }
 
   onSubmit(): void {
     // this.order.destination.zipCode = this.addressForm.value.postalCode
@@ -134,13 +134,13 @@ export class DestinationFormComponent {
     // this.parseAddress()
   }
 
-  // parseAddress() {
-  //   let address = (this.addressForm.value.address + this.addressForm.value.address2).split(' ').split(',')
-  //   this.order.destination.unit = address[0]
-  //   let street = ''
-  //   for (let a in address) {
-  //     street += ` ${a}`
-  //   }
-  //   this.order.destination.street = street.substring(1)
-  // }
+  parseAddress() {
+    let address = (this.addressForm.value.address + this.addressForm.value.address2).split(' ').split(',')
+    this.order.destination.unit = address[0]
+    let street = ''
+    for (let a in address) {
+      street += ` ${a}`
+    }
+    this.order.destination.street = street.substring(1)
+  }
 }

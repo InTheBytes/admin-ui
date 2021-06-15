@@ -62,10 +62,10 @@ describe('BackendService', () => {
     });
     apiMock.get.and.returnValue(of(response));
 
-    service.getPage(2, 5).then(
+    service.getPage(1, 5).then(
       (value) => {
         expect(value).toEqual(resultPage);
-        expect(value.number).toEqual(2);
+        expect(value.number).toEqual(0);
       },
       (error) => {
         fail('An error was returned');
@@ -81,7 +81,7 @@ describe('BackendService', () => {
     });
     apiMock.get.and.returnValue(of(response));
 
-    service.getPage(2, 5).then(
+    service.getPage(1, 5).then(
       (value) => {},
       (error) => {
         fail('returned an error with page params');

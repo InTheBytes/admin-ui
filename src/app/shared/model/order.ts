@@ -7,8 +7,8 @@ export class Order {
     status?: string | number
     destinationId?: string
     destination?: Location
-    windowStart?: Time
-    windowEnd?: Time
+    windowStart?: any
+    windowEnd?: any
     specialInstructions?: string
     customer?: User
     customerId?: string

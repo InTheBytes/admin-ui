@@ -21,6 +21,7 @@ import { NgxMatTimepickerModule } from '@angular-material-components/datetime-pi
 import { PortalModule } from '@angular/cdk/portal';
 import { DetailFormComponent } from './detail-form/detail-form.component';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatNativeDateModule } from '@angular/material/core';
 
 
 
@@ -49,6 +50,8 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatSelectModule,
     MatRadioModule,
     ReactiveFormsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     OrderService,

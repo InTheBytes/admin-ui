@@ -1,6 +1,7 @@
+import { DatePipe } from '@angular/common';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 import { Order } from 'src/app/shared/model/order';
 import { OrderWizardService } from '../order-wizard.service';
 
@@ -17,11 +18,22 @@ export class DetailFormComponent implements OnInit {
 
   state = this.service.order.destination.state
   states = this.service.statesList()
+  today = Date.now()
+
+  statuses = [
+    '0 - Created', 
+    '1 - Paid', 
+    '2 - Started', 
+    '3 - In Transit', 
+    '4 - Complete',
+    '5 - Cancelled'
+  ]
 
   detailForm = this.fb.group({
-    status: [this.service.order.status, Validators.required],
+    status: [this.statuses.filter((x) => x[0] == this.service.order.status[0])[0], Validators.required],
+    date: [this.service.order.windowStart, Validators.required],
     address: [
-      `${this.service.order.destination.unit} ${this.service.order.destination.street}`, Validators.required
+      `${this.service.order.destination.street} ${this.service.order.destination.unit}`, Validators.required
     ],
     city: [this.service.order.destination.city, Validators.required],
     state: [this.service.order.destination.state, Validators.required],
@@ -39,18 +51,12 @@ export class DetailFormComponent implements OnInit {
 
   ngOnInit(): void {
     // console.log('form initialized')
+    
+
+    console.log(this.statuses.filter((x) => x[0] == this.service.order.status[0]))
   };
 
   onSubmit() {
     this.submitNotification.emit()
   }
-
-  statuses = [
-    '0 - Created', 
-    '1 - Paid', 
-    '2 - Started', 
-    '3 - In Transit', 
-    '4 - Complete',
-    '5 - Cancelled'
-  ]
 }

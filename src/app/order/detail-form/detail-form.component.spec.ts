@@ -13,7 +13,7 @@ describe('DetailFormComponent', () => {
 
   let router = jasmine.createSpyObj('Router', ['method'])
   class mockWizard {
-    order: Order = {
+    order = {
       status: '0 - created',
       destination: {
         unit: '',
@@ -25,7 +25,10 @@ describe('DetailFormComponent', () => {
       items: []
     }
     statesList() {return []}
+    statusList() {return []}
+    statuses = []
   }
+  let mock = new mockWizard()
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -35,15 +38,14 @@ describe('DetailFormComponent', () => {
       ],
       providers: [
         FormBuilder,
-        {provide: OrderWizardService, useValue: mockWizard}
+        {provide: OrderWizardService, useValue: mock}
       ]
     })
     .compileComponents();
-
-    let service = TestBed.inject(OrderWizardService)
   });
 
   beforeEach(() => {
+    let service = TestBed.inject(OrderWizardService)
     fixture = TestBed.createComponent(DetailFormComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();

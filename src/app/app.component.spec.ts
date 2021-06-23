@@ -37,13 +37,4 @@ describe('AppComponent', () => {
     const nav = compiled.querySelectorAll('.nav-link')
     expect(nav[1].textContent).toContain('Restaurants');
   });
-
-  it('should route to restaurant from nav', () => {
-    const fixture = TestBed.createComponent(AppComponent)
-    const links = fixture.nativeElement.querySelectorAll('a')
-    const restaurantLink = links[1]
-    expect(links).toHaveSize(2)
-    
-    expect(restaurantLink.getAttribute('routerLink')).toContain('/restaurants')
-  })
 });

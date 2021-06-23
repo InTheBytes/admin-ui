@@ -99,7 +99,7 @@ describe('OrderService', () => {
         fail('An error was returned');
       }
     );
-    expect(apiMock.put).toHaveBeenCalledWith("orders/id", result);
+    expect(apiMock.put).toHaveBeenCalledWith("order/id", result);
   });
 
   it('should perform post with an Order', () => {

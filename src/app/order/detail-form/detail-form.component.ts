@@ -15,6 +15,11 @@ export class DetailFormComponent implements OnInit {
   @Input() order: Order;
   @Output() submitNotification = new EventEmitter<boolean>();
 
+  constructor(
+    private fb: FormBuilder,
+    private service: OrderWizardService
+  ) { }
+
   state = this.service.order.destination.state
   states = this.service.statesList()
   statuses = this.service.statusList()
@@ -34,11 +39,6 @@ export class DetailFormComponent implements OnInit {
     ],
     startTime: [this.service.order.windowStart, Validators.required],
     endTime: [this.service.order.windowEnd, Validators.required]})
-
-  constructor(
-    private fb: FormBuilder,
-    private service: OrderWizardService
-  ) { }
 
   ngOnInit(): void {
   };

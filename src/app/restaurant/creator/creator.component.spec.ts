@@ -72,17 +72,6 @@ describe('CreatorComponent', () => {
     expect(component.saveRestaurant).toHaveBeenCalled();
   })
 
-  it('should redirect to details on successful creation', () => {
-    serviceSpy.createRestaurant.and.returnValue(of(testRestaurant))
-    const makeSpy = spyOn(component, 'makeRestaurant').and.returnValue(testRestaurant)
-
-    component.saveRestaurant(null)
-
-    expect(makeSpy).toHaveBeenCalled()
-    expect(serviceSpy.createRestaurant).toHaveBeenCalled()
-    expect(routerSpy.navigate).toHaveBeenCalledWith(['/restaurants/', 26])
-  })
-
   it('should return null with incomplete makeRestaurant form', () => {
     fixture.detectChanges()
     expect(component.makeRestaurant()).toEqual(null)
@@ -95,15 +84,5 @@ describe('CreatorComponent', () => {
     
     expect(component.modalRef).toBeTruthy()
     expect(component.failMessage).toContain('all of the fields')
-  })
-
-  it('should pop-up fail modal with service error', () => {
-    const makeSpy = spyOn(component, 'makeRestaurant').and.returnValue(testRestaurant)
-    serviceSpy.createRestaurant.and.returnValue(throwError({status: 409}))
-    let buttonElement = fixture.debugElement.query(By.css('button'));
-    buttonElement.triggerEventHandler('click', null);
-    
-    expect(component.modalRef).toBeTruthy()
-    expect(component.failMessage).toContain('already exists')
   })
 });

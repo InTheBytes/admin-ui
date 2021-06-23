@@ -5,7 +5,9 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class StatusPipe implements PipeTransform {
 
-  transform(value: string, ...args: unknown[]): string {
+  transform(value: string | number, ...args: unknown[]): string {
+    if (typeof value == 'number')
+      return value.toString()
     let desc = value.split(' ')
     desc.shift()
     desc.shift()
@@ -15,5 +17,4 @@ export class StatusPipe implements PipeTransform {
     })
     return `${desc.join(' ')}`;
   }
-
 }

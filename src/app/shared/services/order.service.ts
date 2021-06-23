@@ -18,7 +18,7 @@ export class OrderService extends BackendService<Order> {
     private router: Router
   ) { 
     super(api, router)
-    this.base = "orders"
+    this.base = "order"
   }
 
   getOrdersPage = this.getPage

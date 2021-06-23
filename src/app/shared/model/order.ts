@@ -7,13 +7,14 @@ export class Order {
     status?: string | number
     destinationId?: string
     destination?: Location
-    windowStart?: any
-    windowEnd?: any
+    windowStart?: Date | string
+    windowEnd?: Date | string
     specialInstructions?: string
     customer?: User
     customerId?: string
     driver?: User
     restaurant?: Restaurant
+    restaurantId?: string
     items: LineItem[]
 }
 

@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of, throwError } from 'rxjs';
@@ -33,6 +34,9 @@ describe('DetailPageComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [ DetailPageComponent ],
+      imports: [
+        MatDialogModule
+      ],
       providers: [
         {provide: RestaurantService, useValue: serviceSpy},
         {provide: Router, useValue: RouterTestingModule},
@@ -59,21 +63,25 @@ describe('DetailPageComponent', () => {
   });
 
   it('should create', () => {
-    serviceSpy.getRestaurant.and.returnValue(of(testRestaurant))
+    serviceSpy.getRestaurant.and.callFake((resolve: Function) => {resolve(testRestaurant)})
     fixture.detectChanges();
     expect(component).toBeTruthy();
     expect(serviceSpy.getRestaurant).toHaveBeenCalledWith(26)
   });
 
   it('should display restaurant details', () => {
-    serviceSpy.getRestaurant.and.returnValue(of(testRestaurant))
+    serviceSpy.getRestaurant.and.callFake(() => {
+      return new Promise((resolve, reject) => {
+        resolve(testRestaurant)
+      })
+    })
     fixture.detectChanges();
     const name = fixture.nativeElement.querySelector('h3')
     expect(name.textContent).toEqual('Test')
   })
 
   it('should display error details on failure', () => {
-    serviceSpy.getRestaurant.and.returnValue(throwError({status: 404}))
+    serviceSpy.getRestaurant.and.callFake((resolve: Function, reject: Function) => {reject({status: 404})})
     fixture.detectChanges();
     const message = fixture.nativeElement.querySelector('p')
     expect(message.textContent).toContain('seem to exist')

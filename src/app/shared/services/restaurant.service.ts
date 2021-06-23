@@ -17,7 +17,7 @@ export class RestaurantService extends BackendService<Restaurant> {
     private router: Router
     ) {
       super(api, router)
-      this.base = "apis/restaurant"
+      this.base = "restaurant"
      }
 
   getRestaurants = this.getPage
@@ -28,10 +28,10 @@ export class RestaurantService extends BackendService<Restaurant> {
 
   
   addManager = (id: string, user: User): Promise<Restaurant> => {
-    return this.updateObject(`/s${id}/managers/${user.userId}`, user)
+    return this.updateObject(`${id}/manager/${user.userId}`, user)
   }
 
   removeManager = (id: string, payload: User): Promise<Restaurant> => {
-    return this.deleteObject(`s/${id}/managers/${payload.userId}`)
+    return this.deleteObject(`${id}/manager/${payload.userId}`)
   }
 }

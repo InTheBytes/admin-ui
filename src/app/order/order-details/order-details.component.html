@@ -18,6 +18,11 @@
     </div>
     
     <ng-template [cdkPortalOutlet]="selectedTemplate"></ng-template>
+    <div class='justify-content-end' id='save-button' *ngIf='changesPending'>
+        <button mat-mini-fab id='save-button' (click)='submitChanges()'>
+            <mat-icon>save</mat-icon>
+        </button>
+    </div>
     </mat-card>
 
 </ng-template>
@@ -50,6 +55,18 @@
 
 <ng-template #editForm>
     <div id='info-form'>
-        <app-detail-form [order]='order' (submitNotification)='changePortalTemplate(displayInfo)'></app-detail-form>
+        <app-detail-form [order]='order' (submitNotification)='editClick($event)'></app-detail-form>
+    </div>
+</ng-template>
+
+
+<ng-template #saveFailedModal>
+    <div class="modal-body">
+        <p>Something went wrong saving the order</p>
+    </div>
+    <div class="modal-footer">
+        <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" (click)="modalRef.dismiss(' ')">Okay</button>
+        </div>
     </div>
 </ng-template>

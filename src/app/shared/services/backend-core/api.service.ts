@@ -26,7 +26,7 @@ export class ApiService {
   login(username: string, password: string): Promise<boolean> {
     let obj = { username: username, password: password };
     return new Promise((resolve, reject) => {
-      this.post('login', obj).subscribe(
+      this.post('user/login', obj).subscribe(
         (value) => {
           this.auth = value.headers.get(this.authLabel);
           resolve(true);

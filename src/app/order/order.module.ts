@@ -5,13 +5,11 @@ import { BrowseOrderComponent } from './browse-order/browse-order.component';
 import { OrderDetailsComponent } from './order-details/order-details.component';
 import { OrderService } from '../shared/services/order.service';
 import { TableModule } from '../table/table.module';
-import { OrderSelectorComponent } from './order-selector/order-selector.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatCardModule } from '@angular/material/card';
-import { DestinationFormComponent } from './destination-form/destination-form.component';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
@@ -31,8 +29,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     OrderComponent,
     BrowseOrderComponent,
     OrderDetailsComponent,
-    OrderSelectorComponent,
-    DestinationFormComponent,
     DetailFormComponent
   ],
   imports: [
@@ -59,8 +55,7 @@ import { MatNativeDateModule } from '@angular/material/core';
   exports: [
     OrderComponent,
     BrowseOrderComponent,
-    OrderDetailsComponent,
-    DestinationFormComponent
+    OrderDetailsComponent
   ]
 })
 export class OrderModule { }

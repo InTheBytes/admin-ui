@@ -54,6 +54,10 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.setOrder();
+  }
+
+  setOrder(): void {
     this.service
       .setOrder(this.actRoute.snapshot.paramMap.get('orderId'))
       .then((x) => {
@@ -116,6 +120,25 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
       this.refresh();
       this.displayInfo();
       this.changesPending = true;
+    } else {
+      this.isLoaded = false;
+
+      this.service
+        .setOrder(this.actRoute.snapshot.paramMap.get('orderId'))
+        .then((x) => {
+          this.refresh();
+          this.isLoaded = true;
+          this.menuConfig = {
+            idProperty: 'foodId',
+            nameProperty: 'name',
+            columns: [
+              { property: 'quantity', column: 'Qty.' },
+              { property: 'name', column: 'Item' },
+              { property: 'price', column: 'Price' },
+            ],
+            get: this.getItems,
+          };
+        }, this.catchError);
     }
   }
 
@@ -123,9 +146,8 @@ export class OrderDetailsComponent implements OnInit, AfterViewInit {
     this.service.submit().then(
       (resp) => {
         this.service.order = resp;
-        console.log(resp)
-        // console.log(.status)
-        this.service.changeStatus(resp.status)
+        this.service.changeStatus(resp.status);
+        this.refresh();
         this.changesPending = false;
       },
       (err) => {

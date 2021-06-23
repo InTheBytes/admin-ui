@@ -30,7 +30,6 @@ export class OrderWizardService extends OrderService {
   };
 
   submit = (): Promise<Order> => {
-    console.log(this.order);
     this.order.status = Number(this.order.status.toString()[0]);
     this.order.windowStart = this.switchDateToJsonString(
       this.order.windowStart

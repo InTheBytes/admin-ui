@@ -18,7 +18,6 @@ export class BrowseOrderComponent implements OnInit {
       {property: "status", column: "Status"},
       {property: "restaurant.name", column: "Restaurant"},
       {property: "customer.name", column: "Customer"},
-      {property: "destination", column: "Destination"},
       {property: "windowStart", column: "Window Start"},
       {property: "windowEnd", column: "Window End"}
     ],

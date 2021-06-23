@@ -12,7 +12,6 @@ import { OrderWizardService } from '../order-wizard.service';
 })
 export class DetailFormComponent implements OnInit {
 
-  @Input() order: Order;
   @Output() submitNotification = new EventEmitter<boolean>();
 
   constructor(
@@ -28,7 +27,7 @@ export class DetailFormComponent implements OnInit {
 
   detailForm = this.fb.group({
     status: [this.service.statuses.filter((x) => x[0] == this.service.order.status[0])[0], Validators.required],
-    date: [this.service.order.windowStart, Validators.required],
+    // date: [this.service.order.windowStart, Validators.required],
     address: [
       `${this.service.order.destination.street} ${this.service.order.destination.unit}`, Validators.required
     ],
@@ -65,7 +64,6 @@ export class DetailFormComponent implements OnInit {
       state: this.detailForm.value.state,
       zipCode: this.detailForm.value.zipCode
     }
-    console.log(destination)
     return destination
   }
 }

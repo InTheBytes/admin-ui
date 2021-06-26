@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { HttpHeaders, HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  url: string = 'https://api.stacklunch.com';
+  url: string = environment.apiUrl;
   authLabel: string = 'Authentication';
-  auth: string = '';
+  auth: string = environment.auth;
   headers: HttpHeaders;
 
   constructor(private http: HttpClient) {}
@@ -25,7 +26,7 @@ export class ApiService {
   login(username: string, password: string): Promise<boolean> {
     let obj = { username: username, password: password };
     return new Promise((resolve, reject) => {
-      this.post('login', obj).subscribe(
+      this.post('user/login', obj).subscribe(
         (value) => {
           this.auth = value.headers.get(this.authLabel);
           resolve(true);

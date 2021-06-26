@@ -29,6 +29,8 @@ import { BrowseUserComponent } from './user/browse-user/browse-user.component';
 import { BrowseRestaurantComponent } from './restaurant/browse-restaurant/browse-restaurant.component';
 import { TableModule } from './table/table.module';
 import { OrderModule } from './order/order.module';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 
 @NgModule({
   declarations: [
@@ -71,7 +73,7 @@ import { OrderModule } from './order/order.module';
   ],
   exports: [ ],
   providers: [
-    {provide : LocationStrategy , useClass: HashLocationStrategy}
+    {provide : LocationStrategy , useClass: HashLocationStrategy},
    ],
   bootstrap: [AppComponent]
 })

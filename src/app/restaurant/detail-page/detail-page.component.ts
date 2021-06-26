@@ -115,13 +115,21 @@ export class DetailPageComponent implements OnInit {
 
 
   ngAfterViewInit() {
-    this.table.dataSource = this.dataSource;
+    if (typeof this.table != 'undefined') {
+      this.table.dataSource = this.dataSource;
+    }
     this.dataSource.paginator = this.paginator;
   }
 
 
   ngAfterContentChecked(){
-    this.dataSource = new MatTableDataSource (this.restaurant.foods);
+    let source: any[]
+    if (typeof this.restaurant == 'undefined' || typeof this.restaurant.foods == 'undefined') {
+      source = []
+    } else {
+      source = this.restaurant.foods
+    }
+      this.dataSource = new MatTableDataSource (source);
   
   }
 

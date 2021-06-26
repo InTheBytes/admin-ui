@@ -22,6 +22,7 @@ describe('OrderService', () => {
   let routerMock = jasmine.createSpyObj('Router', ['navigate']);
 
   let result: Order = {
+    id: "id",
     items: [
       {food: 'food', quantity: 1}
     ]
@@ -89,16 +90,16 @@ describe('OrderService', () => {
     let response: HttpResponse<any> = new HttpResponse({ body: result });
     apiMock.put.and.returnValue(of(response));
 
-    service.updateOrder('id', result).then(
+    service.updateOrder(result).then(
       (value) => {
-        expect(value).toEqual(result);
+        expect(value).toEqual(response.body);
       },
       (error) => {
         expect(false).toBeTrue()
         fail('An error was returned');
       }
     );
-    expect(apiMock.put).toHaveBeenCalledWith(path, result);
+    expect(apiMock.put).toHaveBeenCalledWith("order/id", result);
   });
 
   it('should perform post with an Order', () => {

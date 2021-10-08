@@ -13,12 +13,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { NgxMatTimepickerModule } from '@angular-material-components/datetime-picker';
 import { PortalModule } from '@angular/cdk/portal';
 import { DetailFormComponent } from './detail-form/detail-form.component';
-import { MatDialogModule } from '@angular/material/dialog';
 import { MatNativeDateModule } from '@angular/material/core';
 
 
